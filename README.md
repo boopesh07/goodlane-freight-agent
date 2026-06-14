@@ -6,7 +6,7 @@ recommends the broker's next step. The agent reads the provided dataset directly
 from disk and uses curated, typed tools to retrieve context, reconcile messy
 identifiers, and draft replies.
 
-> **Live demo:** _<add Vercel URL here>_
+> **Live demo:** https://goodlane-freight-agent.vercel.app
 
 ## Architecture
 
