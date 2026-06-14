@@ -78,8 +78,7 @@ export function extractIdentifiers(record: CarrierEmail | CallTranscript): Extra
     // Mine the body for additional references the structured fields missed.
     mineText(`${record.subject}\n${record.body}`, sets);
   } else {
-    // Prefer the call-side extraction pipeline's structured fields; fall back to
-    // mining the raw transcript text for anything it missed.
+    // Call identifiers come from LLM extraction (with per-field confidence).
     const ex = record.extracted;
     if (ex?.mc_number) sets.mcNumbers.add(normalizeMc(ex.mc_number));
     if (ex?.company_name) sets.carrierNames.add(ex.company_name);
@@ -87,7 +86,6 @@ export function extractIdentifiers(record: CarrierEmail | CallTranscript): Extra
       sets.loadRefCandidates.add(ex.load_reference);
       if (findLoad(ex.load_reference)) sets.loadRefs.add(ex.load_reference);
     }
-    mineText(record.transcript, sets);
   }
 
   return {
