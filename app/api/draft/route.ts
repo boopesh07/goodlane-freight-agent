@@ -1,13 +1,10 @@
 import { assertDataFilesExist } from "@/lib/data/loaders";
-import { runCallIntake, runEmailIntake } from "@/lib/intake/pipeline";
 import { draftReply } from "@/lib/intake/draft";
+import { processIntake } from "@/lib/intake/process";
 
-export const maxDuration = 30;
+export const maxDuration = 120;
 
-/**
- * Draft a reply email. Re-runs the deterministic pipeline to get the facts, then
- * the LLM writes the prose strictly from those facts (the one generative step).
- */
+/** Draft a reply — re-runs the full on-demand intake pipeline, then LLM prose. */
 export async function POST(req: Request) {
   if (!process.env.OPENAI_API_KEY) {
     return Response.json({ error: "OPENAI_API_KEY is not configured" }, { status: 500 });
@@ -24,7 +21,7 @@ export async function POST(req: Request) {
   }
 
   try {
-    const result = body.kind === "email" ? runEmailIntake(body.id) : runCallIntake(body.id);
+    const result = await processIntake(body.kind, body.id, () => {});
     const draft = await draftReply(result);
     return Response.json({ draft });
   } catch (err) {

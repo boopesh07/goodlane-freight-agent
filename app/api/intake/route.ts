@@ -1,12 +1,17 @@
 import { assertDataFilesExist } from "@/lib/data/loaders";
-import { runCallIntake, runEmailIntake } from "@/lib/intake/pipeline";
+import { type IntakeEvent, processIntake } from "@/lib/intake/process";
+
+export const maxDuration = 120;
 
 /**
- * Deterministic intake — no LLM. Extracts fields, resolves carrier + load via
- * the data tools, cross-references/validates, and assembles the answer (timeline,
- * best offer, compliance, recommendation) entirely in code.
+ * On-demand intake: LLM extraction → sequential tool calls → LLM recommendation.
+ * Streams NDJSON progress events so the UI can show each step as it runs.
  */
 export async function POST(req: Request) {
+  if (!process.env.OPENAI_API_KEY) {
+    return Response.json({ error: "OPENAI_API_KEY is not configured" }, { status: 500 });
+  }
+
   try {
     assertDataFilesExist();
   } catch (err) {
@@ -18,10 +23,26 @@ export async function POST(req: Request) {
     return Response.json({ error: "Provide { kind: 'email' | 'call', id }" }, { status: 400 });
   }
 
-  try {
-    const result = body.kind === "email" ? runEmailIntake(body.id) : runCallIntake(body.id);
-    return Response.json({ result });
-  } catch (err) {
-    return Response.json({ error: err instanceof Error ? err.message : "Intake failed" }, { status: 400 });
-  }
+  const encoder = new TextEncoder();
+  const stream = new ReadableStream({
+    async start(controller) {
+      const emit = (event: IntakeEvent) => {
+        controller.enqueue(encoder.encode(`${JSON.stringify(event)}\n`));
+      };
+      try {
+        await processIntake(body.kind!, body.id!, emit);
+      } catch (err) {
+        emit({ type: "error", message: err instanceof Error ? err.message : "Intake failed" });
+      } finally {
+        controller.close();
+      }
+    },
+  });
+
+  return new Response(stream, {
+    headers: {
+      "Content-Type": "application/x-ndjson; charset=utf-8",
+      "Cache-Control": "no-cache",
+    },
+  });
 }
