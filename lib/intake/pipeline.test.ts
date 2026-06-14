@@ -33,6 +33,13 @@ describe("email intake — scoping (CE0063 regression)", () => {
     expect(result.summary).toHaveLength(4);
     expect(result.recommendation).toContain("29372475");
   });
+
+  it("records tool retrievals for audit", () => {
+    expect(result.retrievals.length).toBeGreaterThan(0);
+    expect(result.sourceFile).toContain("carrier_emails.json");
+    expect(result.retrievals.some((r) => r.tool === "inbound_record")).toBe(true);
+    expect(result.retrievals.some((r) => r.tool === "get_carrier_profile")).toBe(true);
+  });
 });
 
 describe("call intake — structured load resolution with confidence", () => {
@@ -47,5 +54,11 @@ describe("call intake — structured load resolution with confidence", () => {
     expect(result.load.matchedBy).toBe("structured_search");
     expect(result.load.needsHumanVerification).toBe(true);
     expect(result.recommendation.toLowerCase()).toContain("confirm");
+  });
+
+  it("records retrievals from transcripts.json", () => {
+    expect(result.sourceFile).toContain("transcripts.json");
+    expect(result.retrievals.some((r) => r.tool === "inbound_record")).toBe(true);
+    expect(result.retrievals.some((r) => r.tool === "extract_call_fields")).toBe(true);
   });
 });
