@@ -1,44 +1,119 @@
 import { z } from "zod";
+import type { CallExtraction, CallExtractionScores } from "@/lib/data/types";
+
+/** Per-field extraction with model-reported confidence and supporting evidence. */
+type ScoredField<T> = {
+  value: T;
+  confidence: number;
+  evidence: string;
+};
+
+type ExtractionFlag =
+  | "multiple_rates"
+  | "mc_corrected_or_ambiguous"
+  | "speaker_unclear"
+  | "load_id_uncertain"
+  | "cross_talk";
+
+const LOW_CONFIDENCE_THRESHOLD = 0.6;
+
+const EXTRACTION_FLAGS = [
+  "multiple_rates",
+  "mc_corrected_or_ambiguous",
+  "speaker_unclear",
+  "load_id_uncertain",
+  "cross_talk",
+] as const satisfies readonly ExtractionFlag[];
+
+function scoredField<T extends z.ZodTypeAny>(valueSchema: T) {
+  return z.object({
+    value: valueSchema,
+    confidence: z.number().min(0).max(1),
+    evidence: z.string(),
+  });
+}
 
 /**
- * Structured fields pulled from a diarized (speaker-tagged) call transcript.
- * Emails already arrive structured in carrier_emails.json; calls are raw audio,
- * so this is where the call-side "extract structured fields" work happens.
+ * Full LLM extraction output — every field carries value, confidence, and evidence.
  */
-export const CallExtraction = z.object({
-  carrier_speaker: z
-    .string()
-    .nullable()
-    .describe(
-      "The speaker label (e.g. 'A'/'B') that is the CARRIER, not the Goodlane dispatcher. The carrier states their MC/company and is being quoted a load. null if undeterminable.",
-    ),
-  mc_number: z
-    .string()
-    .nullable()
-    .describe("The MC number the carrier states, digits only. Honor mid-sentence corrections (last value wins). null if none."),
-  company_name: z.string().nullable().describe("Carrier company name as heard. null if unclear."),
-  load_reference: z.string().nullable().describe("Load id referenced, digits only. null if none."),
-  origin_state: z
-    .string()
-    .nullable()
-    .describe("Two-letter origin state of the lane the carrier is calling about (e.g. 'PA' from 'the PA to MD run'). null if not stated."),
-  destination_state: z
-    .string()
-    .nullable()
-    .describe("Two-letter destination state of the lane (e.g. 'MD'). null if not stated."),
-  carrier_rate_usd: z
-    .number()
-    .nullable()
-    .describe(
-      "The CARRIER's own quoted/counter total rate in USD — a number spoken by carrier_speaker, NOT the dispatcher's posted/anchor rate. null if the carrier never states one.",
-    ),
-  dispatcher_rate_usd: z
-    .number()
-    .nullable()
-    .describe("The rate the Goodlane dispatcher posts/anchors, if stated. For context only. null if absent."),
-  equipment: z.string().nullable().describe("Equipment the carrier mentions, e.g. 'Box Truck'. null if absent."),
-  available_location: z.string().nullable().describe("Where the carrier/driver is available. null if absent."),
-  available_date: z.string().nullable().describe("ISO date (YYYY-MM-DD) if stated, else null."),
-  questions: z.array(z.string()).describe("Open questions the carrier asks the broker. Empty array if none."),
+export const ScoredCallExtractionSchema = z.object({
+  carrier_speaker: scoredField(z.string().nullable()),
+  mc_number: scoredField(z.string().nullable()),
+  company_name: scoredField(z.string().nullable()),
+  load_reference: scoredField(z.string().nullable()),
+  origin_state: scoredField(z.string().nullable()),
+  destination_state: scoredField(z.string().nullable()),
+  carrier_rate_usd: scoredField(z.number().nullable()),
+  dispatcher_rate_usd: scoredField(z.number().nullable()),
+  equipment: scoredField(z.string().nullable()),
+  available_location: scoredField(z.string().nullable()),
+  available_date: scoredField(z.string().nullable()),
+  questions: scoredField(z.array(z.string())),
+  extraction_flags: z.array(z.enum(EXTRACTION_FLAGS)),
 });
-export type CallExtraction = z.infer<typeof CallExtraction>;
+
+export type ScoredCallExtraction = z.infer<typeof ScoredCallExtractionSchema>;
+
+export function flattenCallExtraction(scored: ScoredCallExtraction): CallExtraction {
+  return {
+    carrier_speaker: scored.carrier_speaker.value,
+    mc_number: scored.mc_number.value,
+    company_name: scored.company_name.value,
+    load_reference: scored.load_reference.value,
+    origin_state: scored.origin_state.value,
+    destination_state: scored.destination_state.value,
+    carrier_rate_usd: scored.carrier_rate_usd.value,
+    dispatcher_rate_usd: scored.dispatcher_rate_usd.value,
+    equipment: scored.equipment.value,
+    available_location: scored.available_location.value,
+    available_date: scored.available_date.value,
+    questions: scored.questions.value,
+  };
+}
+
+export function scoresFromExtraction(scored: ScoredCallExtraction): CallExtractionScores {
+  const keys = [
+    "carrier_speaker",
+    "mc_number",
+    "company_name",
+    "load_reference",
+    "origin_state",
+    "destination_state",
+    "carrier_rate_usd",
+    "dispatcher_rate_usd",
+    "equipment",
+    "available_location",
+    "available_date",
+    "questions",
+  ] as const satisfies readonly (keyof CallExtraction)[];
+
+  const out = {} as CallExtractionScores;
+  for (const key of keys) {
+    const field = scored[key];
+    out[key] = { confidence: field.confidence, evidence: field.evidence };
+  }
+  return out;
+}
+
+/** Merge model-reported flags with confidence-derived warnings. */
+export function deriveExtractionWarnings(scored: ScoredCallExtraction): string[] {
+  const warnings = new Set<string>(scored.extraction_flags);
+
+  const check = (key: keyof CallExtraction, label: string) => {
+    const field = scored[key];
+    if (field.value != null && field.confidence < LOW_CONFIDENCE_THRESHOLD) {
+      warnings.add(`${label}_low_confidence`);
+    }
+    if (field.value == null && field.confidence > 0.3 && field.confidence < LOW_CONFIDENCE_THRESHOLD) {
+      warnings.add(`${label}_uncertain`);
+    }
+  };
+
+  check("mc_number", "mc");
+  check("carrier_rate_usd", "carrier_rate");
+  check("load_reference", "load_reference");
+  check("carrier_speaker", "speaker");
+  check("company_name", "company_name");
+
+  return [...warnings];
+}
