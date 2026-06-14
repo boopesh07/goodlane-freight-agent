@@ -1,5 +1,4 @@
 import fs from "node:fs";
-import path from "node:path";
 import { parse } from "csv-parse/sync";
 import { paths } from "./paths";
 import type {
@@ -31,79 +30,56 @@ function enrichTranscript(raw: Omit<CallTranscript, "recorded_at">): CallTranscr
   return { ...raw, recorded_at: syntheticRecordedAt(raw.call_id) };
 }
 
-let carrierProfilesCache: CarrierProfile[] | null = null;
-let carrierEmailsCache: CarrierEmail[] | null = null;
-let loadsCache: Load[] | null = null;
-let rateHistoryCache: RateHistoryRow[] | null = null;
-let transcriptsCache: CallTranscript[] | null = null;
-
 export function loadCarrierProfiles(): CarrierProfile[] {
-  if (!carrierProfilesCache) {
-    carrierProfilesCache = readJson<CarrierProfile[]>(paths.carrierProfiles);
-  }
-  return carrierProfilesCache;
+  return readJson<CarrierProfile[]>(paths.carrierProfiles);
 }
 
 export function loadCarrierEmails(): CarrierEmail[] {
-  if (!carrierEmailsCache) {
-    carrierEmailsCache = readJson<CarrierEmail[]>(paths.carrierEmails);
-  }
-  return carrierEmailsCache;
+  return readJson<CarrierEmail[]>(paths.carrierEmails);
 }
 
 export function loadLoads(): Load[] {
-  if (!loadsCache) {
-    const csv = fs.readFileSync(paths.loads, "utf8");
-    const rows = parse(csv, { columns: true, skip_empty_lines: true }) as Record<string, string>[];
-    loadsCache = rows.map((row) => ({
-      load_id: row.load_id,
-      origin_city: row.origin_city,
-      origin_state: row.origin_state,
-      origin_zip: row.origin_zip,
-      destination_city: row.destination_city,
-      destination_state: row.destination_state,
-      destination_zip: row.destination_zip,
-      distance_miles: Number(row.distance_miles),
-      equipment_type: row.equipment_type,
-      weight_lbs: row.weight_lbs ? Number(row.weight_lbs) : null,
-      pickup_date: row.pickup_date,
-      pickup_window: row.pickup_window || null,
-      delivery_date: row.delivery_date,
-      offered_rate_usd: Number(row.offered_rate_usd),
-      status: row.status as Load["status"],
-      shipper_name: row.shipper_name || null,
-      internal_notes: row.internal_notes || null,
-    }));
-  }
-  return loadsCache;
+  const csv = fs.readFileSync(paths.loads, "utf8");
+  const rows = parse(csv, { columns: true, skip_empty_lines: true }) as Record<string, string>[];
+  return rows.map((row) => ({
+    load_id: row.load_id,
+    origin_city: row.origin_city,
+    origin_state: row.origin_state,
+    origin_zip: row.origin_zip,
+    destination_city: row.destination_city,
+    destination_state: row.destination_state,
+    destination_zip: row.destination_zip,
+    distance_miles: Number(row.distance_miles),
+    equipment_type: row.equipment_type,
+    weight_lbs: row.weight_lbs ? Number(row.weight_lbs) : null,
+    pickup_date: row.pickup_date,
+    pickup_window: row.pickup_window || null,
+    delivery_date: row.delivery_date,
+    offered_rate_usd: Number(row.offered_rate_usd),
+    status: row.status as Load["status"],
+    shipper_name: row.shipper_name || null,
+    internal_notes: row.internal_notes || null,
+  }));
 }
 
 export function loadRateHistory(): RateHistoryRow[] {
-  if (!rateHistoryCache) {
-    const csv = fs.readFileSync(paths.rateHistory, "utf8");
-    const rows = parse(csv, { columns: true, skip_empty_lines: true }) as Record<string, string>[];
-    rateHistoryCache = rows.map((row) => ({
-      week_start: row.week_start,
-      origin_state: row.origin_state,
-      destination_state: row.destination_state,
-      equipment_type: row.equipment_type,
-      avg_rate_per_mile: Number(row.avg_rate_per_mile),
-      min_rate_per_mile: Number(row.min_rate_per_mile),
-      max_rate_per_mile: Number(row.max_rate_per_mile),
-      load_volume: Number(row.load_volume),
-    }));
-  }
-  return rateHistoryCache;
+  const csv = fs.readFileSync(paths.rateHistory, "utf8");
+  const rows = parse(csv, { columns: true, skip_empty_lines: true }) as Record<string, string>[];
+  return rows.map((row) => ({
+    week_start: row.week_start,
+    origin_state: row.origin_state,
+    destination_state: row.destination_state,
+    equipment_type: row.equipment_type,
+    avg_rate_per_mile: Number(row.avg_rate_per_mile),
+    min_rate_per_mile: Number(row.min_rate_per_mile),
+    max_rate_per_mile: Number(row.max_rate_per_mile),
+    load_volume: Number(row.load_volume),
+  }));
 }
 
 export function loadTranscripts(): CallTranscript[] {
-  if (!transcriptsCache) {
-    const raw = readJson<Omit<CallTranscript, "recorded_at">[]>(paths.transcripts);
-    transcriptsCache = raw.map(enrichTranscript).sort(
-      (a, b) => Date.parse(a.recorded_at) - Date.parse(b.recorded_at),
-    );
-  }
-  return transcriptsCache;
+  const raw = readJson<Omit<CallTranscript, "recorded_at">[]>(paths.transcripts);
+  return raw.map(enrichTranscript).sort((a, b) => Date.parse(a.recorded_at) - Date.parse(b.recorded_at));
 }
 
 export function parseTimestamp(value: string): number {
@@ -473,22 +449,10 @@ export function getRateHistoryBefore(args: {
   return rows.sort((a, b) => Date.parse(a.week_start) - Date.parse(b.week_start));
 }
 
-export function clearDataCache(): void {
-  carrierProfilesCache = null;
-  carrierEmailsCache = null;
-  loadsCache = null;
-  rateHistoryCache = null;
-  transcriptsCache = null;
-}
-
 export function assertDataFilesExist(): void {
   for (const file of Object.values(paths)) {
     if (!fs.existsSync(file)) {
       throw new Error(`Missing data file: ${file}`);
     }
   }
-}
-
-export function dataRoot(): string {
-  return path.dirname(paths.carrierProfiles);
 }
