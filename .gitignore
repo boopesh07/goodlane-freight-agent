@@ -1,0 +1,18 @@
+node_modules/
+.next/
+out/
+.env*.local
+.DS_Store
+*.log
+*.tsbuildinfo
+
+# Local tooling
+.claude/
+
+# Provided call recordings (~90MB). The committed data/transcripts.json is the
+# ingested output the app/CI use; the raw WAVs come from the provided dataset ZIP
+# and are only needed to re-run `npm run transcribe`.
+goodlane-interview-dataset/call_recordings/
+
+# Stray dataset artifact
+goodlane-interview-dataset/Untitled
