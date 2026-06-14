@@ -2,9 +2,9 @@ import { assertDataFilesExist } from "@/lib/data/loaders";
 import { draftReply } from "@/lib/intake/draft";
 import { processIntake } from "@/lib/intake/process";
 
-export const maxDuration = 120;
+export const maxDuration = 60;
 
-/** Draft a reply — re-runs the full on-demand intake pipeline, then LLM prose. */
+/** Draft a reply — re-runs the deterministic intake pipeline, then LLM prose. */
 export async function POST(req: Request) {
   if (!process.env.OPENAI_API_KEY) {
     return Response.json({ error: "OPENAI_API_KEY is not configured" }, { status: 500 });

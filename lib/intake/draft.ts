@@ -4,10 +4,10 @@ import { models } from "@/lib/model";
 import type { IntakeResult } from "./pipeline";
 
 /**
- * The ONLY generative step in the intake workflow (besides offline extraction).
- * The LLM writes the reply email's prose — but strictly from the deterministic
- * facts the pipeline already retrieved. We hand it a closed set of facts and
- * forbid inventing rates/loads/carriers, so the draft can't hallucinate.
+ * The on-demand generative step. The LLM writes the reply email's prose — but
+ * strictly from the deterministic facts the pipeline already retrieved. We hand
+ * it a closed set of facts and forbid inventing rates/loads/carriers, so the
+ * draft can't hallucinate.
  */
 
 const DraftSchema = z.object({

@@ -1,17 +1,14 @@
 import { assertDataFilesExist } from "@/lib/data/loaders";
 import { type IntakeEvent, processIntake } from "@/lib/intake/process";
 
-export const maxDuration = 120;
+export const maxDuration = 60;
 
 /**
- * On-demand intake: LLM extraction → sequential tool calls → LLM recommendation.
- * Streams NDJSON progress events so the UI can show each step as it runs.
+ * On-demand intake: runs the deterministic pipeline (resolution → cross-reference
+ * → rate math → timeline → recommendation, all in code — no LLM, no API key) and
+ * streams NDJSON progress events so the UI can show each lookup as it happens.
  */
 export async function POST(req: Request) {
-  if (!process.env.OPENAI_API_KEY) {
-    return Response.json({ error: "OPENAI_API_KEY is not configured" }, { status: 500 });
-  }
-
   try {
     assertDataFilesExist();
   } catch (err) {

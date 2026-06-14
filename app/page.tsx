@@ -187,7 +187,7 @@ function RecordPreviewPanel({ preview, loading }: { preview: RecordPreview | nul
             <dd>{e.subject}</dd>
           </div>
         </dl>
-        <p className="muted">Structured fields are extracted when you click Process.</p>
+        <p className="muted">Structured fields come from the dataset; click Process to resolve and cross-reference.</p>
         <pre className="record-preview">{e.body}</pre>
       </div>
     );
@@ -201,7 +201,7 @@ function RecordPreviewPanel({ preview, loading }: { preview: RecordPreview | nul
         Source: <code>{preview.sourceFile}</code> · type: {t.type}
       </p>
       <p className="muted">
-        Recorded: <code>{t.recorded_at}</code> · extraction runs when you click Process
+        Recorded: <code>{t.recorded_at}</code> · fields were extracted offline; click Process to resolve
       </p>
       <pre className="record-preview">{t.transcript}</pre>
     </div>
@@ -216,14 +216,12 @@ function ProcessProgress({
   if (!steps.length) return null;
   const labels: Record<string, string> = {
     inbound_record: "Loading inbound record",
-    extract_fields: "Extracting fields (LLM)",
-    extract_call_fields: "Extracting call fields (LLM)",
+    extract_call_fields: "Reading extracted call fields",
     get_carrier_profile: "Looking up carrier profile",
     get_load: "Resolving load",
     get_email_history: "Fetching email history",
     get_transcript: "Fetching call transcripts",
     get_rate_history: "Fetching rate history",
-    generate_recommendation: "Generating recommendation (LLM)",
   };
   return (
     <div className="intake-card process-progress">
@@ -560,8 +558,9 @@ export default function HomePage() {
       <header className="header">
         <h1>Goodlane Freight Agent</h1>
         <p>
-          Select an inbound email or call, then click Process. Extraction, tool lookups, and the
-          recommendation all run on demand — nothing is pre-computed before you click.
+          Select an inbound email or call, then click Process. Resolution, cross-reference checks,
+          rate math, and the recommendation all run deterministically in code — the LLM is reserved
+          for the on-demand draft reply and the free-query chat.
         </p>
       </header>
 

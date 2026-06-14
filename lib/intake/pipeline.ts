@@ -153,7 +153,7 @@ function callExtraction(call: CallTranscript): IntakeExtraction {
   );
 }
 
-export function toIntakeExtraction(
+function toIntakeExtraction(
   data: CallExtraction,
   scores?: CallExtractionScores,
   warnings?: string[],
@@ -170,42 +170,6 @@ export function toIntakeExtraction(
     fieldScores: scores,
     extractionWarnings: warnings,
   };
-}
-
-/** Map a get_load tool result into pipeline load resolution state. */
-export function loadResolutionFromToolResult(
-  data: unknown,
-  ids: ReturnType<typeof extractIdentifiers>,
-  ex: IntakeExtraction,
-): LoadResolution {
-  if (!data || typeof data !== "object") return resolveLoadDeterministic(ids, ex);
-  const r = data as Record<string, unknown>;
-  if (r.found && r.load) {
-    const matchedBy = String(r.matched_by ?? "load_id");
-    return {
-      load: r.load as Load,
-      matchedBy:
-        matchedBy === "structured_search"
-          ? "structured_search"
-          : matchedBy === "fuzzy_id"
-            ? "fuzzy_id"
-            : "load_id",
-      confidence: matchedBy === "load_id" ? 1 : Number(r.top_confidence ?? 0.7),
-      candidates: (r.suggestions as Load[]) ?? (r.loads as Load[]) ?? [],
-      needsHumanVerification: Boolean(r.needs_human_verification) || matchedBy === "fuzzy_id",
-    };
-  }
-  const loads = r.loads as Array<Load & { confidence?: number }> | undefined;
-  if (loads?.length) {
-    return {
-      load: loads[0],
-      matchedBy: "structured_search",
-      confidence: Number(r.top_confidence ?? loads[0].confidence ?? 0.5),
-      candidates: loads,
-      needsHumanVerification: Boolean(r.needs_human_verification),
-    };
-  }
-  return resolveLoadDeterministic(ids, ex);
 }
 
 /* ----------------------------- load resolve ----------------------------- */
@@ -305,8 +269,6 @@ function scopedCalls(beforeTimestamp: string, load: Load | null, carrier: Carrie
     return false;
   });
 }
-
-export { scopedEmailHistory, scopedCalls };
 
 function collectOffers(emails: CarrierEmail[], calls: CallTranscript[]): RateOffer[] {
   const offers: RateOffer[] = [];
@@ -610,7 +572,7 @@ type AssembleContext = {
   summary: string[];
 };
 
-export function assembleFromContext(ctx: AssembleContext): IntakeResult {
+function assembleFromContext(ctx: AssembleContext): IntakeResult {
   const carrier = ctx.carrierRes.carrier;
   const rateContext = rateContextFor(ctx.asOf, ctx.load.load);
   const offers = collectOffers(ctx.emails, ctx.calls).sort((a, b) => a.rate_usd - b.rate_usd);
