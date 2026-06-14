@@ -1,0 +1,61 @@
+{
+  "description": "Tier 2 — call-extraction field accuracy. Hand-labeled ground truth (from the diarized transcript text) for a sample of the messy calls. The harness compares the committed extractions in data/transcripts.json against these labels and reports per-field accuracy. Deterministic by default (grades the stored extraction, no API key); pass --live to re-run the LLM extractor. Field comparisons are normalization-aware: MC numbers compare on digits, company names on fuzzy similarity, equipment on token containment.",
+  "thresholds": {
+    "overall": 0.9,
+    "fields": {
+      "load_reference": 0.5
+    }
+  },
+  "cases": [
+    {
+      "call_id": "call_001",
+      "note": "Spoken-out carrier name ('s m r'), rate negotiation.",
+      "gold": { "company_name": "SMR Trucking", "equipment": "box truck", "origin_state": "PA", "destination_state": "NJ", "dispatcher_rate_usd": 275 }
+    },
+    {
+      "call_id": "call_002",
+      "note": "Mis-transcribed name ('Chahill' for Chahal).",
+      "gold": { "company_name": "Chahill Trucking", "equipment": "box truck", "origin_state": "PA", "destination_state": "NJ", "dispatcher_rate_usd": 250 }
+    },
+    {
+      "call_id": "call_013",
+      "note": "PA->MD box truck rate negotiation.",
+      "gold": { "company_name": "Crossroads Transport", "equipment": "box truck", "origin_state": "PA", "destination_state": "MD", "dispatcher_rate_usd": 440 }
+    },
+    {
+      "call_id": "call_017",
+      "note": "Self-corrected MC (777->776). Load id spoken in words = 29372343; the extractor garbles it to a 9-digit number — this case is expected to FAIL load_reference, which is the point.",
+      "gold": { "mc_number": "776491", "company_name": "SMR Trucking", "load_reference": "29372343", "equipment": "box truck", "origin_state": "PA" }
+    },
+    {
+      "call_id": "call_019",
+      "note": "Self-corrected MC (712143->712843). Spoken load id = 29372312; extractor garbles it. Expected to FAIL load_reference.",
+      "gold": { "mc_number": "712843", "company_name": "Blue Ridge Transport", "load_reference": "29372312", "origin_state": "PA" }
+    },
+    {
+      "call_id": "call_028",
+      "note": "MC read with a docket suffix; no load number, lane + equipment only.",
+      "gold": { "company_name": "Swiftlane Transport", "equipment": "box truck", "origin_state": "PA", "destination_state": "NJ" }
+    },
+    {
+      "call_id": "call_031",
+      "note": "Compliance call — must NOT fabricate a load or rate (all null).",
+      "gold": { "mc_number": "712843", "company_name": "Blue Ridge Transport", "load_reference": null, "carrier_rate_usd": null, "equipment": null }
+    },
+    {
+      "call_id": "call_032",
+      "note": "MC read with dashes (11-98-74-3); mis-transcribed company ('Estate' for State).",
+      "gold": { "mc_number": "1198743", "company_name": "Mountain Estate Transport", "load_reference": null }
+    },
+    {
+      "call_id": "call_046",
+      "note": "Hyphenated spoken MC (665-432). Question call, no rate offered (carrier_rate null).",
+      "gold": { "mc_number": "665432", "company_name": "Crossroads transporting", "equipment": "flat bed", "carrier_rate_usd": null, "load_reference": null }
+    },
+    {
+      "call_id": "call_055",
+      "note": "Voicemail, clean: dashed MC (45-67-89), both rates present.",
+      "gold": { "mc_number": "456789", "company_name": "Velocity Freight", "equipment": "sprinter van", "origin_state": "NJ", "destination_state": "NY", "dispatcher_rate_usd": 185, "carrier_rate_usd": 210 }
+    }
+  ]
+}
