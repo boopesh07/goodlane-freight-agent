@@ -11,13 +11,10 @@ export function getAgentModel() {
 }
 
 export const models = {
-  agent: () => openai(process.env.OPENAI_AGENT_MODEL ?? "gpt-4o"),
-  /** Cheaper model for offline structured extraction. */
+  /** Cheaper model for structured extraction and recommendations. */
   extraction: () => openai(process.env.OPENAI_EXTRACTION_MODEL ?? "gpt-4o-mini"),
 };
 
 export const modelNames = {
-  agent: process.env.OPENAI_AGENT_MODEL ?? "gpt-4o",
-  extraction: process.env.OPENAI_EXTRACTION_MODEL ?? "gpt-4o-mini",
   transcribe: process.env.OPENAI_TRANSCRIBE_MODEL ?? "gpt-4o-transcribe-diarize",
 };
