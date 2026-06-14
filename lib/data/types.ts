@@ -80,6 +80,8 @@ export type CallExtraction = {
   mc_number: string | null;
   company_name: string | null;
   load_reference: string | null;
+  origin_state: string | null;
+  destination_state: string | null;
   carrier_rate_usd: number | null;
   dispatcher_rate_usd: number | null;
   equipment: string | null;

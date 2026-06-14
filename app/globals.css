@@ -116,6 +116,78 @@ body {
   color: var(--muted);
 }
 
+.intake {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin-top: 1rem;
+}
+
+.intake-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.85rem;
+}
+
+@media (max-width: 640px) {
+  .intake-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.intake-card {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--assistant);
+  padding: 0.85rem 1rem;
+}
+
+.intake-card h3 {
+  margin: 0 0 0.5rem;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+.intake-card p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.summary-list,
+.flag-list,
+.timeline-list {
+  margin: 0;
+  padding-left: 1.1rem;
+  line-height: 1.55;
+}
+
+.timeline-list code {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.flag-error {
+  color: #ff8a8a;
+}
+
+.flag-warn {
+  color: #e6c07b;
+}
+
+.recommendation {
+  border-color: var(--accent);
+}
+
+.recommendation .ingest-btn {
+  margin-top: 0.75rem;
+}
+
 .tool-trace {
   margin-bottom: 0.6rem;
   border: 1px solid var(--border);

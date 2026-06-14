@@ -1,64 +1,27 @@
 import { describe, expect, it } from "vitest";
-import { findCarrierProfile, normalizeMc } from "@/lib/data/loaders";
+import { findCarrierProfile } from "@/lib/data/loaders";
 import {
-  buildEmailIngestionContext,
-  buildTranscriptIngestionContext,
+  classifyIntent,
   crossReferenceIngestion,
+  extractIdentifiers,
   type ExtractedIdentifiers,
 } from "@/lib/ingestion/context";
+import { findEmailById } from "@/lib/data/loaders";
 
-describe("ingestion context", () => {
-  it("collects email and rate history before ingested email timestamp", () => {
-    const ctx = buildEmailIngestionContext("CE0042");
-    const ts = Date.parse(ctx.ingestionTimestamp);
-
-    expect(ctx.kind).toBe("email");
-    expect(ctx.emailHistory.every((e) => Date.parse(e.timestamp) < ts)).toBe(true);
-    expect(ctx.rateHistory.every((r) => Date.parse(r.week_start) < ts)).toBe(true);
+describe("identifier extraction & intent", () => {
+  it("extracts load ref and MC from an email and classifies intent", () => {
+    const email = findEmailById("CE0074")!;
+    const ids = extractIdentifiers(email);
+    expect(ids.loadRefs).toContain("29372515");
+    expect(ids.mcNumbers).toContain("876543");
+    expect(classifyIntent(email)).toBeTruthy();
   });
 
-  it("collects history before ingested call timestamp", () => {
-    const ctx = buildTranscriptIngestionContext("call_001");
-    const ts = Date.parse(ctx.ingestionTimestamp);
-
-    expect(ctx.kind).toBe("transcript");
-    expect(ctx.emailHistory.every((e) => Date.parse(e.timestamp) < ts)).toBe(true);
-    expect(ctx.rateHistory.every((r) => Date.parse(r.week_start) < ts)).toBe(true);
-  });
-
-  it("classifies intent and extracts identifiers for an email", () => {
-    const ctx = buildEmailIngestionContext("CE0074");
-    expect(ctx.intent).toBeTruthy();
-    expect(ctx.identifiers.loadRefs).toContain("29372515");
-    expect(ctx.identifiers.mcNumbers).toContain("876543");
-    expect(ctx.carrier).not.toBeNull();
-  });
-
-  it("resolves a call's carrier from the pre-extracted MC", () => {
-    const ctx = buildTranscriptIngestionContext("call_001");
-    expect(ctx.carrier?.company_name).toBe("SMR TRUCKING INC");
-    // Call-side extraction supplies the MC, so we resolve by id (not fuzzy name).
-    expect(ctx.carrierResolution.matchedBy).toBe("mc");
-    expect(ctx.identifiers.mcNumbers).toContain("776491");
-  });
-
-  it("scopes email history strictly to the ingested load/carrier (no pollution)", () => {
-    const ctx = buildEmailIngestionContext("CE0074");
-    const loadRefs = new Set(ctx.identifiers.loadRefs);
-    const mcs = new Set(ctx.identifiers.mcNumbers);
-    if (ctx.carrier?.mc_number) mcs.add(normalizeMc(ctx.carrier.mc_number));
-    const emails = new Set(
-      [ctx.identifiers.fromEmail, ctx.carrier?.email].filter(Boolean).map((e) => e!.toLowerCase()),
-    );
-
-    // Every retained email must match the load, the carrier MC, or the carrier email.
-    for (const e of ctx.emailHistory) {
-      const ok =
-        (e.load_reference && loadRefs.has(e.load_reference)) ||
-        (e.mc_number && mcs.has(normalizeMc(e.mc_number))) ||
-        (e.from_email && emails.has(e.from_email.toLowerCase()));
-      expect(ok).toBeTruthy();
-    }
+  it("does not mistake a 7-digit MC for a load reference", () => {
+    const email = findEmailById("CE0063")!; // body: "... MC 1480355."
+    const ids = extractIdentifiers(email);
+    expect(ids.loadRefCandidates).not.toContain("1480355");
+    expect(ids.mcNumbers).toContain("1480355");
   });
 });
 

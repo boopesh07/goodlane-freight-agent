@@ -1,20 +1,20 @@
 import {
   findCarrierProfile,
-  findEmailById,
   findLoad,
   findLoadFuzzy,
-  findTranscriptById,
   fuzzyFindCarrierProfile,
-  getEmailHistoryBefore,
-  getRateHistoryBefore,
   loadCarrierEmails,
   loadRateHistory,
   loadTranscripts,
   normalizeMc,
 } from "@/lib/data/loaders";
-import type { CallTranscript, CarrierEmail, CarrierProfile, Load, RateHistoryRow } from "@/lib/data/types";
+import type { CallTranscript, CarrierEmail, CarrierProfile, Load } from "@/lib/data/types";
 
-export type IngestionKind = "email" | "transcript";
+/**
+ * Shared building blocks for the intake pipeline (lib/intake/pipeline.ts):
+ * identifier extraction, intent classification, carrier/load resolution, and
+ * cross-reference validation. All deterministic.
+ */
 
 /** Identifiers extracted from an inbound record, used to scope retrieval. */
 export type ExtractedIdentifiers = {
@@ -27,7 +27,7 @@ export type ExtractedIdentifiers = {
   fromEmail: string | null;
 };
 
-/** A cross-reference / consistency check finding surfaced to the agent. */
+/** A cross-reference / consistency check finding. */
 export type ValidationFinding = {
   severity: "ok" | "warning" | "error";
   field: string;
@@ -42,23 +42,9 @@ export type CarrierResolution = {
   score?: number;
 };
 
-export type IngestionContext = {
-  kind: IngestionKind;
-  ingestionTimestamp: string;
-  ingested: CarrierEmail | CallTranscript;
-  intent: string;
-  identifiers: ExtractedIdentifiers;
-  carrierResolution: CarrierResolution;
-  validation: ValidationFinding[];
-  loadCandidates: Load[];
-  emailHistory: CarrierEmail[];
-  rateHistory: RateHistoryRow[];
-  load: Load | null;
-  carrier: CarrierProfile | null;
-};
-
-// Load ids in this dataset are 8-digit (e.g. 29372515); MC numbers are 5-6 digit.
-const LOAD_ID_RE = /\b(\d{7,9})\b/g;
+// Load ids in this dataset are exactly 8 digits (e.g. 29372515); MC numbers are
+// 5-7 digits. Matching exactly 8 avoids mistaking an MC for a load reference.
+const LOAD_ID_RE = /\b(\d{8})\b/g;
 const MC_RE = /\bMC[#:\s-]*([0-9][0-9\s-]{3,8}[0-9])\b/gi;
 const SPOKEN_MC_RE = /\b(\d[\d\s-]{3,8}\d)\b/g;
 const CARRIER_NAME_RE =
@@ -246,7 +232,7 @@ function keywordIntent(text: string): string {
 }
 
 /** Resolve the carrier: MC → email → fuzzy carrier name. Carrier should (almost) always be found. */
-function resolveCarrier(ids: ExtractedIdentifiers): CarrierResolution {
+export function resolveCarrier(ids: ExtractedIdentifiers): CarrierResolution {
   for (const mc of ids.mcNumbers) {
     const carrier = findCarrierProfile({ mc_number: mc });
     if (carrier) return { carrier, matchedBy: "mc" };
@@ -264,178 +250,12 @@ function resolveCarrier(ids: ExtractedIdentifiers): CarrierResolution {
   return { carrier: null, matchedBy: "none" };
 }
 
-function resolveLoad(ids: ExtractedIdentifiers): Load | null {
+export function resolveLoad(ids: ExtractedIdentifiers): Load | null {
   for (const ref of ids.loadRefs) {
     const load = findLoad(ref);
     if (load) return load;
   }
   return null;
-}
-
-function rateHistoryForIngestion(
-  beforeTimestamp: string,
-  load: Load | null,
-): RateHistoryRow[] {
-  return getRateHistoryBefore({
-    beforeTimestamp,
-    originState: load?.origin_state,
-    destinationState: load?.destination_state,
-    equipmentType: load?.equipment_type,
-  });
-}
-
-/**
- * Strictly scope prior email history to the SAME load or SAME carrier as the
- * ingested record. Never falls back to "all emails" — an empty result is
- * correct and keeps unrelated carriers out of the agent's context.
- */
-function emailHistoryForIngestion(
-  beforeTimestamp: string,
-  ids: ExtractedIdentifiers,
-  carrier: CarrierProfile | null,
-): CarrierEmail[] {
-  const allBefore = getEmailHistoryBefore({ beforeTimestamp });
-
-  const loadRefs = new Set(ids.loadRefs);
-  const mcNumbers = new Set(ids.mcNumbers);
-  if (carrier?.mc_number) mcNumbers.add(normalizeMc(carrier.mc_number));
-  const emails = new Set<string>();
-  if (ids.fromEmail) emails.add(ids.fromEmail.toLowerCase());
-  if (carrier?.email) emails.add(carrier.email.toLowerCase());
-
-  // Nothing to scope by → return nothing rather than every carrier's mail.
-  if (loadRefs.size === 0 && mcNumbers.size === 0 && emails.size === 0) return [];
-
-  return allBefore.filter((email) => {
-    if (email.load_reference && loadRefs.has(email.load_reference)) return true;
-    if (email.mc_number && mcNumbers.has(normalizeMc(email.mc_number))) return true;
-    if (email.from_email && emails.has(email.from_email.toLowerCase())) return true;
-    return false;
-  });
-}
-
-export function buildEmailIngestionContext(emailId: string): IngestionContext {
-  const ingested = findEmailById(emailId);
-  if (!ingested) {
-    throw new Error(`Email not found: ${emailId}`);
-  }
-
-  const identifiers = extractIdentifiers(ingested);
-  const intent = classifyIntent(ingested);
-  const load = resolveLoad(identifiers);
-  const carrierResolution = resolveCarrier(identifiers);
-  const { findings, loadCandidates } = crossReferenceIngestion(identifiers, carrierResolution, load);
-
-  return {
-    kind: "email",
-    ingestionTimestamp: ingested.timestamp,
-    ingested,
-    intent,
-    identifiers,
-    carrierResolution,
-    validation: findings,
-    loadCandidates,
-    emailHistory: emailHistoryForIngestion(ingested.timestamp, identifiers, carrierResolution.carrier),
-    rateHistory: rateHistoryForIngestion(ingested.timestamp, load),
-    load,
-    carrier: carrierResolution.carrier,
-  };
-}
-
-export function buildTranscriptIngestionContext(callId: string): IngestionContext {
-  const ingested = findTranscriptById(callId);
-  if (!ingested) {
-    throw new Error(`Transcript not found: ${callId}`);
-  }
-
-  const identifiers = extractIdentifiers(ingested);
-  const intent = classifyIntent(ingested);
-  const load = resolveLoad(identifiers);
-  const carrierResolution = resolveCarrier(identifiers);
-  const { findings, loadCandidates } = crossReferenceIngestion(identifiers, carrierResolution, load);
-
-  return {
-    kind: "transcript",
-    ingestionTimestamp: ingested.recorded_at,
-    ingested,
-    intent,
-    identifiers,
-    carrierResolution,
-    validation: findings,
-    loadCandidates,
-    emailHistory: emailHistoryForIngestion(ingested.recorded_at, identifiers, carrierResolution.carrier),
-    rateHistory: rateHistoryForIngestion(ingested.recorded_at, load),
-    load,
-    carrier: carrierResolution.carrier,
-  };
-}
-
-export function formatIngestionSystemContext(ctx: IngestionContext): string {
-  const ingestedJson =
-    ctx.kind === "email"
-      ? JSON.stringify(ctx.ingested, null, 2)
-      : JSON.stringify(
-          { ...ctx.ingested, segments: undefined },
-          null,
-          2,
-        );
-
-  const ids = ctx.identifiers;
-  const carrierLine = ctx.carrier
-    ? `${ctx.carrier.company_name} (MC ${ctx.carrier.mc_number ?? "?"}) — matched by ${ctx.carrierResolution.matchedBy}${
-        ctx.carrierResolution.score != null ? ` (fuzzy score ${ctx.carrierResolution.score.toFixed(2)})` : ""
-      }`
-    : "NOT RESOLVED — retry get_carrier_profile with the carrier name(s) below before answering";
-
-  const validationLines = ctx.validation.length
-    ? ctx.validation.map((f) => `- [${f.severity.toUpperCase()}] ${f.field}: ${f.message}`).join("\n")
-    : "- No identifiers to cross-reference.";
-
-  const candidateLines = ctx.loadCandidates.length
-    ? `\nPOSSIBLE INTENDED LOADS (for unresolved/misspelled references):\n${JSON.stringify(ctx.loadCandidates, null, 2)}\n`
-    : "";
-
-  // No load id resolved → force a structured get_load search before answering.
-  const loadActionLine = ctx.load
-    ? ""
-    : `\nACTION REQUIRED — NO LOAD RESOLVED: This ${ctx.kind} references a load but no usable load id was found. Before writing your answer you MUST call get_load with the structured fields you can read from the ${ctx.kind} (origin_state, destination_state, equipment_type, offered_rate, status:"open"). Report the returned confidence score; if needs_human_verification is true, present the candidate with its confidence and ASK THE BROKER TO CONFIRM the load — do not quote a rate or draft a reply as if it were confirmed.\n`;
-
-  return `
-
-INGESTION MODE — ${ctx.kind.toUpperCase()}
-The broker is processing a new inbound ${ctx.kind}. Treat ${ctx.ingestionTimestamp} as the ingestion timestamp.
-
-DETECTED INTENT: ${ctx.intent}
-
-EXTRACTED IDENTIFIERS:
-- load_refs: ${ids.loadRefs.length ? ids.loadRefs.join(", ") : "none"}
-- mc_numbers: ${ids.mcNumbers.length ? ids.mcNumbers.join(", ") : "none"}
-- carrier_names: ${ids.carrierNames.length ? ids.carrierNames.join(", ") : "none"}
-- from_email: ${ids.fromEmail ?? "none"}
-
-RESOLVED CARRIER: ${carrierLine}
-
-CROSS-REFERENCE & VALIDATION (resolve every flag before replying — carriers often send the wrong MC/email or misspell load numbers):
-${validationLines}
-${candidateLines}${loadActionLine}
-CRITICAL: Email history is scoped to THIS load/carrier only (same load_reference or same MC/email). Email and rate history were pre-fetched with timestamps STRICTLY BEFORE ${ctx.ingestionTimestamp}. Do not include later events. You may still call get_carrier_profile and get_load for additional facts.
-
-PRE-FETCHED EMAIL HISTORY (${ctx.emailHistory.length} records — scoped to this load/carrier, all before ingestion):
-${JSON.stringify(ctx.emailHistory.slice(0, 30), null, 2)}
-
-PRE-FETCHED RATE HISTORY (${ctx.rateHistory.length} rows, all before ingestion${ctx.load ? ` for ${ctx.load.origin_state}→${ctx.load.destination_state} ${ctx.load.equipment_type}` : ""}):
-${JSON.stringify(ctx.rateHistory.slice(0, 20), null, 2)}
-
-${ctx.load ? `RELATED LOAD:\n${JSON.stringify(ctx.load, null, 2)}\n` : ""}${ctx.carrier ? `CARRIER PROFILE:\n${JSON.stringify(ctx.carrier, null, 2)}\n` : ""}
-INGESTED ${ctx.kind.toUpperCase()} (respond to THIS):
-${ingestedJson}
-
-Deliver, in this order:
-1. **Quick summary** — exactly 4 lines: (a) who the carrier is + intent, (b) the load/lane in question, (c) the key number (rate/availability) or open question, (d) the headline recommendation. Note any unresolved cross-reference flag here.
-2. **Timeline** of prior email/call activity (before ingestion only)
-3. **Analysis** of the ingested ${ctx.kind}, explicitly addressing every cross-reference flag above
-4. **Recommended next action** for the broker
-5. **Sources** — a short bullet list previewing the records you relied on (id + 1-line preview of the retrieved data) so the broker can audit it`;
 }
 
 export type TimelineChartPoint = {

@@ -1,12 +1,33 @@
 # Goodlane Freight Agent
 
-AI intake assistant for freight brokers. It ingests inbound carrier activity from
-**two channels — email and recorded calls** — reconstructs a timeline, and
-recommends the broker's next step. The agent reads the provided dataset directly
-from disk and uses curated, typed tools to retrieve context, reconcile messy
-identifiers, and draft replies.
+AI intake assistant for freight brokers. It processes inbound carrier activity
+from **two channels — email and recorded calls** — resolves the carrier and load
+against the data, reconstructs a timeline, and recommends the broker's next step.
 
 > **Live demo:** https://goodlane-freight-agent.vercel.app
+
+## Design principle — the LLM extracts and drafts; code decides
+
+The intake workflow is a **deterministic pipeline**. The LLM is used for exactly
+two things, both where natural language is the hard part:
+
+1. **Extraction** — turning messy call audio into structured fields (offline).
+2. **Drafting** — writing the reply email's prose from already-retrieved facts.
+
+Everything else — retrieval, carrier/load resolution, cross-reference
+validation, rate math, the timeline, and the recommendation — is **plain code
+over typed data tools**. So the system answers only from retrieved facts and
+never hallucinates a rate, load, or carrier. (See [ADR 0006](docs/adr/0006-deterministic-intake-pipeline.md).)
+
+```
+inbound email / call
+   │
+   ▼  1. EXTRACT   email fields (dataset) · call fields (LLM, offline)
+   ▼  2. ENRICH    resolve carrier (MC→email→fuzzy name) + load (id→fuzzy→structured search)   [tools]
+   ▼  3. VALIDATE  cross-reference MC vs email vs name, load↔carrier, confidence + flags        [code]
+   ▼  4. ANSWER    load-scoped timeline, best offer, compliance, recommendation                 [code]
+   ▼  5. DRAFT     reply email grounded strictly in the facts above            (LLM, on demand)
+```
 
 ## Architecture
 
@@ -17,11 +38,14 @@ scripts/transcribe.ts         ← OFFLINE: WAV → diarized transcript (gpt-4o-t
 scripts/extract-calls.ts      ← OFFLINE: transcript → structured fields (gpt-4o-mini)
 lib/extraction/               ← deterministic parsers + LLM call extractor (+ tests)
 lib/data/loaders.ts           ← parse JSON/CSV on demand (cached); fuzzy match + load search
-lib/ingestion/context.ts      ← intent classify, identifier extract, cross-reference, scoping
-lib/agent/tools.ts            ← six agent tools
-lib/agent/prompt.ts           ← system prompt (classify → extract → resolve → validate)
-app/api/chat/route.ts         ← streaming agent (Vercel AI SDK)
-app/page.tsx                  ← minimal chat UI (3 modes + tool-call trace)
+lib/ingestion/context.ts      ← identifier extraction, resolution, cross-reference (shared, deterministic)
+lib/intake/pipeline.ts        ← the deterministic intake pipeline (extract→enrich→validate→answer)
+lib/intake/draft.ts           ← LLM reply draft, grounded in pipeline facts
+lib/agent/tools.ts            ← six typed tools (also used by the free-query agent)
+app/api/intake/route.ts       ← deterministic intake (no LLM)
+app/api/draft/route.ts        ← LLM reply draft
+app/api/chat/route.ts         ← free-query agent (Vercel AI SDK) for ad-hoc questions
+app/page.tsx                  ← UI: email/call intake views + free-query agent
 ```
 
 Architecture decisions are recorded in [`docs/adr/`](docs/adr); AI-tool usage in
@@ -50,7 +74,9 @@ CI never touch audio.
 - **Simple** — no DB seed/migrate cycle for ~1k records (see [ADR 0001](docs/adr/0001-stack.md)).
 - **Safe** — the model never authors a query; it only calls typed tools.
 
-### Agent tools
+### Retrieval tools
+
+The pipeline and the free-query agent share the same typed data tools:
 
 | Tool | Source | Behavior |
 |------|--------|----------|
@@ -60,6 +86,14 @@ CI never touch audio.
 | `get_email_history` | `carrier_emails.json` | Emails **before** `before_timestamp`, filterable by MC/load/sender |
 | `get_transcript` | `data/transcripts.json` | Diarized text **plus pre-extracted structured fields** |
 | `draft_email` | — | Compose a reply (quote a rate / confirm next steps). Returns a **draft only — never sent** |
+
+### Context scoping (no unwanted emails)
+
+When the load is resolved, prior activity is scoped to the **load thread** —
+every carrier's emails/calls on *that* load (relevant for best-rate), never the
+carrier's unrelated cross-load history. Only when no load can be resolved does it
+fall back to the carrier's own history. This keeps the timeline focused on the
+inquiry at hand.
 
 ### Handling the intentional messiness
 
@@ -83,19 +117,21 @@ offline pipeline.
 
 ### UI modes
 
-1. **Email ingestion** — pick an email, click **Process inbound email**. History
-   is scoped to that load/carrier and collected strictly **before** its timestamp.
-2. **Call ingestion** — pick a transcript, click **Process inbound call**.
-3. **Free query** — ask anything with an optional as-of timestamp.
+1. **Email ingestion** — pick an email, click **Process inbound email**. Renders
+   the deterministic result: resolved carrier + load (with confidence),
+   compliance, cross-reference checks, a load-scoped timeline, best offer, and a
+   recommendation. **Draft reply email** generates a grounded draft on demand.
+2. **Call ingestion** — same, for a call transcript.
+3. **Free query** — ad-hoc questions answered by the tool-using agent (with a
+   collapsible **tool-call trace** showing exactly what data it retrieved).
 
-The dataset timeline chart shows all emails, calls, and rate-history weeks; during
-ingestion a red cutoff line marks the ingested record's timestamp. Each agent
-answer includes a collapsible **tool-call trace** showing the data it retrieved.
+The dataset timeline chart shows all emails, calls, and rate-history weeks; a red
+cutoff line marks the selected record's timestamp.
 
 ## Scripts
 
 ```bash
-npm run test           # unit tests (loaders, ingestion, extraction parsers, tools)
+npm run test           # unit tests (loaders, intake pipeline, extraction parsers, tools)
 npm run typecheck
 npm run lint
 npm run build

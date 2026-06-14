@@ -7,7 +7,54 @@ import { TimelineChart, type RecordListItem } from "@/app/components/TimelineCha
 
 type Mode = "query" | "email" | "transcript";
 
-/** One-line preview of a record returned by a tool, for at-a-glance auditing. */
+/* ----------------------------- intake types ----------------------------- */
+
+type IntakeResult = {
+  channel: "email" | "call";
+  recordId: string;
+  asOf: string;
+  intent: string;
+  carrier: {
+    profile: {
+      company_name: string;
+      mc_number: string | null;
+      authority_status: string | null;
+      onboarded: boolean;
+      reliability_score: number | null;
+    } | null;
+    matchedBy: string;
+    confidence?: number;
+  };
+  load: {
+    load: {
+      load_id: string;
+      origin_city: string;
+      origin_state: string;
+      destination_city: string;
+      destination_state: string;
+      equipment_type: string;
+      status: string;
+      offered_rate_usd: number;
+    } | null;
+    matchedBy: string;
+    confidence: number;
+    needsHumanVerification: boolean;
+  };
+  scope: "load" | "carrier" | "none";
+  rateContext: { lane: string | null; avg_rate_per_mile: number | null; market_total_usd: number | null };
+  offers: { source: string; source_id: string; carrier_name: string | null; rate_usd: number }[];
+  bestOffer: { rate_usd: number; carrier_name: string | null; source_id: string } | null;
+  compliance: { severity: string; message: string }[];
+  validation: { severity: string; field: string; message: string }[];
+  timeline: { timestamp: string; channel: string; id: string; summary: string }[];
+  summary: string[];
+  recommendation: string;
+};
+
+type Draft = { subject: string; body: string; to: string | null; status: string };
+
+/* ----------------------------- free-query agent helpers ----------------------------- */
+
 function previewResult(toolName: string, result: unknown): string {
   if (result == null || typeof result !== "object") return String(result ?? "—");
   const r = result as Record<string, unknown>;
@@ -23,7 +70,6 @@ function previewResult(toolName: string, result: unknown): string {
   return `${toolName} result`;
 }
 
-/** Collapsible trace of the tool calls behind an answer (transparency). */
 function ToolTrace({ invocations }: { invocations?: ToolInvocation[] }) {
   if (!invocations || invocations.length === 0) return null;
   return (
@@ -53,29 +99,182 @@ function ToolTrace({ invocations }: { invocations?: ToolInvocation[] }) {
   );
 }
 
+/* ----------------------------- intake view ----------------------------- */
+
+function pct(n: number | undefined) {
+  return n == null ? "" : `${Math.round(n * 100)}%`;
+}
+
+function IntakeView({
+  result,
+  draft,
+  drafting,
+  onDraft,
+}: {
+  result: IntakeResult;
+  draft: Draft | null;
+  drafting: boolean;
+  onDraft: () => void;
+}) {
+  const load = result.load.load;
+  const carrier = result.carrier.profile;
+  return (
+    <div className="intake">
+      <div className="intake-card">
+        <h3>Quick summary</h3>
+        <ul className="summary-list">
+          {result.summary.map((s, i) => (
+            <li key={i}>{s}</li>
+          ))}
+        </ul>
+      </div>
+
+      <div className="intake-grid">
+        <div className="intake-card">
+          <h3>Carrier</h3>
+          {carrier ? (
+            <p>
+              <strong>{carrier.company_name}</strong> · MC {carrier.mc_number ?? "?"}
+              <br />
+              authority: {carrier.authority_status ?? "?"} · onboarded: {String(carrier.onboarded)} · reliability:{" "}
+              {carrier.reliability_score ?? "?"}
+              <br />
+              <span className="muted">matched by {result.carrier.matchedBy}{result.carrier.confidence != null ? ` (${pct(result.carrier.confidence)})` : ""}</span>
+            </p>
+          ) : (
+            <p className="flag-error">Not resolved</p>
+          )}
+        </div>
+
+        <div className="intake-card">
+          <h3>Load</h3>
+          {load ? (
+            <p>
+              <strong>{load.load_id}</strong> · {load.origin_city}, {load.origin_state} → {load.destination_city},{" "}
+              {load.destination_state}
+              <br />
+              {load.equipment_type} · {load.status} · posted ${load.offered_rate_usd}
+              <br />
+              <span className={result.load.needsHumanVerification ? "flag-error" : "muted"}>
+                matched by {result.load.matchedBy} ({pct(result.load.confidence)})
+                {result.load.needsHumanVerification ? " — needs human confirmation" : ""}
+              </span>
+            </p>
+          ) : (
+            <p className="flag-error">Not resolved — confirm load with carrier</p>
+          )}
+        </div>
+      </div>
+
+      <div className="intake-grid">
+        <div className="intake-card">
+          <h3>Best offer</h3>
+          {result.bestOffer ? (
+            <p>
+              <strong>${result.bestOffer.rate_usd}</strong> from {result.bestOffer.carrier_name ?? "carrier"}{" "}
+              <span className="muted">({result.bestOffer.source_id})</span>
+              {result.rateContext.market_total_usd != null && (
+                <>
+                  <br />
+                  <span className="muted">market est. ${result.rateContext.market_total_usd}</span>
+                </>
+              )}
+            </p>
+          ) : (
+            <p className="muted">No carrier rate on offer yet.</p>
+          )}
+        </div>
+
+        <div className="intake-card">
+          <h3>Compliance</h3>
+          {result.compliance.length ? (
+            <ul className="flag-list">
+              {result.compliance.map((c, i) => (
+                <li key={i} className={c.severity === "error" ? "flag-error" : "flag-warn"}>
+                  {c.message}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="muted">No flags.</p>
+          )}
+        </div>
+      </div>
+
+      {result.validation.length > 0 && (
+        <div className="intake-card">
+          <h3>Cross-reference checks</h3>
+          <ul className="flag-list">
+            {result.validation.map((v, i) => (
+              <li key={i} className={v.severity === "error" ? "flag-error" : v.severity === "warning" ? "flag-warn" : "muted"}>
+                [{v.field}] {v.message}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      <div className="intake-card">
+        <h3>Timeline (scoped to {result.scope})</h3>
+        {result.timeline.length ? (
+          <ol className="timeline-list">
+            {result.timeline.map((t) => (
+              <li key={`${t.channel}-${t.id}`}>
+                <code>{t.timestamp.slice(0, 16).replace("T", " ")}</code> · {t.channel} · {t.summary}
+              </li>
+            ))}
+          </ol>
+        ) : (
+          <p className="muted">No prior activity on this {result.scope === "load" ? "load" : "carrier"}.</p>
+        )}
+      </div>
+
+      <div className="intake-card recommendation">
+        <h3>Recommended next action</h3>
+        <p>{result.recommendation}</p>
+        <button type="button" className="ingest-btn" onClick={onDraft} disabled={drafting}>
+          {drafting ? "Drafting…" : "Draft reply email"}
+        </button>
+      </div>
+
+      {draft && (
+        <div className="intake-card">
+          <h3>Draft reply <span className="muted">— {draft.status}</span></h3>
+          {draft.to && <p className="muted">To: {draft.to}</p>}
+          <p>
+            <strong>Subject:</strong> {draft.subject}
+          </p>
+          <pre className="record-preview">{draft.body}</pre>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ----------------------------- page ----------------------------- */
+
 export default function HomePage() {
   const [mode, setMode] = useState<Mode>("email");
   const [asOf, setAsOf] = useState("2026-05-25T23:59:59Z");
   const [records, setRecords] = useState<RecordListItem[]>([]);
   const [selectedId, setSelectedId] = useState("");
-  const [recordPreview, setRecordPreview] = useState<string>("");
   const [loadError, setLoadError] = useState<string | null>(null);
+
+  const [intake, setIntake] = useState<IntakeResult | null>(null);
+  const [intakeLoading, setIntakeLoading] = useState(false);
+  const [draft, setDraft] = useState<Draft | null>(null);
+  const [drafting, setDrafting] = useState(false);
 
   const filteredRecords = useMemo(
     () => records.filter((r) => (mode === "email" ? r.kind === "email" : r.kind === "transcript")),
     [records, mode],
   );
-
   const selectedRecord = filteredRecords.find((r) => r.id === selectedId) ?? null;
 
-  const emailId = mode === "email" ? selectedId : undefined;
-  const callId = mode === "transcript" ? selectedId : undefined;
-
-  const { messages, input, setInput, handleInputChange, append, isLoading, error, setMessages } =
-    useChat({
-      api: "/api/chat",
-      body: { mode, asOf, emailId, callId },
-    });
+  const { messages, input, setInput, handleInputChange, append, isLoading, error } = useChat({
+    api: "/api/chat",
+    body: { mode: "query", asOf },
+  });
 
   useEffect(() => {
     fetch("/api/records")
@@ -89,36 +288,57 @@ export default function HomePage() {
   }, []);
 
   useEffect(() => {
-    if (!selectedId || mode === "query") {
-      setRecordPreview("");
-      return;
-    }
-    const item = records.find((r) => r.id === selectedId && r.kind === (mode === "email" ? "email" : "transcript"));
-    if (!item) return;
-
-    fetch("/api/records", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ kind: item.kind, id: item.id }),
-    })
-      .then((r) => r.json())
-      .then((data) => {
-        if (data.record) {
-          setRecordPreview(JSON.stringify(data.record, null, 2));
-        }
-      })
-      .catch(() => setRecordPreview(item.preview));
-  }, [selectedId, mode, records]);
-
-  useEffect(() => {
     const first = filteredRecords[0];
-    if (first && !filteredRecords.some((r) => r.id === selectedId)) {
-      setSelectedId(first.id);
-    }
+    if (first && !filteredRecords.some((r) => r.id === selectedId)) setSelectedId(first.id);
   }, [filteredRecords, selectedId]);
 
-  const cutoffTimestamp =
-    mode === "query" ? asOf : selectedRecord?.timestamp ?? null;
+  // Reset results when the selection or mode changes.
+  useEffect(() => {
+    setIntake(null);
+    setDraft(null);
+  }, [selectedId, mode]);
+
+  const cutoffTimestamp = mode === "query" ? asOf : selectedRecord?.timestamp ?? null;
+
+  const onProcess = async () => {
+    if (!selectedRecord) return;
+    setIntakeLoading(true);
+    setIntake(null);
+    setDraft(null);
+    try {
+      const res = await fetch("/api/intake", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ kind: mode === "email" ? "email" : "call", id: selectedRecord.id }),
+      });
+      const data = await res.json();
+      if (data.error) setLoadError(data.error);
+      else setIntake(data.result);
+    } catch (e) {
+      setLoadError(e instanceof Error ? e.message : "Intake failed");
+    } finally {
+      setIntakeLoading(false);
+    }
+  };
+
+  const onDraft = async () => {
+    if (!selectedRecord) return;
+    setDrafting(true);
+    try {
+      const res = await fetch("/api/draft", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ kind: mode === "email" ? "email" : "call", id: selectedRecord.id }),
+      });
+      const data = await res.json();
+      if (data.draft) setDraft(data.draft);
+      else setLoadError(data.error ?? "Draft failed");
+    } catch (e) {
+      setLoadError(e instanceof Error ? e.message : "Draft failed");
+    } finally {
+      setDrafting(false);
+    }
+  };
 
   const onQuerySubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -127,51 +347,27 @@ export default function HomePage() {
     setInput("");
   };
 
-  const onIngest = () => {
-    if (!selectedRecord) return;
-    setMessages([]);
-    const label =
-      mode === "email"
-        ? `Process inbound email ${selectedRecord.id}`
-        : `Process inbound call ${selectedRecord.id}`;
-    append({ role: "user", content: label });
-  };
-
   return (
     <main className="page">
       <header className="header">
         <h1>Goodlane Freight Agent</h1>
         <p>
-          Ingest a carrier email or call transcript, or ask a free-form question. Ingestion
-          automatically collects email and rate history strictly before the record&apos;s timestamp.
+          Process an inbound carrier email or call deterministically — fields are extracted, resolved
+          and validated against the data, then answered from retrieved facts. The LLM only extracts
+          and drafts; it never invents a rate, load, or carrier.
         </p>
       </header>
 
-      <TimelineChart
-        cutoffTimestamp={cutoffTimestamp}
-        highlightId={mode !== "query" ? selectedId : null}
-      />
+      <TimelineChart cutoffTimestamp={cutoffTimestamp} highlightId={mode !== "query" ? selectedId : null} />
 
       <section className="mode-tabs">
-        <button
-          type="button"
-          className={mode === "email" ? "active" : ""}
-          onClick={() => setMode("email")}
-        >
+        <button type="button" className={mode === "email" ? "active" : ""} onClick={() => setMode("email")}>
           Email ingestion
         </button>
-        <button
-          type="button"
-          className={mode === "transcript" ? "active" : ""}
-          onClick={() => setMode("transcript")}
-        >
+        <button type="button" className={mode === "transcript" ? "active" : ""} onClick={() => setMode("transcript")}>
           Call ingestion
         </button>
-        <button
-          type="button"
-          className={mode === "query" ? "active" : ""}
-          onClick={() => setMode("query")}
-        >
+        <button type="button" className={mode === "query" ? "active" : ""} onClick={() => setMode("query")}>
           Free query
         </button>
       </section>
@@ -180,24 +376,14 @@ export default function HomePage() {
         <section className="controls">
           <label htmlFor="as-of">
             As-of timestamp
-            <input
-              id="as-of"
-              type="text"
-              value={asOf}
-              onChange={(e) => setAsOf(e.target.value)}
-              placeholder="2026-05-25T23:59:59Z"
-            />
+            <input id="as-of" type="text" value={asOf} onChange={(e) => setAsOf(e.target.value)} placeholder="2026-05-25T23:59:59Z" />
           </label>
         </section>
       ) : (
         <section className="ingestion-panel">
           <label htmlFor="record-select">
             Select {mode === "email" ? "email" : "call transcript"}
-            <select
-              id="record-select"
-              value={selectedId}
-              onChange={(e) => setSelectedId(e.target.value)}
-            >
+            <select id="record-select" value={selectedId} onChange={(e) => setSelectedId(e.target.value)}>
               {filteredRecords.map((r) => (
                 <option key={r.id} value={r.id}>
                   {r.label} — {r.preview.slice(0, 60)}
@@ -212,58 +398,53 @@ export default function HomePage() {
             </p>
           )}
 
-          {recordPreview && (
-            <pre className="record-preview">{recordPreview}</pre>
-          )}
-
-          <button
-            type="button"
-            className="ingest-btn"
-            onClick={onIngest}
-            disabled={isLoading || !selectedRecord}
-          >
-            Process inbound {mode === "email" ? "email" : "call"}
+          <button type="button" className="ingest-btn" onClick={onProcess} disabled={intakeLoading || !selectedRecord}>
+            {intakeLoading ? "Processing…" : `Process inbound ${mode === "email" ? "email" : "call"}`}
           </button>
         </section>
       )}
 
       {loadError && <p className="error">{loadError}</p>}
 
-      <section className="chat">
-        {messages.length === 0 && mode === "query" && (
-          <div className="empty">
-            <p>Example queries:</p>
-            <ul>
-              <li>What is the best rate on offer for load 29372343?</li>
-              <li>Build a timeline for load 29372312 and recommend next steps.</li>
-            </ul>
-          </div>
-        )}
-
-        {messages.map((m) => (
-          <article key={m.id} className={`bubble ${m.role}`}>
-            <strong>{m.role === "user" ? "You" : "Agent"}</strong>
-            <ToolTrace invocations={m.toolInvocations} />
-            <div className="content">{m.content}</div>
-          </article>
-        ))}
-
-        {isLoading && <p className="status">Agent is thinking…</p>}
-        {error && <p className="error">{error.message}</p>}
-      </section>
+      {mode !== "query" && intake && (
+        <IntakeView result={intake} draft={draft} drafting={drafting} onDraft={onDraft} />
+      )}
 
       {mode === "query" && (
-        <form className="composer" onSubmit={onQuerySubmit}>
-          <textarea
-            value={input}
-            onChange={handleInputChange}
-            rows={3}
-            placeholder="Ask about a load, carrier, lane, or draft next steps…"
-          />
-          <button type="submit" disabled={isLoading || !input.trim()}>
-            Send
-          </button>
-        </form>
+        <>
+          <section className="chat">
+            {messages.length === 0 && (
+              <div className="empty">
+                <p>Example queries:</p>
+                <ul>
+                  <li>What is the best rate on offer for load 29372343?</li>
+                  <li>Build a timeline for load 29372312 and recommend next steps.</li>
+                </ul>
+              </div>
+            )}
+            {messages.map((m) => (
+              <article key={m.id} className={`bubble ${m.role}`}>
+                <strong>{m.role === "user" ? "You" : "Agent"}</strong>
+                <ToolTrace invocations={m.toolInvocations} />
+                <div className="content">{m.content}</div>
+              </article>
+            ))}
+            {isLoading && <p className="status">Agent is thinking…</p>}
+            {error && <p className="error">{error.message}</p>}
+          </section>
+
+          <form className="composer" onSubmit={onQuerySubmit}>
+            <textarea
+              value={input}
+              onChange={handleInputChange}
+              rows={3}
+              placeholder="Ask about a load, carrier, lane, or draft next steps…"
+            />
+            <button type="submit" disabled={isLoading || !input.trim()}>
+              Send
+            </button>
+          </form>
+        </>
       )}
     </main>
   );

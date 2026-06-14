@@ -49,6 +49,7 @@ export async function extractCall(transcript: string): Promise<ExtractResult<Cal
     "3. carrier_rate_usd: a dollar amount the CARRIER offers/counters (spoken by carrier_speaker only). Do NOT use the dispatcher's posted/anchor rate. null if the carrier never states their own number.",
     "4. dispatcher_rate_usd: the rate the dispatcher posts/anchors, if any (context only).",
     "5. load_reference: digits only if a load id is mentioned.",
+    "6. origin_state / destination_state: two-letter US states for the lane the carrier names (e.g. 'the p a to m d run' → origin_state 'PA', destination_state 'MD'). null if not stated.",
     "Never invent a value. Attribute numbers by speaker.",
     "",
     `Dollar amounts detected in the text (for reference): ${JSON.stringify(amounts.map((a) => a.value))}`,

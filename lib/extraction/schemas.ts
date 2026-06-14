@@ -18,6 +18,14 @@ export const CallExtraction = z.object({
     .describe("The MC number the carrier states, digits only. Honor mid-sentence corrections (last value wins). null if none."),
   company_name: z.string().nullable().describe("Carrier company name as heard. null if unclear."),
   load_reference: z.string().nullable().describe("Load id referenced, digits only. null if none."),
+  origin_state: z
+    .string()
+    .nullable()
+    .describe("Two-letter origin state of the lane the carrier is calling about (e.g. 'PA' from 'the PA to MD run'). null if not stated."),
+  destination_state: z
+    .string()
+    .nullable()
+    .describe("Two-letter destination state of the lane (e.g. 'MD'). null if not stated."),
   carrier_rate_usd: z
     .number()
     .nullable()
