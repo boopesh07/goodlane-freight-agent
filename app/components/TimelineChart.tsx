@@ -3,14 +3,6 @@
 import { useEffect, useMemo, useState } from "react";
 import type { TimelineChartData } from "@/lib/ingestion/context";
 
-type RecordListItem = {
-  kind: "email" | "transcript";
-  id: string;
-  timestamp: string;
-  label: string;
-  preview: string;
-};
-
 type Props = {
   cutoffTimestamp?: string | null;
   highlightId?: string | null;
@@ -126,5 +118,3 @@ export function TimelineChart({ cutoffTimestamp, highlightId }: Props) {
     </section>
   );
 }
-
-export type { RecordListItem };
