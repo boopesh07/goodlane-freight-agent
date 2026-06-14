@@ -201,7 +201,7 @@ export const agentTools = {
 
   get_transcript: tool({
     description:
-      "Retrieve call transcript(s) from data/transcripts.json. Each call includes pre-extracted structured fields (carrier mc_number, company_name, carrier_rate_usd vs dispatcher_rate_usd, equipment, availability, load_reference, questions) so you can trust the rate attribution without re-parsing the raw text. Filter by call_id and/or return calls recorded strictly BEFORE the given timestamp.",
+      "Retrieve call transcript(s) from data/transcripts.json. Each call includes pre-extracted structured fields (carrier mc_number, company_name, carrier_rate_usd vs dispatcher_rate_usd, equipment, availability, load_reference, questions) plus per-field confidence scores and evidence from LLM extraction. Filter by call_id and/or return calls recorded strictly BEFORE the given timestamp.",
     parameters: z.object({
       call_id: z.string().optional().describe("Call id, e.g. call_001"),
       before_timestamp: timestampSchema.optional(),
@@ -295,5 +295,3 @@ export const agentTools = {
     },
   }),
 };
-
-export type AgentTools = typeof agentTools;
