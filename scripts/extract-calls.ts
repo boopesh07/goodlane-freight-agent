@@ -4,17 +4,17 @@ import { extractCall } from "../lib/extraction/llm";
 
 /**
  * OFFLINE, run after transcribe.ts. Reads data/transcripts.json, runs LLM
- * structured extraction on each diarized transcript, and writes the structured
- * fields back onto each record (`extracted` + `extraction_warnings`). This is
- * the call-side half of "extract structured fields from both sources" — emails
- * already arrive structured in carrier_emails.json. Idempotent: pass --force to
- * re-extract records that already have an `extracted` block.
+ * structured extraction on each diarized transcript, and writes flat values
+ * (`extracted`), per-field scores (`extraction_scores`), and warnings back onto
+ * each record. Idempotent: pass --force to re-extract records that already have
+ * an `extracted` block.
  */
 
 type Record = {
   call_id: string;
   transcript: string;
   extracted?: unknown;
+  extraction_scores?: unknown;
   extraction_warnings?: string[];
   [k: string]: unknown;
 };
@@ -37,13 +37,16 @@ async function main() {
     if (rec.extracted && !force) continue;
     if (!rec.transcript?.trim()) continue;
     process.stdout.write(`Extracting ${rec.call_id} ... `);
-    const { data, warnings } = await extractCall(rec.transcript);
+    const { data, scores, warnings } = await extractCall(rec.transcript);
     rec.extracted = data;
+    rec.extraction_scores = scores;
     rec.extraction_warnings = warnings;
     done++;
+    const mcConf = scores?.mc_number.confidence;
+    const rateConf = scores?.carrier_rate_usd.confidence;
     console.log(
       data
-        ? `ok (mc=${data.mc_number ?? "-"}, carrier_rate=${data.carrier_rate_usd ?? "-"}${warnings.length ? `, warns=${warnings.join("|")}` : ""})`
+        ? `ok (mc=${data.mc_number ?? "-"}@${mcConf?.toFixed(2) ?? "?"}, carrier_rate=${data.carrier_rate_usd ?? "-"}@${rateConf?.toFixed(2) ?? "?"}${warnings.length ? `, warns=${warnings.join("|")}` : ""})`
         : `no data (${warnings.join("|")})`,
     );
     // Persist incrementally so a crash doesn't lose progress.
