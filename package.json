@@ -11,10 +11,9 @@
     "test": "vitest run",
     "transcribe": "DOTENV_CONFIG_PATH=.env.local tsx -r dotenv/config scripts/transcribe.ts",
     "extract:calls": "DOTENV_CONFIG_PATH=.env.local tsx -r dotenv/config scripts/extract-calls.ts",
-    "eval": "DOTENV_CONFIG_PATH=.env.local tsx -r dotenv/config scripts/eval.ts",
+    "eval": "npm run eval:intake && npm run eval:extraction",
     "eval:intake": "tsx scripts/eval-intake.ts",
-    "eval:extraction": "tsx scripts/eval-extraction.ts",
-    "eval:deterministic": "npm run eval:intake && npm run eval:extraction"
+    "eval:extraction": "tsx scripts/eval-extraction.ts"
   },
   "dependencies": {
     "@ai-sdk/openai": "^1.3.0",
