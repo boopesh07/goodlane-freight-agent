@@ -1,18 +1,18 @@
 # ADR 0006 — Deterministic intake pipeline; LLM only extracts and drafts
 
-**Status:** Accepted (supersedes the LLM-agent ingestion path)
+**Status:** Accepted
 
 ## Context
-The first cut processed an inbound email/call by handing a large pre-fetched
-context block to an LLM agent and letting it reason out the timeline, best rate,
-and recommendation. Two problems:
+An inbound email/call must become a broker-ready answer: resolved carrier + load,
+a scoped timeline, best rate, compliance, and a recommendation. Two risks shape
+the design:
 
-1. **Context pollution.** History was scoped with "same load OR same carrier",
-   which for a carrier active on many loads dragged their entire cross-load
-   history into the prompt (e.g. CE0063 pulled 18 emails across 9 loads when only
-   4 were about the inquiry's load).
-2. **The LLM was reasoning over facts** — computing "best rate", deciding the
-   recommendation — which is exactly where hallucination risk lives.
+1. **Context pollution.** Scoping history by "same load OR same carrier" drags a
+   carrier's entire cross-load history into the answer — for a carrier active on
+   many loads (e.g. CE0063), 18 emails across 9 loads when only 4 concern the
+   inquiry's load. That noise corrupts the timeline and the "best rate".
+2. **Reasoning over facts is where hallucination lives.** Letting an LLM compute
+   "best rate" or decide the recommendation invites invented rates/loads/carriers.
 
 ## Decision
 Make intake a **deterministic pipeline** (`lib/intake/pipeline.ts`). The LLM is

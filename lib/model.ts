@@ -11,7 +11,7 @@ export function getAgentModel() {
 }
 
 export const models = {
-  /** Cheaper model for structured extraction and recommendations. */
+  /** Cheaper model for offline call extraction and the on-demand draft reply. */
   extraction: () => openai(process.env.OPENAI_EXTRACTION_MODEL ?? "gpt-4o-mini"),
 };
 

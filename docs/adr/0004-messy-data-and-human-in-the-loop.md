@@ -20,17 +20,19 @@ confident wrong answer on a broker's owned relationship is worse than a handoff.
   (0–1) against the full criteria and progressively relaxes the softest filters
   (rate → status → pickup) when nothing matches. Below a threshold (0.85) it
   flags `needs_human_verification`.
-- **Cross-reference validation.** Before answering, the agent reconciles MC vs
+- **Cross-reference validation.** Before answering, the pipeline reconciles MC vs
   email vs name and load vs carrier (lane/equipment) and surfaces every
   conflict.
-- **Human-in-the-loop.** On a low-confidence match the agent presents the
-  candidate *with its confidence* and asks the broker to confirm rather than
-  quoting a rate or drafting a firm reply.
+- **Human-in-the-loop.** On a low-confidence match the pipeline surfaces the
+  candidate *with its confidence*, flags `needs_human_verification`, and the
+  recommendation asks the broker to confirm rather than quoting a rate or
+  drafting a firm reply.
 - **Context hygiene.** On ingestion, prior email history is scoped strictly to
   the same load or carrier — it never falls back to "all emails", keeping
   unrelated carriers out of the model's context.
 
 ## Consequences
 - The messy-data handling is deterministic where it can be (matching, scoring)
-  and unit-tested, with the LLM reasoning over clean, scoped inputs.
+  and unit-tested, feeding clean, scoped inputs to any downstream LLM step (the
+  draft reply and the free-query chat agent).
 - Ambiguity becomes an explicit, auditable handoff instead of a confident guess.

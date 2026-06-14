@@ -36,7 +36,7 @@ goodlane-interview-dataset/   ← emails, profiles, loads, rate history (source 
 data/transcripts.json         ← diarized call transcripts + extracted structured fields
 scripts/transcribe.ts         ← OFFLINE: WAV → diarized transcript (gpt-4o-transcribe-diarize)
 scripts/extract-calls.ts      ← OFFLINE: transcript → structured fields (gpt-4o-mini)
-lib/extraction/               ← deterministic parsers + LLM call extractor (+ tests)
+lib/extraction/               ← LLM call extractor + scored Zod schema (confidence/evidence) (+ tests)
 lib/data/loaders.ts           ← parse JSON/CSV on demand (cached); fuzzy match + load search
 lib/ingestion/context.ts      ← identifier extraction, resolution, cross-reference (shared, deterministic)
 lib/intake/pipeline.ts        ← the deterministic intake pipeline (extract→enrich→validate→answer)
@@ -62,8 +62,9 @@ Architecture decisions are recorded in [`docs/adr/`](docs/adr); AI-tool usage in
      (see [ADR 0002](docs/adr/0002-offline-transcription-and-extraction.md)).
   2. `npm run extract:calls` — LLM extraction of `mc_number`, `company_name`,
      `load_reference`, `carrier_rate_usd` vs `dispatcher_rate_usd`, `equipment`,
-     availability, and open `questions`, grounded by deterministic parsers
-     (`$`-amount detection, spoken-MC normalization with correction handling).
+     availability, and open `questions`. Every field carries a confidence score
+     and an evidence quote, and the model raises `extraction_flags` on messy
+     calls (multiple rates, corrected/ambiguous MC, uncertain load id).
 
 Both outputs land in `data/transcripts.json`, committed so the deployed app and
 CI never touch audio.

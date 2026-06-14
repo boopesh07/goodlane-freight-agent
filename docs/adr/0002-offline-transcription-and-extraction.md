@@ -21,17 +21,23 @@ requires knowing **who said which number**.
   [B] …`) plus the raw segment array to `data/transcripts.json`. The deployed app
   and CI never touch the `.wav` files.
 - **Call-side extraction is a separate offline step** (`scripts/extract-calls.ts`
-  → `lib/extraction/`). It runs an LLM (`gpt-4o-mini`, Zod-validated, retry-once)
-  over each diarized transcript and writes an `extracted` block onto each record:
-  `mc_number`, `company_name`, `load_reference`, `carrier_rate_usd` vs
-  `dispatcher_rate_usd`, `equipment`, availability, and open `questions`.
-- **Deterministic parsers ground the extraction** (`lib/extraction/parsers.ts`):
-  `$`-amount detection and spoken-MC normalization (digit-by-digit spelling,
-  dashes, mid-sentence corrections) are pure, unit-tested functions that feed the
-  prompt as anchors and flag `multiple_rates` / `mc_corrected_or_ambiguous`.
-- **Speaker attribution drives rate extraction.** The extractor identifies which
-  speaker label is the carrier and takes `carrier_rate_usd` only from their
-  speech; the dispatcher's posted rate is captured separately as context.
+  → `lib/extraction/`). An LLM (`gpt-4o-mini`, Zod-validated via
+  `ScoredCallExtractionSchema`, retry-once) reads each diarized transcript and
+  writes an `extracted` block onto each record: `mc_number`, `company_name`,
+  `load_reference`, `carrier_rate_usd` vs `dispatcher_rate_usd`, `equipment`,
+  availability, and open `questions`.
+- **Every field carries a confidence (0–1) and an evidence quote.** The model
+  emits `extraction_flags` (`multiple_rates`, `mc_corrected_or_ambiguous`,
+  `speaker_unclear`, `load_id_uncertain`, `cross_talk`) when a call is messy, and
+  we derive `extraction_warnings` from low-confidence fields so downstream code
+  knows when to distrust a value. Extraction is LLM-only; the prompt
+  (`lib/extraction/prompt.ts`) carries the handling for spoken formats —
+  digit-by-digit MC numbers, mid-sentence self-corrections (use the last stated
+  value), and spoken state abbreviations.
+- **Speaker attribution drives rate extraction.** The prompt has the model
+  identify which diarized speaker is the carrier and take `carrier_rate_usd` only
+  from their speech; the dispatcher's posted/anchor rate is captured separately as
+  context.
 
 ## Why diarization
 The accuracy win is on *rate attribution*: with multiple numbers per call,

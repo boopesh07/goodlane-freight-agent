@@ -7,13 +7,14 @@ This project was built AI-natively with Claude Code. Notes for the walkthrough:
   spoken MC numbers, carriers appearing in both channels) were checked against the
   files before building, not assumed.
 - **AI in the product, kept out of decisions that must be deterministic.**
-  - *In the product:* the agent (`gpt-4o`) reasons over tool results; offline
-    extraction (`gpt-4o-mini`) pulls structured fields from diarized calls;
-    transcription uses `gpt-4o-transcribe-diarize`.
-  - *Deterministic & unit-tested:* `$`-amount parsing, spoken-MC normalization,
-    fuzzy carrier/load matching, and load-match confidence scoring are pure
-    functions. The LLM extracts and reasons; it never invents ids/rates and never
-    authors a raw query.
+  - *In the product:* the free-query agent (`gpt-4o`) reasons over tool results;
+    offline call extraction and the on-demand draft reply (`gpt-4o-mini`) handle
+    the language-shaped work; transcription uses `gpt-4o-transcribe-diarize`.
+  - *Deterministic & unit-tested:* carrier/load resolution, fuzzy matching, MC
+    digit-normalization, load-match confidence scoring, cross-reference
+    validation, and the whole intake pipeline (incl. the recommendation) are pure
+    functions. The LLM extracts and drafts; it never invents ids/rates, decides
+    the recommendation, or authors a raw query.
 - **Diarization was a deliberate call** (ADR 0002): rate negotiations exchange
   many numbers, and attributing each to the correct speaker is what makes the
   "best quote" answer correct.
