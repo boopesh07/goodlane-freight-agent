@@ -1,0 +1,43 @@
+{
+  "description": "Core agent workflows: timeline reconstruction, best-rate retrieval, and drafting a reply. Each case asserts the answer mentions key facts and that the right tools were called.",
+  "cases": [
+    {
+      "id": "timeline-29372343",
+      "question": "Build a complete timeline for load 29372343 as of 2026-05-22T18:00:00Z and recommend the broker's next action.",
+      "as_of": "2026-05-22T18:00:00Z",
+      "params": {
+        "load_id": "29372343",
+        "before_timestamp": "2026-05-22T18:00:00Z"
+      },
+      "expect": {
+        "must_mention": ["29372343", "Recommended"],
+        "tools_used": ["get_load", "get_email_history"]
+      }
+    },
+    {
+      "id": "best-rate-29372343",
+      "question": "What is the best rate currently on offer for load 29372343 as of 2026-05-22T18:00:00Z? Cite which carrier and source it came from.",
+      "as_of": "2026-05-22T18:00:00Z",
+      "params": {
+        "load_id": "29372343",
+        "before_timestamp": "2026-05-22T18:00:00Z"
+      },
+      "expect": {
+        "must_mention": ["29372343", "$"],
+        "tools_used": ["get_load", "get_email_history"]
+      }
+    },
+    {
+      "id": "draft-reply-29372343",
+      "question": "Draft a reply email to the carrier on load 29372343 confirming next steps. Show the draft.",
+      "as_of": "2026-05-25T23:59:59Z",
+      "params": {
+        "load_id": "29372343"
+      },
+      "expect": {
+        "must_mention": ["29372343", "Goodlane"],
+        "tools_used": ["draft_email"]
+      }
+    }
+  ]
+}
