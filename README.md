@@ -131,11 +131,16 @@ cutoff line marks the selected record's timestamp.
 ## Scripts
 
 ```bash
-npm run test           # unit tests (loaders, intake pipeline, extraction parsers, tools)
+npm run test           # unit tests (loaders, intake pipeline, extraction schemas, tools)
 npm run typecheck
 npm run lint
 npm run build
-npm run eval           # LLM eval against eval/golden.json (needs OPENAI_API_KEY)
+
+# evals (see below)
+npm run eval:intake      # Tier 1 — deterministic intake pipeline (no API key)
+npm run eval:extraction  # Tier 2 — extraction field accuracy (no API key; --live to re-extract)
+npm run eval:deterministic  # Tiers 1 + 2 (what CI gates)
+npm run eval             # Tier 3 — end-to-end agent + LLM judge (needs OPENAI_API_KEY)
 
 # offline pipeline (needs OPENAI_API_KEY; outputs committed to data/transcripts.json)
 npm run transcribe     # WAV → diarized transcripts
@@ -144,12 +149,20 @@ npm run extract:calls  # transcripts → structured fields  (--force to re-extra
 
 ## Eval
 
-`eval/golden.json` holds three core workflows — timeline reconstruction,
-best-rate retrieval, and drafting a reply — run by `scripts/eval.ts` against the
-live agent. Each case asserts the answer mentions key facts **and** that the
-expected tools were called. Current score: **3/3 (100%)**. See
-[ADR 0005](docs/adr/0005-eval.md) for what I'd improve next (compliance/low-
-confidence cases, an extraction-level eval, LLM-judge grading).
+Three tiers, each isolating a different failure mode (see
+[ADR 0005](docs/adr/0005-eval.md)):
+
+| Tier | What it grades | Determinism | Current score |
+|------|----------------|-------------|---------------|
+| **1 — intake pipeline** (`eval/intake.golden.json`) | The real deterministic pipeline over labeled email/call records: carrier+load resolution, confidence/human-verification, compliance, validation, best offer, recommendation | Deterministic · **CI-gated** · no key | **9/9** |
+| **2 — extraction** (`eval/extraction.golden.json`) | Per-field accuracy of call extraction vs hand-labeled truth (normalization-aware) | Deterministic · **CI-gated** · no key (`--live` re-runs the LLM) | **96%** overall; `load_reference` **60%** (honest weakness) |
+| **3 — agent** (`eval/golden.json`) | End-to-end free-query agent: `must_match` / `must_not_match` (anti-hallucination), tool usage, and an **LLM judge** for faithfulness | Non-deterministic · local/on-demand · needs key | run locally |
+
+Tier 1 and Tier 2 run in CI with **no API key** and gate every PR. Tier 2
+deliberately surfaces a real weakness — the extractor garbles spoken multi-digit
+load numbers (`load_reference` 60%); the pipeline recovers via fuzzy id matching
+(proven by Tier 1). Tier 3 adds negative/honesty cases (confirm-before-quoting,
+compliance block, "no record"). See ADR 0005 for what I'd improve next.
 
 ## Deploy
 
