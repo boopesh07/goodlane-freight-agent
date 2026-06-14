@@ -1,0 +1,128 @@
+{
+  "description": "Tier 1 — deterministic intake-pipeline eval. Runs the real pipeline (runEmailIntake / runCallIntake) over labeled records and asserts the exact structured outputs the broker relies on: carrier + load resolution, confidence/human-verification, compliance, cross-reference validation, best offer, and the recommendation. No LLM, no API key — fully reproducible and safe to run in CI.",
+  "cases": [
+    {
+      "id": "email-clean-open-load",
+      "kind": "email",
+      "record_id": "CE0068",
+      "description": "Clean email: MC resolves the carrier, load id resolves exactly to an OPEN load, no compliance issues. Baseline happy path.",
+      "expect": {
+        "carrier_company": "ATLANTIC CARRIERS INC",
+        "carrier_matched_by": "mc",
+        "load_id": "29372501",
+        "load_matched_by": "load_id",
+        "load_status": "open",
+        "needs_human_verification": false,
+        "min_confidence": 1,
+        "compliance_severities": [],
+        "scope": "load",
+        "recommendation_includes": ["29372501", "open"]
+      }
+    },
+    {
+      "id": "email-compliance-authority-block",
+      "kind": "email",
+      "record_id": "CE0066",
+      "description": "Carrier has CONDITIONAL authority + not onboarded. Even though the load is OPEN, the broker must NOT book. The recommendation must say so.",
+      "expect": {
+        "carrier_company": "FRONTIER HAULING LLC",
+        "load_id": "29372490",
+        "load_status": "open",
+        "compliance_severities": ["error", "warning"],
+        "compliance_includes": ["Authority status is CONDITIONAL"],
+        "recommendation_includes": ["do not book"]
+      }
+    },
+    {
+      "id": "email-compliance-insurance-expired",
+      "kind": "email",
+      "record_id": "CE0026",
+      "description": "Carrier insurance expired before the dataset 'now'. Load is covered (not open). Compliance flag must surface and recommendation must note the load is not open.",
+      "expect": {
+        "carrier_company": "Blue Ridge Transport LLC",
+        "load_id": "29372312",
+        "load_status": "covered",
+        "compliance_includes": ["Insurance expired"],
+        "compliance_severities": ["error"],
+        "recommendation_includes": ["covered"]
+      }
+    },
+    {
+      "id": "email-cancelled-load",
+      "kind": "email",
+      "record_id": "CE0255",
+      "description": "Inbound references a cancelled load. The pipeline must not treat it as bookable and the recommendation must say it's cancelled.",
+      "expect": {
+        "load_id": "29001048",
+        "load_status": "cancelled",
+        "recommendation_includes": ["cancelled"]
+      }
+    },
+    {
+      "id": "call-clean-structured-match",
+      "kind": "call",
+      "record_id": "call_009",
+      "description": "Call with no load number: MC resolves the carrier and structured lane/equipment search confidently locks onto the open load (100%, no human verification needed).",
+      "expect": {
+        "carrier_company": "Penn Valley Transport LLC",
+        "carrier_matched_by": "mc",
+        "load_id": "29372343",
+        "load_matched_by": "structured_search",
+        "load_status": "open",
+        "needs_human_verification": false,
+        "min_confidence": 1,
+        "recommendation_includes": ["29372343"]
+      }
+    },
+    {
+      "id": "call-low-confidence-human-in-loop",
+      "kind": "call",
+      "record_id": "call_013",
+      "description": "Structured load match is weak (lane/equipment but rate/status off). Must flag needs_human_verification and the recommendation must ask to confirm before quoting.",
+      "expect": {
+        "carrier_company": "CROSSROADS TRANSPORT INC",
+        "load_matched_by": "structured_search",
+        "needs_human_verification": true,
+        "recommendation_includes": ["confirm"]
+      }
+    },
+    {
+      "id": "call-fuzzy-load-id-recovery",
+      "kind": "call",
+      "record_id": "call_017",
+      "description": "Carrier reads a 9-digit (mistyped) load number. Fuzzy id recovery finds the intended load but flags it for human verification, and validation explains the near-miss.",
+      "expect": {
+        "carrier_company": "SMR TRUCKING INC",
+        "load_id": "29372343",
+        "load_matched_by": "fuzzy_id",
+        "needs_human_verification": true,
+        "validation_includes": ["does not exist"],
+        "recommendation_includes": ["confirm"]
+      }
+    },
+    {
+      "id": "call-carrier-name-only-resolution",
+      "kind": "call",
+      "record_id": "call_003",
+      "description": "Garbled/unknown MC: the carrier is resolved by fuzzy NAME instead, and validation must flag both the unknown MC and the name-only match.",
+      "expect": {
+        "carrier_company": "DEMIX TRANSPORT",
+        "carrier_matched_by": "name",
+        "load_id": null,
+        "validation_includes": ["not in carrier_profiles", "fuzzy name match"]
+      }
+    },
+    {
+      "id": "call-best-offer-from-prior-record",
+      "kind": "call",
+      "record_id": "call_055",
+      "description": "Voicemail with no load: scoping falls back to the carrier and surfaces this carrier's best prior offer (cross-record best-rate retrieval).",
+      "expect": {
+        "carrier_company": "VELOCITY FREIGHT INC",
+        "scope": "carrier",
+        "best_offer_usd": 215,
+        "best_offer_carrier_includes": "Velocity"
+      }
+    }
+  ]
+}
