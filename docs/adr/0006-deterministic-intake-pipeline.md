@@ -47,6 +47,10 @@ carrier's other-load offers never leak into this load's "best rate".
   regression and the call_013 structured-match-needs-confirmation case).
 - **Auditable** — the UI shows resolution method + confidence, cross-reference
   flags, and the exact scoped records behind the recommendation.
+- **One code path.** `/api/intake` runs this pipeline directly (no LLM, no API
+  key — it just streams the retrieval steps for the UI); `/api/draft` runs the
+  same pipeline and then adds the single drafting LLM call. The Tier 1 eval and
+  unit tests exercise this exact path, so what's tested is what ships.
 - A free-query agent (`/api/chat`) is kept for ad-hoc questions and satisfies the
   "AI agent with tool calls" requirement; it uses the same typed tools and is
   instructed to answer only from tool results.

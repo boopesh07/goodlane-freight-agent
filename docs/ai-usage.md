@@ -28,7 +28,7 @@ This project was built AI-natively with Claude Code. Notes for the walkthrough:
   (e.g. confirming call_013 extracts the carrier's $480 ask, not the dispatcher's
   $440 post).
 - **Built and verified in increments:** typecheck + lint + unit tests (`vitest`)
-  + `next build` gate every change; the eval harness exercises the live agent.
+  + two deterministic eval tiers + `next build` gate every change.
 
 ## How the pieces map to the brief
 
@@ -37,6 +37,6 @@ This project was built AI-natively with Claude Code. Notes for the walkthrough:
 | Multi-modal ingestion | `scripts/transcribe.ts`, `scripts/extract-calls.ts`, `lib/data/loaders.ts` |
 | Structured extraction (both sources) | emails: dataset fields; calls: `lib/extraction/` → `data/transcripts.json` |
 | Retrieval + ≥1 tool call | `lib/agent/tools.ts` (6 tools), `lib/ingestion/context.ts` |
-| Draft a response email | `draft_email` tool |
-| Eval + score | `eval/golden.json`, `scripts/eval.ts` (3/3) |
+| Draft a response email | `lib/intake/draft.ts` + `draft_email` tool |
+| Eval + score | `scripts/eval-intake.ts` (9/9), `scripts/eval-extraction.ts` (96%) |
 | Quality checks | `.github/workflows/ci.yml`, `vitest`, ESLint, `tsc`, `next build` |

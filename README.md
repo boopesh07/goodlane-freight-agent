@@ -111,9 +111,9 @@ cp .env.example .env.local   # add OPENAI_API_KEY
 npm run dev                  # http://localhost:3000
 ```
 
-The repo already ships `data/transcripts.json`, so the app runs without an API
-key for the data; the key is needed for the agent, eval, and re-running the
-offline pipeline.
+The repo already ships `data/transcripts.json`, so intake runs without an API
+key. The key is only needed for the **draft reply**, the **free-query agent**,
+and re-running the **offline** transcription/extraction pipeline.
 
 ### UI modes
 
@@ -136,11 +136,10 @@ npm run typecheck
 npm run lint
 npm run build
 
-# evals (see below)
-npm run eval:intake      # Tier 1 — deterministic intake pipeline (no API key)
-npm run eval:extraction  # Tier 2 — extraction field accuracy (no API key; --live to re-extract)
-npm run eval:deterministic  # Tiers 1 + 2 (what CI gates)
-npm run eval             # Tier 3 — end-to-end agent + LLM judge (needs OPENAI_API_KEY)
+# evals (see below) — both deterministic, no API key, gated in CI
+npm run eval             # both tiers (intake pipeline + extraction accuracy)
+npm run eval:intake      # Tier 1 — deterministic intake pipeline
+npm run eval:extraction  # Tier 2 — extraction field accuracy (--live to re-extract via LLM)
 
 # offline pipeline (needs OPENAI_API_KEY; outputs committed to data/transcripts.json)
 npm run transcribe     # WAV → diarized transcripts
@@ -149,20 +148,22 @@ npm run extract:calls  # transcripts → structured fields  (--force to re-extra
 
 ## Eval
 
-Three tiers, each isolating a different failure mode (see
+Two deterministic tiers, each isolating a different failure mode (see
 [ADR 0005](docs/adr/0005-eval.md)):
 
 | Tier | What it grades | Determinism | Current score |
 |------|----------------|-------------|---------------|
-| **1 — intake pipeline** (`eval/intake.golden.json`) | The real deterministic pipeline over labeled email/call records: carrier+load resolution, confidence/human-verification, compliance, validation, best offer, recommendation | Deterministic · **CI-gated** · no key | **9/9** |
+| **1 — intake pipeline** (`eval/intake.golden.json`) | The **real production pipeline** over labeled email/call records: carrier+load resolution, confidence/human-verification, compliance, validation, best offer, recommendation | Deterministic · **CI-gated** · no key | **9/9** |
 | **2 — extraction** (`eval/extraction.golden.json`) | Per-field accuracy of call extraction vs hand-labeled truth (normalization-aware) | Deterministic · **CI-gated** · no key (`--live` re-runs the LLM) | **96%** overall; `load_reference` **60%** (honest weakness) |
-| **3 — agent** (`eval/golden.json`) | End-to-end free-query agent: `must_match` / `must_not_match` (anti-hallucination), tool usage, and an **LLM judge** for faithfulness | Non-deterministic · local/on-demand · needs key | run locally |
 
-Tier 1 and Tier 2 run in CI with **no API key** and gate every PR. Tier 2
-deliberately surfaces a real weakness — the extractor garbles spoken multi-digit
-load numbers (`load_reference` 60%); the pipeline recovers via fuzzy id matching
-(proven by Tier 1). Tier 3 adds negative/honesty cases (confirm-before-quoting,
-compliance block, "no record"). See ADR 0005 for what I'd improve next.
+Because intake is now fully deterministic, **Tier 1 grades exactly the code path
+the app runs** — the same `runEmailIntake`/`runCallIntake` behind `/api/intake`.
+The 9 cases cover the happy path **and** the messy/negative paths the brief cares
+about: low-confidence matches, fuzzy-id recovery, compliance blocks, name-only
+resolution, and best-rate retrieval. Tier 2 deliberately surfaces a real
+weakness — the extractor garbles spoken multi-digit load numbers
+(`load_reference` 60%); the pipeline recovers via fuzzy-id matching (proven by
+Tier 1). See ADR 0005 for what I'd improve next.
 
 ## Deploy
 
