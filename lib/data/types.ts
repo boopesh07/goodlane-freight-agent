@@ -74,7 +74,7 @@ export type TranscriptSegment = {
   end: number;
 };
 
-/** Structured fields extracted offline from a diarized call transcript. */
+/** Flat values extracted offline from a diarized call transcript. */
 export type CallExtraction = {
   carrier_speaker: string | null;
   mc_number: string | null;
@@ -90,6 +90,11 @@ export type CallExtraction = {
   questions: string[];
 };
 
+/** Per-field confidence and evidence from LLM extraction. */
+export type CallExtractionScores = {
+  [K in keyof CallExtraction]: { confidence: number; evidence: string };
+};
+
 export type CallTranscript = {
   call_id: string;
   type: string;
@@ -99,12 +104,10 @@ export type CallTranscript = {
   speakers: string[];
   /** Structured fields from the call-side extraction pipeline (optional). */
   extracted?: CallExtraction | null;
-  /** Warnings raised during extraction (e.g. multiple_rates, mc_corrected). */
+  /** Per-field confidence scores and transcript evidence from LLM extraction. */
+  extraction_scores?: CallExtractionScores | null;
+  /** Warnings raised during extraction (flags + low-confidence fields). */
   extraction_warnings?: string[];
   /** Synthetic ordering timestamp for timeline queries (ISO 8601). */
   recorded_at: string;
 };
-
-export type TimelineEvent =
-  | { kind: "email"; timestamp: string; data: CarrierEmail }
-  | { kind: "call"; timestamp: string; data: CallTranscript };
