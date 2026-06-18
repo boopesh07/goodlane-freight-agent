@@ -8,7 +8,8 @@ import {
   loadTranscripts,
   normalizeMc,
 } from "@/lib/data/loaders";
-import type { CallTranscript, CarrierEmail, CarrierProfile, Load } from "@/lib/data/types";
+import type { CallTranscript, CarrierEmail, CarrierProfile, Load, NormalizedIntent } from "@/lib/data/types";
+import { keywordIntent, normalizeLegacyIntent } from "@/lib/ingestion/intent";
 
 /**
  * Shared building blocks for the intake pipeline (lib/intake/pipeline.ts):
@@ -209,24 +210,19 @@ export function crossReferenceIngestion(
   return { findings, loadCandidates };
 }
 
-/** Classify the inbound record's intent (structured field first, keyword fallback). */
-export function classifyIntent(record: CarrierEmail | CallTranscript): string {
-  if ("email_id" in record) {
-    if (record.intent) return record.intent;
-    return keywordIntent(`${record.subject} ${record.body}`);
-  }
-  if (record.type && record.type !== "unknown") return record.type;
-  return keywordIntent(record.transcript);
-}
+/**
+ * Classify the inbound record's intent into the normalized taxonomy. Precedence:
+ *   1. the offline LLM enrichment (`classified_intent`) when present;
+ *   2. the legacy per-channel label, normalized (email `intent` / call `type`);
+ *   3. the deterministic keyword classifier as a last-resort fallback.
+ */
+export function classifyIntent(record: CarrierEmail | CallTranscript): NormalizedIntent {
+  if (record.classified_intent?.value) return record.classified_intent.value;
 
-function keywordIntent(text: string): string {
-  const t = text.toLowerCase();
-  if (/\b(insurance|authority|compliance|coi|certificate|safety rating)\b/.test(t)) return "compliance_check";
-  if (/\b(available|availability|can take|got a truck|empty|free on)\b/.test(t)) return "availability_check";
-  if (/\b(rate|price|\$|per mile|negotiate|counter|how much)\b/.test(t)) return "rate_negotiation";
-  if (/\b(confirm|booked|book it|accept|take it)\b/.test(t)) return "confirm";
-  if (/\b(weight|dimensions|pickup|delivery|details|when|where)\b/.test(t)) return "load_details";
-  return "inquiry";
+  if ("email_id" in record) {
+    return normalizeLegacyIntent(record.intent) ?? keywordIntent(`${record.subject} ${record.body}`);
+  }
+  return normalizeLegacyIntent(record.type) ?? keywordIntent(record.transcript);
 }
 
 /** Resolve the carrier: MC → email → fuzzy carrier name. Carrier should (almost) always be found. */
