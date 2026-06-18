@@ -137,14 +137,16 @@ npm run typecheck
 npm run lint
 npm run build
 
-# evals (see below) — both deterministic, no API key, gated in CI
-npm run eval             # both tiers (intake pipeline + extraction accuracy)
+# evals (see below) — all deterministic, no API key, gated in CI
+npm run eval             # all tiers (intake pipeline + extraction accuracy + intent)
 npm run eval:intake      # Tier 1 — deterministic intake pipeline
 npm run eval:extraction  # Tier 2 — extraction field accuracy (--live to re-extract via LLM)
+npm run eval:intent      # Tier 3 — normalized intent classification
 
-# offline pipeline (needs OPENAI_API_KEY; outputs committed to data/transcripts.json)
+# offline pipeline (needs OPENAI_API_KEY; outputs committed to data/)
 npm run transcribe     # WAV → diarized transcripts
-npm run extract:calls  # transcripts → structured fields  (--force to re-extract)
+npm run extract:calls  # transcripts → structured fields + intent  (--force to re-extract)
+npm run enrich:emails  # emails → normalized intent → data/email_enrichment.json (--force)
 ```
 
 ## Eval

@@ -1,0 +1,47 @@
+{
+  "description": "Tier 3 — normalized intent classification. Grades classifyIntent (enrichment → normalized legacy label → keyword fallback) against hand-labeled normalized intents (labeled from the record content, not the dataset's coarse legacy labels). With the committed enrichment present it grades the offline LLM layer; without it, the deterministic legacy-map + keyword fallback. Deterministic: no LLM, no API key, CI-gated.",
+  "cases": [
+    {
+      "id": "email-counter-is-rate-negotiation",
+      "kind": "email",
+      "record_id": "CE0042",
+      "description": "Counteroffer (floor at $280 vs $240) → rate_negotiation.",
+      "expected_intent": "rate_negotiation"
+    },
+    {
+      "id": "email-counter-room-on-your-end",
+      "kind": "email",
+      "record_id": "CE0125",
+      "description": "Counteroffer ('could do $735 – any room?') → rate_negotiation.",
+      "expected_intent": "rate_negotiation"
+    },
+    {
+      "id": "email-availability-statement",
+      "kind": "email",
+      "record_id": "CE0109",
+      "description": "Carrier states availability ('available Box Truck. Load #...') → availability_check. Enrichment refines the coarse legacy 'inquiry' label.",
+      "expected_intent": "availability_check"
+    },
+    {
+      "id": "email-weight-confirmation-is-load-details",
+      "kind": "email",
+      "record_id": "CE0074",
+      "description": "Carrier asks to confirm weight before dispatch → load_details. Enrichment refines the coarse legacy 'info' label.",
+      "expected_intent": "load_details"
+    },
+    {
+      "id": "email-bare-pay-question-is-general-inquiry",
+      "kind": "email",
+      "record_id": "CE0068",
+      "description": "Legacy 'terse'; a bare 'What does it pay?' with no counter is general_inquiry per the taxonomy. Enrichment classifies it directly (the keyword fallback is exercised in unit tests instead).",
+      "expected_intent": "general_inquiry"
+    },
+    {
+      "id": "call-rate-negotiation",
+      "kind": "call",
+      "record_id": "call_001",
+      "description": "Call type rate_negotiation maps straight through.",
+      "expected_intent": "rate_negotiation"
+    }
+  ]
+}
