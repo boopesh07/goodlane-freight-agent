@@ -1,3 +1,26 @@
+/**
+ * Single intent taxonomy normalized across BOTH channels. The provided dataset
+ * ships two different vocabularies (emails: info/counter/inquiry/terse/confirm;
+ * calls: rate_negotiation/availability_check/compliance_check/load_details/
+ * voicemail) and "terse" is a writing style, not an intent. We normalize every
+ * record to this enum so cross-channel questions are answerable consistently.
+ */
+export type NormalizedIntent =
+  | "rate_negotiation"
+  | "availability_check"
+  | "compliance_check"
+  | "load_details"
+  | "booking_confirmation"
+  | "general_inquiry"
+  | "voicemail";
+
+/** An intent classification with model-reported confidence and supporting evidence. */
+export type IntentClassification = {
+  value: NormalizedIntent;
+  confidence: number;
+  evidence: string;
+};
+
 export type CarrierProfile = {
   mc_number: string | null;
   dot_number: string | null;
@@ -33,7 +56,10 @@ export type CarrierEmail = {
   load_reference: string | null;
   equipment_mentioned: string | null;
   rate_quoted_usd: number | null;
+  /** Original dataset label (mixed vocabulary: info/counter/inquiry/terse/confirm). */
   intent: string | null;
+  /** Normalized intent from the offline enrichment layer (data/email_enrichment.json). */
+  classified_intent?: IntentClassification | null;
 };
 
 export type Load = {
@@ -108,6 +134,8 @@ export type CallTranscript = {
   extraction_scores?: CallExtractionScores | null;
   /** Warnings raised during extraction (flags + low-confidence fields). */
   extraction_warnings?: string[];
+  /** Normalized intent from the offline extraction layer (confidence + evidence). */
+  classified_intent?: IntentClassification | null;
   /** Synthetic ordering timestamp for timeline queries (ISO 8601). */
   recorded_at: string;
 };
