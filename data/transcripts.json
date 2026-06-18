@@ -250,7 +250,7 @@
     "extraction_scores": {
       "carrier_speaker": {
         "confidence": 1,
-        "evidence": "[B] Hey Mike, [B] yeah this is Rami from s m r Trucking Inc., calling about that box truck load, [B] the p a New Jersey run."
+        "evidence": "[B] yeah this is Rami from s m r Trucking Inc."
       },
       "mc_number": {
         "confidence": 1,
@@ -274,7 +274,7 @@
       },
       "carrier_rate_usd": {
         "confidence": 1,
-        "evidence": "[B] we'd need at least $310 to make it work with fuel where it is right now."
+        "evidence": "[B] We'd need at least $310 to make it work with fuel where it is right now."
       },
       "dispatcher_rate_usd": {
         "confidence": 1,
@@ -294,8 +294,13 @@
       },
       "questions": {
         "confidence": 1,
-        "evidence": "No open questions were asked by the carrier."
+        "evidence": "No questions asked by the carrier."
       }
+    },
+    "classified_intent": {
+      "value": "rate_negotiation",
+      "confidence": 1,
+      "evidence": "[B] $5 doesn't really work for us on that lane. We'd need at least $310 to make it work with fuel where it is right now."
     }
   },
   {
@@ -593,8 +598,13 @@
       },
       "questions": {
         "confidence": 1,
-        "evidence": "no questions were asked by the carrier."
+        "evidence": "no questions were asked by the carrier"
       }
+    },
+    "classified_intent": {
+      "value": "rate_negotiation",
+      "confidence": 1,
+      "evidence": "[B] two hundred and fifty dollars doesn't really work for us on that lane."
     }
   },
   {
@@ -832,7 +842,7 @@
     ],
     "extracted": {
       "carrier_speaker": "B",
-      "mc_number": "148035",
+      "mc_number": "148355",
       "company_name": "Demix Transport",
       "load_reference": null,
       "origin_state": "NJ",
@@ -860,19 +870,19 @@
       },
       "load_reference": {
         "confidence": 0,
-        "evidence": "No load number was provided."
+        "evidence": "[B] I don't have the number in front of me"
       },
       "origin_state": {
         "confidence": 1,
-        "evidence": "[B] the NJNY run."
+        "evidence": "[B] the NJNY run"
       },
       "destination_state": {
         "confidence": 1,
-        "evidence": "[B] the NJNY run."
+        "evidence": "[B] the NJNY run"
       },
       "carrier_rate_usd": {
         "confidence": 1,
-        "evidence": "[B] we'd need at least three hundred and seventy five dollars to make it work with fuel where it is right now."
+        "evidence": "[B] we'd need at least three hundred and seventy five dollars to make it work"
       },
       "dispatcher_rate_usd": {
         "confidence": 1,
@@ -884,16 +894,21 @@
       },
       "available_location": {
         "confidence": 0,
-        "evidence": "No location was mentioned."
+        "evidence": "not mentioned"
       },
       "available_date": {
         "confidence": 0,
-        "evidence": "No date was mentioned."
+        "evidence": "not mentioned"
       },
       "questions": {
         "confidence": 1,
-        "evidence": "No open questions were asked by the carrier."
+        "evidence": "no questions were asked by the carrier"
       }
+    },
+    "classified_intent": {
+      "value": "rate_negotiation",
+      "confidence": 1,
+      "evidence": "[B] $340 doesn't... Doesn't really work for us on that lane."
     }
   },
   {
@@ -1159,27 +1174,27 @@
     "extraction_scores": {
       "carrier_speaker": {
         "confidence": 1,
-        "evidence": "[B] yeah this is Dave from Eagle Express l l c calling about that box truck load the p a m d run."
+        "evidence": "[B] Hey Mike, [B] yeah this is Dave from Eagle Express l l c calling about that box truck load the p a m d run."
       },
       "mc_number": {
         "confidence": 1,
-        "evidence": "[B] It's 945,241. Wait, number 945,231."
+        "evidence": "[B] It's 945,241. [B] Wait, [B] number 945,231."
       },
       "company_name": {
         "confidence": 1,
-        "evidence": "[B] Just reply to whatever you have on file for Eagle Express, llc."
+        "evidence": "[B] yeah this is Dave from Eagle Express l l c calling about that box truck load the p a m d run."
       },
       "load_reference": {
         "confidence": 0,
-        "evidence": "[B] I don't have the number in front of me but it's ah, picking up in the next day or two."
+        "evidence": "No load number was provided."
       },
       "origin_state": {
         "confidence": 1,
-        "evidence": "[B] the p a m d run."
+        "evidence": "[B] calling about that box truck load the p a m d run."
       },
       "destination_state": {
         "confidence": 1,
-        "evidence": "[B] the p a m d run."
+        "evidence": "[B] calling about that box truck load the p a m d run."
       },
       "carrier_rate_usd": {
         "confidence": 1,
@@ -1191,20 +1206,25 @@
       },
       "equipment": {
         "confidence": 1,
-        "evidence": "[B] calling about that box truck load"
+        "evidence": "[B] calling about that box truck load."
       },
       "available_location": {
         "confidence": 0,
-        "evidence": "Not mentioned."
+        "evidence": "No location was mentioned."
       },
       "available_date": {
         "confidence": 0,
-        "evidence": "Not mentioned."
+        "evidence": "No date was mentioned."
       },
       "questions": {
         "confidence": 1,
-        "evidence": "No open questions were asked by the carrier."
+        "evidence": "No questions were asked by the carrier."
       }
+    },
+    "classified_intent": {
+      "value": "rate_negotiation",
+      "confidence": 1,
+      "evidence": "[B] Four hundred eighty dollars doesn't really work. [B] We'd need at least $530 to make it work with fuel where it is right now."
     }
   },
   {
@@ -1457,10 +1477,10 @@
     "extraction_scores": {
       "carrier_speaker": {
         "confidence": 1,
-        "evidence": "[A] Hey Mike, yeah this is Simone from Liberty Freight Solutions LLC, calling about that box truck load, the New Jersey P.A. run."
+        "evidence": "[A] Hey Mike, yeah this is Simone from Liberty Freight Solutions LLC, calling about that box truck load,"
       },
       "mc_number": {
-        "confidence": 1,
+        "confidence": 0.7,
         "evidence": "[A] It's 134, uh, 5,678."
       },
       "company_name": {
@@ -1469,7 +1489,7 @@
       },
       "load_reference": {
         "confidence": 0,
-        "evidence": "[A] I don't have the number in front of me but it's, uh, picking up in the next day or two."
+        "evidence": "No load number is mentioned."
       },
       "origin_state": {
         "confidence": 1,
@@ -1493,16 +1513,21 @@
       },
       "available_location": {
         "confidence": 0,
-        "evidence": "[A] I don't have the number in front of me but it's, uh, picking up in the next day or two."
+        "evidence": "No location is mentioned."
       },
       "available_date": {
         "confidence": 0,
-        "evidence": "[A] I don't have the number in front of me but it's, uh, picking up in the next day or two."
+        "evidence": "No date is mentioned."
       },
       "questions": {
         "confidence": 1,
-        "evidence": "[A] Let me check with my ops team and I'll shoot you an email either way."
+        "evidence": "No open questions are asked by the carrier."
       }
+    },
+    "classified_intent": {
+      "value": "rate_negotiation",
+      "confidence": 1,
+      "evidence": "[A] Right, that's what I'm calling about $290 doesn't really work for us on that lane, we'd need at least $320 to make it work with fuel where it is right now."
     }
   },
   {
@@ -1768,27 +1793,27 @@
     "extraction_scores": {
       "carrier_speaker": {
         "confidence": 1,
-        "evidence": "[B] this is Patricia from Garden State Express, l l c, calling about that sprinter van load,"
+        "evidence": "[B] this is Patricia from Garden State Express, l l c, calling about that sprinter van load, the njnee run."
       },
       "mc_number": {
         "confidence": 0.7,
-        "evidence": "[B] It's three hundred and forty five thousand eight hundred and seventy eight. Wait number three hundred and forty five thousand six hundred and seventy eight."
+        "evidence": "[B] It's three hundred and forty five thousand six hundred and seventy eight."
       },
       "company_name": {
         "confidence": 1,
-        "evidence": "[B] this is Patricia from Garden State Express, l l c,"
+        "evidence": "[B] this is Patricia from Garden State Express, l l c"
       },
       "load_reference": {
         "confidence": 0,
-        "evidence": "[B] I don't have the number in front of me,"
+        "evidence": "No load number was provided."
       },
       "origin_state": {
-        "confidence": 1,
-        "evidence": "[B] it's-ah-picking up in the next day or two-you posted it this morning."
+        "confidence": 0.7,
+        "evidence": "[B] calling about that sprinter van load, the njnee run."
       },
       "destination_state": {
         "confidence": 0,
-        "evidence": "No destination state mentioned."
+        "evidence": "No destination state was mentioned."
       },
       "carrier_rate_usd": {
         "confidence": 1,
@@ -1800,20 +1825,25 @@
       },
       "equipment": {
         "confidence": 1,
-        "evidence": "[B] calling about that sprinter van load,"
+        "evidence": "[B] calling about that sprinter van load."
       },
       "available_location": {
         "confidence": 0,
-        "evidence": "No available location mentioned."
+        "evidence": "No available location was mentioned."
       },
       "available_date": {
         "confidence": 0,
-        "evidence": "No available date mentioned."
+        "evidence": "No available date was mentioned."
       },
       "questions": {
         "confidence": 1,
-        "evidence": "No open questions were asked by the carrier."
+        "evidence": "No questions were asked by the carrier."
       }
+    },
+    "classified_intent": {
+      "value": "rate_negotiation",
+      "confidence": 1,
+      "evidence": "[B] two hundred and twenty dollars doesn't really work for us on that lane. We'd need at least two hundred and fifty dollars to make it work."
     }
   },
   {
@@ -2092,19 +2122,19 @@
     "extraction_scores": {
       "carrier_speaker": {
         "confidence": 1,
-        "evidence": "[B] Hey Mike, [B] yeah this is Jason from Velocity Freight Incorporated, [B] calling about that Sprinter van load, [B] the n j n y run."
+        "evidence": "[B] yeah this is Jason from Velocity Freight Incorporated"
       },
       "mc_number": {
         "confidence": 1,
-        "evidence": "[B] Wait, [B] number four hundred and fifty six thousand seven hundred and eighty nine."
+        "evidence": "[B] It's four hundred and fifty six thousand seven hundred and eighty nine."
       },
       "company_name": {
         "confidence": 1,
-        "evidence": "[B] yeah this is Jason from Velocity Freight Incorporated."
+        "evidence": "[B] yeah this is Jason from Velocity Freight Incorporated"
       },
       "load_reference": {
         "confidence": 0,
-        "evidence": "[B] I don't have the number in front of me but it's, uh, [B] picking up in the next day or two."
+        "evidence": "[B] I don't have the number in front of me"
       },
       "origin_state": {
         "confidence": 1,
@@ -2124,7 +2154,7 @@
       },
       "equipment": {
         "confidence": 1,
-        "evidence": "[B] calling about that Sprinter van load."
+        "evidence": "[B] calling about that Sprinter van load"
       },
       "available_location": {
         "confidence": 0,
@@ -2136,8 +2166,13 @@
       },
       "questions": {
         "confidence": 1,
-        "evidence": "No open questions were asked by the carrier."
+        "evidence": "No questions were asked by the carrier."
       }
+    },
+    "classified_intent": {
+      "value": "rate_negotiation",
+      "confidence": 1,
+      "evidence": "[B] We'd need at least $215 to make it work with fuel where it is right now."
     }
   },
   {
@@ -2366,7 +2401,7 @@
       "company_name": "Keystone Freight LLC",
       "load_reference": null,
       "origin_state": "PA",
-      "destination_state": null,
+      "destination_state": "DE",
       "carrier_rate_usd": 340,
       "dispatcher_rate_usd": 310,
       "equipment": "box truck",
@@ -2386,7 +2421,7 @@
       },
       "company_name": {
         "confidence": 1,
-        "evidence": "[A] yeah this is Mike from Keystone Freight LLC"
+        "evidence": "[A] yeah this is Mike from Keystone Freight LLC,"
       },
       "load_reference": {
         "confidence": 0,
@@ -2397,8 +2432,8 @@
         "evidence": "[A] the PADE run."
       },
       "destination_state": {
-        "confidence": 0,
-        "evidence": "No destination state is mentioned."
+        "confidence": 0.7,
+        "evidence": "[A] the PADE run."
       },
       "carrier_rate_usd": {
         "confidence": 1,
@@ -2410,20 +2445,25 @@
       },
       "equipment": {
         "confidence": 1,
-        "evidence": "[A] calling about that box truck load."
+        "evidence": "[A] calling about that box truck load,"
       },
       "available_location": {
         "confidence": 0,
-        "evidence": "No available location is mentioned."
+        "evidence": "No location is mentioned."
       },
       "available_date": {
         "confidence": 0,
-        "evidence": "No available date is mentioned."
+        "evidence": "No date is mentioned."
       },
       "questions": {
         "confidence": 1,
-        "evidence": "No open questions are asked by the carrier."
+        "evidence": "No questions are asked by the carrier."
       }
+    },
+    "classified_intent": {
+      "value": "rate_negotiation",
+      "confidence": 1,
+      "evidence": "[A] $310 doesn't really work. We work for us on that lane. We'd need at least $340 to make it work with fuel where it is right now."
     }
   },
   {
@@ -2701,7 +2741,7 @@
     "extraction_scores": {
       "carrier_speaker": {
         "confidence": 1,
-        "evidence": "[B] yeah this is Luis from Penn Valley Transport LLC, calling about that box truck load,"
+        "evidence": "[B] yeah this is Luis from Penn Valley Transport LLC"
       },
       "mc_number": {
         "confidence": 1,
@@ -2709,7 +2749,7 @@
       },
       "company_name": {
         "confidence": 1,
-        "evidence": "[B] yeah this is Luis from Penn Valley Transport LLC,"
+        "evidence": "[B] yeah this is Luis from Penn Valley Transport LLC"
       },
       "load_reference": {
         "confidence": 0,
@@ -2747,6 +2787,11 @@
         "confidence": 1,
         "evidence": "No open questions are asked by the carrier."
       }
+    },
+    "classified_intent": {
+      "value": "rate_negotiation",
+      "confidence": 1,
+      "evidence": "[B] $260 doesn't really work for us on that lane. We'd need at least $285 to make it work."
     }
   },
   {
@@ -3006,27 +3051,27 @@
     "extraction_scores": {
       "carrier_speaker": {
         "confidence": 1,
-        "evidence": "[B] this is Priyanka from Northbound Express, l l c, calling about that Sprinter van load,"
+        "evidence": "[B] this is Priyanka from Northbound Express, l l c, calling about that Sprinter van load"
       },
       "mc_number": {
         "confidence": 1,
-        "evidence": "[B] It's hold on seven seven four three two one,"
+        "evidence": "[B] It's hold on seven seven four three two one, yeah, seven seven four three two one."
       },
       "company_name": {
         "confidence": 1,
-        "evidence": "[B] this is Priyanka from Northbound Express, l l c,"
+        "evidence": "[B] this is Priyanka from Northbound Express, l l c"
       },
       "load_reference": {
         "confidence": 0,
-        "evidence": "[B] I don't have the number in front of me but it's uh picking up in the next day or two."
+        "evidence": "[B] I don't have the number in front of me"
       },
       "origin_state": {
         "confidence": 1,
-        "evidence": "[B] the n j c t run."
+        "evidence": "[B] the n j c t run"
       },
       "destination_state": {
         "confidence": 0,
-        "evidence": "No destination state mentioned."
+        "evidence": "not mentioned"
       },
       "carrier_rate_usd": {
         "confidence": 1,
@@ -3038,20 +3083,25 @@
       },
       "equipment": {
         "confidence": 1,
-        "evidence": "[B] calling about that Sprinter van load,"
+        "evidence": "[B] calling about that Sprinter van load"
       },
       "available_location": {
         "confidence": 0,
-        "evidence": "No available location mentioned."
+        "evidence": "not mentioned"
       },
       "available_date": {
         "confidence": 0,
-        "evidence": "No available date mentioned."
+        "evidence": "not mentioned"
       },
       "questions": {
         "confidence": 1,
-        "evidence": "No open questions were asked by the carrier."
+        "evidence": "no questions were asked by the carrier"
       }
+    },
+    "classified_intent": {
+      "value": "rate_negotiation",
+      "confidence": 1,
+      "evidence": "[B] three hundred and ninety five dollars doesn't really work for us on that lane. We'd need at least four hundred and twenty dollars to make it work."
     }
   },
   {
@@ -3307,11 +3357,11 @@
       },
       "company_name": {
         "confidence": 1,
-        "evidence": "[B] yeah this is Robert from Chesapeake Hallaz LLC calling about that box truck load."
+        "evidence": "[B] yeah this is Robert from Chesapeake Hallaz LLC calling about that box truck load,"
       },
       "load_reference": {
         "confidence": 0,
-        "evidence": "No load number was provided."
+        "evidence": "[B] I don't have the number in front of me but it's, uh, picking up in the next day or two."
       },
       "origin_state": {
         "confidence": 0.7,
@@ -3323,7 +3373,7 @@
       },
       "carrier_rate_usd": {
         "confidence": 1,
-        "evidence": "[B] we'd need at least four hundred and fifteen dollars to make it work with fuel where it is right now."
+        "evidence": "[B] Yeah, [B] four hundred and fifteen dollars is where we need to be;"
       },
       "dispatcher_rate_usd": {
         "confidence": 1,
@@ -3331,20 +3381,25 @@
       },
       "equipment": {
         "confidence": 1,
-        "evidence": "[B] calling about that box truck load."
+        "evidence": "[B] calling about that box truck load,"
       },
       "available_location": {
         "confidence": 0,
-        "evidence": "No location was provided."
+        "evidence": "No location mentioned."
       },
       "available_date": {
         "confidence": 0,
-        "evidence": "No date was provided."
+        "evidence": "No date mentioned."
       },
       "questions": {
         "confidence": 1,
-        "evidence": "No open questions were asked by the carrier."
+        "evidence": "No questions asked by the carrier."
       }
+    },
+    "classified_intent": {
+      "value": "rate_negotiation",
+      "confidence": 1,
+      "evidence": "[B] three hundred and eighty dollars doesn't really work. [B] we'd need at least four hundred and fifteen dollars to make it work with fuel where it is right now."
     }
   },
   {
@@ -3586,7 +3641,7 @@
       "A"
     ],
     "extracted": {
-      "carrier_speaker": "A",
+      "carrier_speaker": "B",
       "mc_number": "567123",
       "company_name": "Metro Delivery Solutions LLC",
       "load_reference": null,
@@ -3603,11 +3658,11 @@
     "extraction_scores": {
       "carrier_speaker": {
         "confidence": 1,
-        "evidence": "[A] Hey Mike, [A] yeah this is Vincent from Metro Delivery Solutions LLC, calling about that Sprinter van load, [A] the New York New Jersey run."
+        "evidence": "[A] Hey Mike, [A] yeah this is Vincent from Metro Delivery Solutions LLC, [A] calling about that Sprinter van load, [A] the New York New Jersey run."
       },
       "mc_number": {
         "confidence": 1,
-        "evidence": "[A] It's 569,123. [A] Wait, number 567,123. Got it."
+        "evidence": "[A] What's your MC number? [A] It's 569,123. [A] Wait, [A] number 567,123. Got it."
       },
       "company_name": {
         "confidence": 1,
@@ -3615,7 +3670,7 @@
       },
       "load_reference": {
         "confidence": 0,
-        "evidence": "[A] I don't have the number in front of me but it's, ah, picking up in the next day or two, you posted it this morning."
+        "evidence": "[A] I don't have the number in front of me but it's, ah, picking up in the next day or two, [A] you posted it this morning."
       },
       "origin_state": {
         "confidence": 1,
@@ -3639,16 +3694,21 @@
       },
       "available_location": {
         "confidence": 0,
-        "evidence": "[A] I don't have the number in front of me but it's, ah, picking up in the next day or two."
+        "evidence": "No location mentioned."
       },
       "available_date": {
         "confidence": 0,
-        "evidence": "[A] I don't have the number in front of me but it's, ah, picking up in the next day or two."
+        "evidence": "No date mentioned."
       },
       "questions": {
         "confidence": 1,
-        "evidence": "No open questions were asked by the carrier."
+        "evidence": "No questions asked by the carrier."
       }
+    },
+    "classified_intent": {
+      "value": "rate_negotiation",
+      "confidence": 1,
+      "evidence": "[A] Ours doesn't really work for us on that lane. [A] We'd need at least $255 to make it work with fuel where it is right now."
     }
   },
   {
@@ -3914,19 +3974,19 @@
     "extraction_scores": {
       "carrier_speaker": {
         "confidence": 1,
-        "evidence": "[B] yeah this is Jean from Crossroads Transport Incorporated, calling about that box truck load,"
+        "evidence": "[B] yeah this is Jean from Crossroads Transport Incorporated"
       },
       "mc_number": {
-        "confidence": 1,
+        "confidence": 0.7,
         "evidence": "[B] It's 663A-210."
       },
       "company_name": {
         "confidence": 1,
-        "evidence": "[B] yeah this is Jean from Crossroads Transport Incorporated,"
+        "evidence": "[B] yeah this is Jean from Crossroads Transport Incorporated"
       },
       "load_reference": {
         "confidence": 0,
-        "evidence": "[B] I don't have the number in front of me but it's,"
+        "evidence": "No load number is mentioned."
       },
       "origin_state": {
         "confidence": 1,
@@ -3946,20 +4006,25 @@
       },
       "equipment": {
         "confidence": 1,
-        "evidence": "[B] calling about that box truck load,"
+        "evidence": "[B] calling about that box truck load"
       },
       "available_location": {
         "confidence": 0,
-        "evidence": "No location mentioned."
+        "evidence": "No location is mentioned."
       },
       "available_date": {
         "confidence": 0,
-        "evidence": "No specific date mentioned."
+        "evidence": "No date is mentioned."
       },
       "questions": {
         "confidence": 1,
-        "evidence": "No open questions were asked by the carrier."
+        "evidence": "No questions are asked by the carrier."
       }
+    },
+    "classified_intent": {
+      "value": "rate_negotiation",
+      "confidence": 1,
+      "evidence": "[B] four hundred forty dollars does... We'd need at least $480 to make it work."
     }
   },
   {
@@ -4201,7 +4266,7 @@
     "extraction_scores": {
       "carrier_speaker": {
         "confidence": 1,
-        "evidence": "[B] yeah this is McCatchie from Shard Arrow Logistics llc, calling about that box truck load,"
+        "evidence": "[B] yeah this is McCatchie from Shard Arrow Logistics llc"
       },
       "mc_number": {
         "confidence": 1,
@@ -4209,7 +4274,7 @@
       },
       "company_name": {
         "confidence": 1,
-        "evidence": "[B] yeah this is McCatchie from Shard Arrow Logistics llc,"
+        "evidence": "[B] yeah this is McCatchie from Shard Arrow Logistics llc"
       },
       "load_reference": {
         "confidence": 0,
@@ -4233,7 +4298,7 @@
       },
       "equipment": {
         "confidence": 1,
-        "evidence": "[B] calling about that box truck load,"
+        "evidence": "[B] calling about that box truck load"
       },
       "available_location": {
         "confidence": 0,
@@ -4245,8 +4310,13 @@
       },
       "questions": {
         "confidence": 1,
-        "evidence": "No open questions are asked by the carrier."
+        "evidence": "No questions are asked by the carrier."
       }
+    },
+    "classified_intent": {
+      "value": "rate_negotiation",
+      "confidence": 1,
+      "evidence": "[B] three hundred and forty five dollars is where we need to be."
     }
   },
   {
@@ -4488,7 +4558,7 @@
     "extraction_scores": {
       "carrier_speaker": {
         "confidence": 1,
-        "evidence": "[B] yeah this is Sandra from Route One Transport Incorporated, calling about that flatbed load the NJPA run."
+        "evidence": "[B] yeah this is Sandra from Route One Transport Incorporated"
       },
       "mc_number": {
         "confidence": 1,
@@ -4496,19 +4566,19 @@
       },
       "company_name": {
         "confidence": 1,
-        "evidence": "[B] yeah this is Sandra from Route One Transport Incorporated,"
+        "evidence": "[B] yeah this is Sandra from Route One Transport Incorporated"
       },
       "load_reference": {
         "confidence": 0,
-        "evidence": "[B] I don't have the number in front of me, but it's, ah, picking up in the next day or two."
+        "evidence": "[B] I don't have the number in front of me"
       },
       "origin_state": {
-        "confidence": 1,
+        "confidence": 0,
         "evidence": "[B] calling about that flatbed load the NJPA run."
       },
       "destination_state": {
         "confidence": 0,
-        "evidence": "No destination state mentioned."
+        "evidence": "[B] calling about that flatbed load the NJPA run."
       },
       "carrier_rate_usd": {
         "confidence": 1,
@@ -4519,21 +4589,26 @@
         "evidence": "[A] I think I know the one-that's posted at five hundred twenty dollars."
       },
       "equipment": {
-        "confidence": 0.7,
-        "evidence": "[B] calling about that flatbed load the NJPA run."
+        "confidence": 0.4,
+        "evidence": "[B] calling about that flatbed load"
       },
       "available_location": {
         "confidence": 0,
-        "evidence": "No location mentioned."
+        "evidence": "not mentioned"
       },
       "available_date": {
         "confidence": 0,
-        "evidence": "No date mentioned."
+        "evidence": "not mentioned"
       },
       "questions": {
         "confidence": 1,
-        "evidence": "No open questions were asked by the carrier."
+        "evidence": "no questions were asked by the carrier"
       }
+    },
+    "classified_intent": {
+      "value": "rate_negotiation",
+      "confidence": 1,
+      "evidence": "[B] five hundred and sixty five dollars is where we need to be."
     }
   },
   {
@@ -4775,7 +4850,7 @@
       },
       "load_reference": {
         "confidence": 0,
-        "evidence": "[B] Uh-I don't have the number in front of me,"
+        "evidence": "[B] I don't have the number in front of me,"
       },
       "origin_state": {
         "confidence": 1,
@@ -4787,7 +4862,7 @@
       },
       "carrier_rate_usd": {
         "confidence": 1,
-        "evidence": "[B] two hundred ninety eight dollars is where we need to be."
+        "evidence": "[B] we'd need at least two hundred ninety eight dollars to make it work with fuel where it is right now."
       },
       "dispatcher_rate_usd": {
         "confidence": 1,
@@ -4807,8 +4882,13 @@
       },
       "questions": {
         "confidence": 1,
-        "evidence": "no open questions were asked."
+        "evidence": "no questions were asked by the carrier."
       }
+    },
+    "classified_intent": {
+      "value": "rate_negotiation",
+      "confidence": 1,
+      "evidence": "[B] two hundred seventy dollars doesn't really work for us on that lane-we'd need at least two hundred ninety eight dollars to make it work with fuel where it is right now."
     }
   },
   {
@@ -5000,7 +5080,7 @@
       "dispatcher_rate_usd": null,
       "equipment": "Box truck",
       "available_location": "in the area",
-      "available_date": "2023-10-04",
+      "available_date": "2023-10-03",
       "questions": []
     },
     "extraction_warnings": [],
@@ -5011,7 +5091,7 @@
       },
       "mc_number": {
         "confidence": 1,
-        "evidence": "[A] it's seven hundred seventy six thousand four hundred ninety one."
+        "evidence": "[A] it's seven hundred seventy seven thousand four hundred ninety one. Wait, number seven hundred seventy six thousand four hundred ninety one."
       },
       "company_name": {
         "confidence": 1,
@@ -5019,7 +5099,7 @@
       },
       "load_reference": {
         "confidence": 1,
-        "evidence": "[A] Load number 29,372,343 is still open."
+        "evidence": "[A] load number twenty nine million three hundred seventy two thousand three hundred forty three."
       },
       "origin_state": {
         "confidence": 1,
@@ -5039,11 +5119,11 @@
       },
       "equipment": {
         "confidence": 1,
-        "evidence": "[A] Box truck."
+        "evidence": "[B] Box truck."
       },
       "available_location": {
         "confidence": 0.4,
-        "evidence": "[A] My driver's already in the area."
+        "evidence": "[B] My driver's already in the area."
       },
       "available_date": {
         "confidence": 1,
@@ -5053,6 +5133,11 @@
         "confidence": 1,
         "evidence": "No questions asked by the carrier."
       }
+    },
+    "classified_intent": {
+      "value": "booking_confirmation",
+      "confidence": 1,
+      "evidence": "[B] Perfect. We can do it."
     }
   },
   {
@@ -5274,13 +5359,13 @@
       "carrier_speaker": "B",
       "mc_number": "1345678",
       "company_name": "Liberty Freight Solutions, LLC",
-      "load_reference": "29372142",
+      "load_reference": "29372421",
       "origin_state": "NJ",
       "destination_state": null,
       "carrier_rate_usd": null,
       "dispatcher_rate_usd": null,
       "equipment": "Box truck",
-      "available_location": "in the area",
+      "available_location": null,
       "available_date": null,
       "questions": []
     },
@@ -5296,15 +5381,15 @@
       },
       "company_name": {
         "confidence": 1,
-        "evidence": "[B] it's Simone over at Liberty Freight Solutions, llc,"
+        "evidence": "[B] it's Simone over at Liberty Freight Solutions, llc"
       },
       "load_reference": {
         "confidence": 1,
-        "evidence": "[B] checking in on Load number twenty nine million three hundred and seventy two thousand four hundred and twenty one,"
+        "evidence": "[B] checking in on Load number twenty nine million three hundred and seventy two thousand four hundred and twenty one"
       },
       "origin_state": {
         "confidence": 1,
-        "evidence": "[A] Out of New Jersey."
+        "evidence": "[A] Pick up this week. Out of New Jersey."
       },
       "destination_state": {
         "confidence": 0,
@@ -5320,11 +5405,11 @@
       },
       "equipment": {
         "confidence": 1,
-        "evidence": "[B] Box truck,"
+        "evidence": "[B] Box truck, my drive is already in the area."
       },
       "available_location": {
-        "confidence": 0.4,
-        "evidence": "[B] my drive is already in the area."
+        "confidence": 0,
+        "evidence": "No available location mentioned."
       },
       "available_date": {
         "confidence": 0,
@@ -5332,8 +5417,13 @@
       },
       "questions": {
         "confidence": 1,
-        "evidence": "No open questions asked by the carrier."
+        "evidence": "No questions asked by the carrier."
       }
+    },
+    "classified_intent": {
+      "value": "booking_confirmation",
+      "confidence": 1,
+      "evidence": "[B] Perfect; we can do it."
     }
   },
   {
@@ -5591,6 +5681,11 @@
         "confidence": 1,
         "evidence": "No questions asked by the carrier."
       }
+    },
+    "classified_intent": {
+      "value": "booking_confirmation",
+      "confidence": 1,
+      "evidence": "[B] we can do it."
     }
   },
   {
@@ -5799,7 +5894,7 @@
       },
       "mc_number": {
         "confidence": 1,
-        "evidence": "[A] it's hold on, [A] 45-67-89?"
+        "evidence": "[B] it's hold on, 45-67-89?"
       },
       "company_name": {
         "confidence": 1,
@@ -5807,7 +5902,7 @@
       },
       "load_reference": {
         "confidence": 1,
-        "evidence": "[A] checking in on load number 29372,421."
+        "evidence": "[B] checking in on load number 29372,421."
       },
       "origin_state": {
         "confidence": 1,
@@ -5819,11 +5914,11 @@
       },
       "carrier_rate_usd": {
         "confidence": 0,
-        "evidence": "No rate mentioned by the carrier."
+        "evidence": "No rate mentioned."
       },
       "dispatcher_rate_usd": {
         "confidence": 0,
-        "evidence": "No rate mentioned by the dispatcher."
+        "evidence": "No rate mentioned."
       },
       "equipment": {
         "confidence": 1,
@@ -5835,12 +5930,17 @@
       },
       "available_date": {
         "confidence": 0,
-        "evidence": "No specific available date mentioned."
+        "evidence": "No specific date mentioned."
       },
       "questions": {
         "confidence": 1,
-        "evidence": "No open questions asked by the carrier."
+        "evidence": "No questions asked by the carrier."
       }
+    },
+    "classified_intent": {
+      "value": "booking_confirmation",
+      "confidence": 1,
+      "evidence": "[B] Perfect. We can do it."
     }
   },
   {
@@ -6046,7 +6146,7 @@
       "A"
     ],
     "extracted": {
-      "carrier_speaker": "A",
+      "carrier_speaker": "B",
       "mc_number": "345678",
       "company_name": "Garden State Express LLC",
       "load_reference": "29377247",
@@ -6055,7 +6155,7 @@
       "carrier_rate_usd": null,
       "dispatcher_rate_usd": null,
       "equipment": "Sprinter van",
-      "available_location": "New Jersey",
+      "available_location": "in the area",
       "available_date": null,
       "questions": []
     },
@@ -6067,14 +6167,14 @@
       },
       "mc_number": {
         "confidence": 1,
-        "evidence": "[A] it's 375,678. Wait, number 345,678."
+        "evidence": "[A] it's 375,678. Wait, [A] number 345,678."
       },
       "company_name": {
         "confidence": 1,
         "evidence": "[A] it's Patricia over at Garden State Express LLC"
       },
       "load_reference": {
-        "confidence": 1,
+        "confidence": 0.7,
         "evidence": "[A] checking in on load number 293772475."
       },
       "origin_state": {
@@ -6098,17 +6198,22 @@
         "evidence": "[A] Sprinter van."
       },
       "available_location": {
-        "confidence": 1,
-        "evidence": "[A] Out of New Jersey."
+        "confidence": 0.4,
+        "evidence": "[A] My driver's already in the area."
       },
       "available_date": {
         "confidence": 0,
-        "evidence": "No available date mentioned."
+        "evidence": "No specific date mentioned."
       },
       "questions": {
         "confidence": 1,
-        "evidence": "No open questions were asked by the carrier."
+        "evidence": "No questions asked by the carrier."
       }
+    },
+    "classified_intent": {
+      "value": "booking_confirmation",
+      "confidence": 1,
+      "evidence": "[A] Perfect. [A] We can do it."
     }
   },
   {
@@ -6372,13 +6477,18 @@
         "evidence": "[B] My drive is already in the area."
       },
       "available_date": {
-        "confidence": 1,
+        "confidence": 0.7,
         "evidence": "[A] Pick up tomorrow."
       },
       "questions": {
         "confidence": 1,
-        "evidence": "No open questions were asked."
+        "evidence": "No questions asked by the carrier."
       }
+    },
+    "classified_intent": {
+      "value": "booking_confirmation",
+      "confidence": 1,
+      "evidence": "[B] Perfect! we can do it."
     }
   },
   {
@@ -6559,7 +6669,7 @@
       "dispatcher_rate_usd": null,
       "equipment": "sprint a van",
       "available_location": null,
-      "available_date": "2023-10-24",
+      "available_date": "2023-10-10",
       "questions": []
     },
     "extraction_warnings": [],
@@ -6590,11 +6700,11 @@
       },
       "carrier_rate_usd": {
         "confidence": 0,
-        "evidence": "No rate mentioned."
+        "evidence": "No rate mentioned by the carrier."
       },
       "dispatcher_rate_usd": {
         "confidence": 0,
-        "evidence": "No rate mentioned."
+        "evidence": "No rate mentioned by the dispatcher."
       },
       "equipment": {
         "confidence": 0.7,
@@ -6606,12 +6716,17 @@
       },
       "available_date": {
         "confidence": 1,
-        "evidence": "[A] Pick up to morrow."
+        "evidence": "[A] Pick up to morrow"
       },
       "questions": {
         "confidence": 1,
-        "evidence": "No open questions asked by the carrier."
+        "evidence": "No questions asked by the carrier."
       }
+    },
+    "classified_intent": {
+      "value": "booking_confirmation",
+      "confidence": 1,
+      "evidence": "[B] Absolutely! Just send it over."
     }
   },
   {
@@ -6822,7 +6937,7 @@
     "extraction_scores": {
       "carrier_speaker": {
         "confidence": 1,
-        "evidence": "[A] it's Luis over at Penn Valley Transport LLC"
+        "evidence": "[B] it's Luis over at Penn Valley Transport LLC"
       },
       "mc_number": {
         "confidence": 1,
@@ -6830,15 +6945,15 @@
       },
       "company_name": {
         "confidence": 1,
-        "evidence": "[A] it's Luis over at Penn Valley Transport LLC"
+        "evidence": "[B] it's Luis over at Penn Valley Transport LLC"
       },
       "load_reference": {
         "confidence": 1,
-        "evidence": "[A] checking in on load number 29372,343."
+        "evidence": "[B] checking in on load number 29372,343"
       },
       "origin_state": {
         "confidence": 1,
-        "evidence": "[A] Pick up tomorrow, out of PA."
+        "evidence": "[A] out of PA."
       },
       "destination_state": {
         "confidence": 0,
@@ -6854,20 +6969,25 @@
       },
       "equipment": {
         "confidence": 1,
-        "evidence": "[A] Box truck."
+        "evidence": "[B] Box truck."
       },
       "available_location": {
         "confidence": 0.4,
-        "evidence": "[A] My driver's already in the area."
+        "evidence": "[B] My driver's already in the area."
       },
       "available_date": {
         "confidence": 0.7,
-        "evidence": "[A] Pick up tomorrow."
+        "evidence": "[A] Pick up tomorrow,"
       },
       "questions": {
         "confidence": 1,
-        "evidence": "No open questions asked by the carrier."
+        "evidence": "No questions asked by the carrier."
       }
+    },
+    "classified_intent": {
+      "value": "booking_confirmation",
+      "confidence": 1,
+      "evidence": "[B] Perfect, we can do it."
     }
   },
   {
@@ -7089,7 +7209,7 @@
       },
       "mc_number": {
         "confidence": 1,
-        "evidence": "[B] it's hold on, nine nine dash six five dash four three"
+        "evidence": "[B] it's hold on, [B] nine nine dash six five dash four three"
       },
       "company_name": {
         "confidence": 1,
@@ -7121,7 +7241,7 @@
       },
       "available_location": {
         "confidence": 0.4,
-        "evidence": "[B] my driver's already in the area."
+        "evidence": "[B] my driver's already in the area"
       },
       "available_date": {
         "confidence": 0,
@@ -7129,8 +7249,13 @@
       },
       "questions": {
         "confidence": 1,
-        "evidence": "No open questions asked by the carrier."
+        "evidence": "No questions asked by the carrier."
       }
+    },
+    "classified_intent": {
+      "value": "booking_confirmation",
+      "confidence": 1,
+      "evidence": "[B] Perfect! [B] we can do it."
     }
   },
   {
@@ -7321,7 +7446,7 @@
     "extracted": {
       "carrier_speaker": "B",
       "mc_number": "321654",
-      "company_name": "Route One Transporting",
+      "company_name": "Route One Transport Incorporated",
       "load_reference": null,
       "origin_state": "NJ",
       "destination_state": "PA",
@@ -7340,15 +7465,15 @@
       },
       "mc_number": {
         "confidence": 1,
-        "evidence": "[B] it's hold on, [B] three two one six five four"
+        "evidence": "[B] it's hold on, three two one six five four, yeah, three two one six five four."
       },
       "company_name": {
         "confidence": 1,
-        "evidence": "[B] it's Sandra over at Route One Transporting"
+        "evidence": "[A] Route One Transport Incorporated"
       },
       "load_reference": {
         "confidence": 0,
-        "evidence": "No load number mentioned."
+        "evidence": "No load reference number mentioned."
       },
       "origin_state": {
         "confidence": 1,
@@ -7360,11 +7485,11 @@
       },
       "carrier_rate_usd": {
         "confidence": 0,
-        "evidence": "No rate mentioned."
+        "evidence": "No rate mentioned by the carrier."
       },
       "dispatcher_rate_usd": {
         "confidence": 0,
-        "evidence": "No rate mentioned."
+        "evidence": "No rate mentioned by the dispatcher."
       },
       "equipment": {
         "confidence": 1,
@@ -7382,6 +7507,11 @@
         "confidence": 1,
         "evidence": "No questions asked by the carrier."
       }
+    },
+    "classified_intent": {
+      "value": "booking_confirmation",
+      "confidence": 1,
+      "evidence": "[B] Perfect! we can do it."
     }
   },
   {
@@ -7573,7 +7703,7 @@
       "carrier_rate_usd": null,
       "dispatcher_rate_usd": null,
       "equipment": "Box truck",
-      "available_location": "in the area",
+      "available_location": null,
       "available_date": "2023-10-04",
       "questions": []
     },
@@ -7616,8 +7746,8 @@
         "evidence": "[B] Box truck,"
       },
       "available_location": {
-        "confidence": 0.7,
-        "evidence": "[B] my drive is already-"
+        "confidence": 0,
+        "evidence": "No specific location mentioned."
       },
       "available_date": {
         "confidence": 1,
@@ -7625,8 +7755,13 @@
       },
       "questions": {
         "confidence": 1,
-        "evidence": "No open questions asked by the carrier."
+        "evidence": "No questions asked by the carrier."
       }
+    },
+    "classified_intent": {
+      "value": "booking_confirmation",
+      "confidence": 1,
+      "evidence": "[B] Perfect, we can do it."
     }
   },
   {
@@ -7846,7 +7981,7 @@
       },
       "destination_state": {
         "confidence": 1,
-        "evidence": "[B] checking in on that p a new jersey box truck load,"
+        "evidence": "[A] that p a n j box truck load is still open."
       },
       "carrier_rate_usd": {
         "confidence": 0,
@@ -7872,6 +8007,11 @@
         "confidence": 1,
         "evidence": "No questions asked by the carrier."
       }
+    },
+    "classified_intent": {
+      "value": "booking_confirmation",
+      "confidence": 1,
+      "evidence": "[B] Perfect; we can do it."
     }
   },
   {
@@ -8092,7 +8232,7 @@
       },
       "mc_number": {
         "confidence": 1,
-        "evidence": "[A] it's hold on. 56-71-23?"
+        "evidence": "[A] Sure, it's hold on. 56-71-23?"
       },
       "company_name": {
         "confidence": 1,
@@ -8100,7 +8240,7 @@
       },
       "load_reference": {
         "confidence": 0,
-        "evidence": "No load reference number mentioned."
+        "evidence": "No load reference number is mentioned."
       },
       "origin_state": {
         "confidence": 1,
@@ -8112,11 +8252,11 @@
       },
       "carrier_rate_usd": {
         "confidence": 0,
-        "evidence": "No rate mentioned by the carrier."
+        "evidence": "No rate is mentioned by the carrier."
       },
       "dispatcher_rate_usd": {
         "confidence": 0,
-        "evidence": "No rate mentioned by the dispatcher."
+        "evidence": "No rate is mentioned by the dispatcher."
       },
       "equipment": {
         "confidence": 1,
@@ -8128,12 +8268,17 @@
       },
       "available_date": {
         "confidence": 0,
-        "evidence": "No specific date mentioned."
+        "evidence": "No specific date is mentioned."
       },
       "questions": {
         "confidence": 1,
-        "evidence": "No questions asked by the carrier."
+        "evidence": "No open questions are asked by the carrier."
       }
+    },
+    "classified_intent": {
+      "value": "booking_confirmation",
+      "confidence": 1,
+      "evidence": "[A] Perfect, we can do it."
     }
   },
   {
@@ -8359,8 +8504,13 @@
       },
       "questions": {
         "confidence": 1,
-        "evidence": "No open questions asked by the carrier."
+        "evidence": "No questions asked by the carrier."
       }
+    },
+    "classified_intent": {
+      "value": "booking_confirmation",
+      "confidence": 1,
+      "evidence": "[B] Perfect, we can do it."
     }
   },
   {
@@ -8576,6 +8726,11 @@
         "confidence": 1,
         "evidence": "No questions asked by the carrier."
       }
+    },
+    "classified_intent": {
+      "value": "compliance_check",
+      "confidence": 1,
+      "evidence": "The call is about an issue with insurance."
     }
   },
   {
@@ -8772,7 +8927,7 @@
       },
       "mc_number": {
         "confidence": 1,
-        "evidence": "[A] 11-98-74-3?"
+        "evidence": "[A] It's hold on, 11-98-74-3?"
       },
       "company_name": {
         "confidence": 1,
@@ -8812,8 +8967,13 @@
       },
       "questions": {
         "confidence": 1,
-        "evidence": "No open questions asked by the carrier."
+        "evidence": "No questions asked by the carrier."
       }
+    },
+    "classified_intent": {
+      "value": "compliance_check",
+      "confidence": 1,
+      "evidence": "The call primarily discusses the conditional status of the carrier's authority."
     }
   },
   {
@@ -9006,11 +9166,11 @@
       },
       "carrier_rate_usd": {
         "confidence": 0,
-        "evidence": "No carrier rate mentioned."
+        "evidence": "No rate mentioned."
       },
       "dispatcher_rate_usd": {
         "confidence": 0,
-        "evidence": "No dispatcher rate mentioned."
+        "evidence": "No rate mentioned."
       },
       "equipment": {
         "confidence": 0,
@@ -9028,6 +9188,11 @@
         "confidence": 1,
         "evidence": "No questions asked by the carrier."
       }
+    },
+    "classified_intent": {
+      "value": "compliance_check",
+      "confidence": 1,
+      "evidence": "[A] I'm calling because I got an email saying there's an issue with our insurance?"
     }
   },
   {
@@ -9209,40 +9374,45 @@
       },
       "load_reference": {
         "confidence": 0,
-        "evidence": "No load reference number mentioned."
+        "evidence": "No load number is mentioned."
       },
       "origin_state": {
         "confidence": 0,
-        "evidence": "No origin state mentioned."
+        "evidence": "No origin state is mentioned."
       },
       "destination_state": {
         "confidence": 0,
-        "evidence": "No destination state mentioned."
+        "evidence": "No destination state is mentioned."
       },
       "carrier_rate_usd": {
         "confidence": 0,
-        "evidence": "No rate mentioned."
+        "evidence": "No rate is mentioned."
       },
       "dispatcher_rate_usd": {
         "confidence": 0,
-        "evidence": "No rate mentioned."
+        "evidence": "No rate is mentioned."
       },
       "equipment": {
         "confidence": 0,
-        "evidence": "No equipment mentioned."
+        "evidence": "No equipment type is mentioned."
       },
       "available_location": {
         "confidence": 0,
-        "evidence": "No available location mentioned."
+        "evidence": "No available location is mentioned."
       },
       "available_date": {
         "confidence": 0,
-        "evidence": "No available date mentioned."
+        "evidence": "No available date is mentioned."
       },
       "questions": {
         "confidence": 1,
-        "evidence": "No open questions asked by the carrier."
+        "evidence": "No open questions are asked by the carrier."
       }
+    },
+    "classified_intent": {
+      "value": "compliance_check",
+      "confidence": 1,
+      "evidence": "The carrier is inquiring about a hold due to conditional authority."
     }
   },
   {
@@ -9430,15 +9600,15 @@
       },
       "carrier_rate_usd": {
         "confidence": 0,
-        "evidence": "No carrier rate mentioned."
+        "evidence": "No rate mentioned."
       },
       "dispatcher_rate_usd": {
         "confidence": 0,
-        "evidence": "No dispatcher rate mentioned."
+        "evidence": "No rate mentioned."
       },
       "equipment": {
         "confidence": 0,
-        "evidence": "No equipment type mentioned."
+        "evidence": "No equipment mentioned."
       },
       "available_location": {
         "confidence": 0,
@@ -9450,8 +9620,13 @@
       },
       "questions": {
         "confidence": 1,
-        "evidence": "No open questions asked by the carrier."
+        "evidence": "No questions asked by the carrier."
       }
+    },
+    "classified_intent": {
+      "value": "compliance_check",
+      "confidence": 1,
+      "evidence": "[B] I'm calling because I got an email saying there's an issue with our insurance?"
     }
   },
   {
@@ -9632,11 +9807,11 @@
       },
       "carrier_rate_usd": {
         "confidence": 0,
-        "evidence": "No carrier rate mentioned."
+        "evidence": "No rate mentioned."
       },
       "dispatcher_rate_usd": {
         "confidence": 0,
-        "evidence": "No dispatcher rate mentioned."
+        "evidence": "No rate mentioned."
       },
       "equipment": {
         "confidence": 0,
@@ -9654,6 +9829,11 @@
         "confidence": 1,
         "evidence": "No questions asked by the carrier."
       }
+    },
+    "classified_intent": {
+      "value": "compliance_check",
+      "confidence": 1,
+      "evidence": "Carrier is calling about an issue with their insurance."
     }
   },
   {
@@ -9805,7 +9985,9 @@
       "equipment": null,
       "available_location": null,
       "available_date": null,
-      "questions": []
+      "questions": [
+        "Can I call you back?"
+      ]
     },
     "extraction_warnings": [],
     "extraction_scores": {
@@ -9818,7 +10000,7 @@
         "evidence": "[B] It's six seven eight two three four."
       },
       "company_name": {
-        "confidence": 1,
+        "confidence": 0.7,
         "evidence": "[B] Company is a known company."
       },
       "load_reference": {
@@ -9855,8 +10037,13 @@
       },
       "questions": {
         "confidence": 1,
-        "evidence": "No open questions are asked by the carrier."
+        "evidence": "[B] Can I call you back?"
       }
+    },
+    "classified_intent": {
+      "value": "general_inquiry",
+      "confidence": 1,
+      "evidence": "[B] I'm interested in a load but need to ask about your payment process."
     }
   },
   {
@@ -10038,7 +10225,7 @@
       },
       "mc_number": {
         "confidence": 0,
-        "evidence": "No MC number was provided."
+        "evidence": "[B] It's not on file."
       },
       "company_name": {
         "confidence": 1,
@@ -10046,40 +10233,45 @@
       },
       "load_reference": {
         "confidence": 0,
-        "evidence": "No load reference was mentioned."
+        "evidence": "No load reference mentioned."
       },
       "origin_state": {
         "confidence": 0,
-        "evidence": "No origin state was mentioned."
+        "evidence": "No origin state mentioned."
       },
       "destination_state": {
         "confidence": 0,
-        "evidence": "No destination state was mentioned."
+        "evidence": "No destination state mentioned."
       },
       "carrier_rate_usd": {
         "confidence": 0,
-        "evidence": "No carrier rate was mentioned."
+        "evidence": "No rate mentioned by the carrier."
       },
       "dispatcher_rate_usd": {
         "confidence": 0,
-        "evidence": "No dispatcher rate was mentioned."
+        "evidence": "No rate mentioned by the dispatcher."
       },
       "equipment": {
         "confidence": 0,
-        "evidence": "No equipment type was mentioned."
+        "evidence": "No equipment mentioned."
       },
       "available_location": {
         "confidence": 0,
-        "evidence": "No available location was mentioned."
+        "evidence": "No available location mentioned."
       },
       "available_date": {
         "confidence": 0,
-        "evidence": "No available date was mentioned."
+        "evidence": "No available date mentioned."
       },
       "questions": {
         "confidence": 1,
         "evidence": "[B] Can I call you back?"
       }
+    },
+    "classified_intent": {
+      "value": "general_inquiry",
+      "confidence": 1,
+      "evidence": "[B] I'm interested in a load but need to ask about your payment process."
     }
   },
   {
@@ -10269,7 +10461,7 @@
       },
       "load_reference": {
         "confidence": 0,
-        "evidence": "No load reference mentioned."
+        "evidence": "No load number mentioned."
       },
       "origin_state": {
         "confidence": 0,
@@ -10281,15 +10473,15 @@
       },
       "carrier_rate_usd": {
         "confidence": 0,
-        "evidence": "No carrier rate mentioned."
+        "evidence": "No rate mentioned by the carrier."
       },
       "dispatcher_rate_usd": {
         "confidence": 0,
-        "evidence": "No dispatcher rate mentioned."
+        "evidence": "No rate mentioned by the dispatcher."
       },
       "equipment": {
         "confidence": 0,
-        "evidence": "No equipment mentioned."
+        "evidence": "No equipment type mentioned."
       },
       "available_location": {
         "confidence": 0,
@@ -10303,6 +10495,11 @@
         "confidence": 1,
         "evidence": "[B] Can I call you back?"
       }
+    },
+    "classified_intent": {
+      "value": "compliance_check",
+      "confidence": 0.7,
+      "evidence": "[B] I'm interested in a load but need to ask about your payment process."
     }
   },
   {
@@ -10472,7 +10669,9 @@
       "equipment": null,
       "available_location": null,
       "available_date": null,
-      "questions": []
+      "questions": [
+        "Can I call you back?"
+      ]
     },
     "extraction_warnings": [
       "company_name_low_confidence"
@@ -10480,11 +10679,11 @@
     "extraction_scores": {
       "carrier_speaker": {
         "confidence": 1,
-        "evidence": "[B] Benny here,"
+        "evidence": "[B] Benny here"
       },
       "mc_number": {
         "confidence": 0.7,
-        "evidence": "[B] It's three hundred twenty nine, uh, eight hundred seventy six;"
+        "evidence": "[B] It's three hundred twenty nine, uh, eight hundred seventy six"
       },
       "company_name": {
         "confidence": 0.4,
@@ -10492,40 +10691,45 @@
       },
       "load_reference": {
         "confidence": 0,
-        "evidence": "No load number is mentioned."
+        "evidence": "No load reference mentioned."
       },
       "origin_state": {
         "confidence": 0,
-        "evidence": "No origin state is mentioned."
+        "evidence": "No origin state mentioned."
       },
       "destination_state": {
         "confidence": 0,
-        "evidence": "No destination state is mentioned."
+        "evidence": "No destination state mentioned."
       },
       "carrier_rate_usd": {
         "confidence": 0,
-        "evidence": "No rate is mentioned by the carrier."
+        "evidence": "No carrier rate mentioned."
       },
       "dispatcher_rate_usd": {
         "confidence": 0,
-        "evidence": "No rate is mentioned by the dispatcher."
+        "evidence": "No dispatcher rate mentioned."
       },
       "equipment": {
         "confidence": 0,
-        "evidence": "No equipment type is mentioned."
+        "evidence": "No equipment mentioned."
       },
       "available_location": {
         "confidence": 0,
-        "evidence": "No available location is mentioned."
+        "evidence": "No available location mentioned."
       },
       "available_date": {
         "confidence": 0,
-        "evidence": "No available date is mentioned."
+        "evidence": "No available date mentioned."
       },
       "questions": {
         "confidence": 1,
-        "evidence": "No open questions are asked by the carrier."
+        "evidence": "[B] Can I call you back?"
       }
+    },
+    "classified_intent": {
+      "value": "general_inquiry",
+      "confidence": 1,
+      "evidence": "[B] I'm interested in a load but need to ask about your payment process."
     }
   },
   {
@@ -10689,7 +10893,8 @@
       "available_location": null,
       "available_date": null,
       "questions": [
-        "What's your MC number?"
+        "What's your MC number?",
+        "I wanted to ask about the liftgate required."
       ]
     },
     "extraction_warnings": [],
@@ -10740,8 +10945,13 @@
       },
       "questions": {
         "confidence": 1,
-        "evidence": "[A] What's your MC number?"
+        "evidence": "Carrier asked about MC number and liftgate requirement."
       }
+    },
+    "classified_intent": {
+      "value": "booking_confirmation",
+      "confidence": 1,
+      "evidence": "[A] So we're confirmed on this?"
     }
   },
   {
@@ -10925,11 +11135,11 @@
       },
       "carrier_rate_usd": {
         "confidence": 0,
-        "evidence": "No carrier rate mentioned."
+        "evidence": "No rate mentioned by the carrier."
       },
       "dispatcher_rate_usd": {
         "confidence": 0,
-        "evidence": "No dispatcher rate mentioned."
+        "evidence": "No rate mentioned by the dispatcher."
       },
       "equipment": {
         "confidence": 1,
@@ -10947,6 +11157,11 @@
         "confidence": 1,
         "evidence": "[B] so I wanted to ask about the temp requirements."
       }
+    },
+    "classified_intent": {
+      "value": "booking_confirmation",
+      "confidence": 1,
+      "evidence": "[B] that works for us; so we're confirmed on this?"
     }
   },
   {
@@ -11093,7 +11308,7 @@
       "available_location": null,
       "available_date": null,
       "questions": [
-        "about the way confirmation"
+        "way confirmation"
       ]
     },
     "extraction_warnings": [],
@@ -11132,7 +11347,7 @@
       },
       "equipment": {
         "confidence": 1,
-        "evidence": "[B] I was about to take that nyma box truck load."
+        "evidence": "[B] Hi this is way at Northeast Cargo l l c I was about to take that nyma box truck load."
       },
       "available_location": {
         "confidence": 0,
@@ -11144,8 +11359,13 @@
       },
       "questions": {
         "confidence": 1,
-        "evidence": "[B] I wanted to ask about the way confirmation."
+        "evidence": "[B] Yeah so I wanted to ask about the way confirmation."
       }
+    },
+    "classified_intent": {
+      "value": "booking_confirmation",
+      "confidence": 1,
+      "evidence": "[B] Perfect! that works for us, [B] so we're confirmed on this?"
     }
   },
   {
@@ -11350,6 +11570,11 @@
         "confidence": 1,
         "evidence": "[A] Yes oh I wanted to ask about the dock availability."
       }
+    },
+    "classified_intent": {
+      "value": "booking_confirmation",
+      "confidence": 1,
+      "evidence": "[A] Perfect. [A] That works for us. So we're confirmed on this?"
     }
   },
   {
@@ -11507,8 +11732,7 @@
       "available_location": null,
       "available_date": null,
       "questions": [
-        "What's your MC number?",
-        "I wanted to ask about the pickup window."
+        "What is the pickup window?"
       ]
     },
     "extraction_warnings": [],
@@ -11559,8 +11783,13 @@
       },
       "questions": {
         "confidence": 1,
-        "evidence": "Carrier asked about the MC number and the pickup window."
+        "evidence": "[A] Yes oh I wanted to ask about the pickup window."
       }
+    },
+    "classified_intent": {
+      "value": "booking_confirmation",
+      "confidence": 1,
+      "evidence": "[A] So we are confirmed on this?"
     }
   },
   {
@@ -11752,7 +11981,7 @@
       },
       "equipment": {
         "confidence": 0.7,
-        "evidence": "[B] about to take that p m d flat bed load."
+        "evidence": "[B] that p m d flat bed load."
       },
       "available_location": {
         "confidence": 0,
@@ -11766,6 +11995,11 @@
         "confidence": 1,
         "evidence": "[B] so I wanted to ask about the oversized confirmation."
       }
+    },
+    "classified_intent": {
+      "value": "booking_confirmation",
+      "confidence": 1,
+      "evidence": "[B] so we're confirmed on this?"
     }
   },
   {
@@ -11920,7 +12154,7 @@
     "extracted": {
       "carrier_speaker": "A",
       "mc_number": "774321",
-      "company_name": "Northbound Express L L C",
+      "company_name": "Northbound Express LLC",
       "load_reference": null,
       "origin_state": null,
       "destination_state": null,
@@ -11930,7 +12164,7 @@
       "available_location": null,
       "available_date": null,
       "questions": [
-        "What is the delivery appointment?"
+        "delivery appointment"
       ]
     },
     "extraction_warnings": [],
@@ -11953,36 +12187,41 @@
       },
       "origin_state": {
         "confidence": 0,
-        "evidence": "Origin state not mentioned."
+        "evidence": "No origin state mentioned."
       },
       "destination_state": {
         "confidence": 0,
-        "evidence": "Destination state not mentioned."
+        "evidence": "No destination state mentioned."
       },
       "carrier_rate_usd": {
         "confidence": 0,
-        "evidence": "Carrier rate not mentioned."
+        "evidence": "No carrier rate mentioned."
       },
       "dispatcher_rate_usd": {
         "confidence": 0,
-        "evidence": "Dispatcher rate not mentioned."
+        "evidence": "No dispatcher rate mentioned."
       },
       "equipment": {
         "confidence": 0,
-        "evidence": "Equipment type not mentioned."
+        "evidence": "No equipment type mentioned."
       },
       "available_location": {
         "confidence": 0,
-        "evidence": "Available location not mentioned."
+        "evidence": "No available location mentioned."
       },
       "available_date": {
         "confidence": 0,
-        "evidence": "Available date not mentioned."
+        "evidence": "No available date mentioned."
       },
       "questions": {
         "confidence": 1,
         "evidence": "[A] so I wanted to ask about the delivery appointment."
       }
+    },
+    "classified_intent": {
+      "value": "booking_confirmation",
+      "confidence": 1,
+      "evidence": "[B] Confirmed."
     }
   },
   {
@@ -12161,11 +12400,13 @@
         "What are the loading dock hours?"
       ]
     },
-    "extraction_warnings": [],
+    "extraction_warnings": [
+      "speaker_low_confidence"
+    ],
     "extraction_scores": {
       "carrier_speaker": {
-        "confidence": 1,
-        "evidence": "[A] Hi this is Patricia at Garden State Express LLC,"
+        "confidence": 0,
+        "evidence": "The speaker labels are unclear, and both speakers are labeled as [A]."
       },
       "mc_number": {
         "confidence": 1,
@@ -12177,7 +12418,7 @@
       },
       "load_reference": {
         "confidence": 0,
-        "evidence": "No load number is mentioned."
+        "evidence": "No load reference number is mentioned."
       },
       "origin_state": {
         "confidence": 1,
@@ -12189,11 +12430,11 @@
       },
       "carrier_rate_usd": {
         "confidence": 0,
-        "evidence": "No rate is mentioned."
+        "evidence": "No carrier rate is mentioned."
       },
       "dispatcher_rate_usd": {
         "confidence": 0,
-        "evidence": "No rate is mentioned."
+        "evidence": "No dispatcher rate is mentioned."
       },
       "equipment": {
         "confidence": 1,
@@ -12201,16 +12442,21 @@
       },
       "available_location": {
         "confidence": 0,
-        "evidence": "No location is mentioned."
+        "evidence": "No available location is mentioned."
       },
       "available_date": {
         "confidence": 0,
-        "evidence": "No date is mentioned."
+        "evidence": "No available date is mentioned."
       },
       "questions": {
         "confidence": 1,
         "evidence": "[A] I wanted to ask about the loading dock hours."
       }
+    },
+    "classified_intent": {
+      "value": "booking_confirmation",
+      "confidence": 1,
+      "evidence": "[A] So we're confirmed on this?"
     }
   },
   {
@@ -12428,6 +12674,11 @@
         "confidence": 1,
         "evidence": "[B] so I wanted to ask about the temp range confirmation."
       }
+    },
+    "classified_intent": {
+      "value": "booking_confirmation",
+      "confidence": 1,
+      "evidence": "[B] Perfect, that works for us. So we're confirmed on this?"
     }
   },
   {
@@ -12645,6 +12896,11 @@
         "confidence": 1,
         "evidence": "[B] so I wanted to ask about the weight and freight class."
       }
+    },
+    "classified_intent": {
+      "value": "load_details",
+      "confidence": 1,
+      "evidence": "[B] so I wanted to ask about the weight and freight class."
     }
   },
   {
@@ -12753,7 +13009,7 @@
       },
       "load_reference": {
         "confidence": 0,
-        "evidence": "No load reference number mentioned."
+        "evidence": "No load reference mentioned."
       },
       "origin_state": {
         "confidence": 0,
@@ -12761,7 +13017,7 @@
       },
       "destination_state": {
         "confidence": 1,
-        "evidence": "[A] about the box truckload you have posted on the panj lane."
+        "evidence": "[A] panj lane."
       },
       "carrier_rate_usd": {
         "confidence": 1,
@@ -12785,8 +13041,13 @@
       },
       "questions": {
         "confidence": 1,
-        "evidence": "No open questions asked."
+        "evidence": "No questions asked."
       }
+    },
+    "classified_intent": {
+      "value": "rate_negotiation",
+      "confidence": 1,
+      "evidence": "[A] we really need at least three hundred and ten dollars on that run."
     }
   },
   {
@@ -12849,52 +13110,57 @@
     "extraction_scores": {
       "carrier_speaker": {
         "confidence": 0,
-        "evidence": "Could not confidently identify carrier vs dispatcher."
+        "evidence": "Speaker A is the dispatcher from Goodlane."
       },
       "mc_number": {
         "confidence": 1,
-        "evidence": "mc number two million four hundred eighty thousand three hundred fifty five"
+        "evidence": "[A] mc number two million four hundred eighty thousand three hundred fifty five"
       },
       "company_name": {
         "confidence": 1,
-        "evidence": "this is lily from demix transport"
+        "evidence": "[A] this is lily from demix transport"
       },
       "load_reference": {
         "confidence": 0,
-        "evidence": "No load number mentioned."
+        "evidence": "No load reference number is mentioned."
       },
       "origin_state": {
         "confidence": 1,
-        "evidence": "new jersey new york lane"
+        "evidence": "[A] new jersey new york lane"
       },
       "destination_state": {
         "confidence": 1,
-        "evidence": "new jersey new york lane"
+        "evidence": "[A] new jersey new york lane"
       },
       "carrier_rate_usd": {
         "confidence": 1,
-        "evidence": "we really need at least three hundred eighty dollars on that run"
+        "evidence": "[A] we really need at least three hundred eighty dollars on that run"
       },
       "dispatcher_rate_usd": {
         "confidence": 1,
-        "evidence": "the rate is three hundred forty dollars"
+        "evidence": "[A] i saw the rate is three hundred forty dollars"
       },
       "equipment": {
         "confidence": 1,
-        "evidence": "about the sprinter van load"
+        "evidence": "[A] about the sprinter van load"
       },
       "available_location": {
         "confidence": 0,
-        "evidence": "Not mentioned."
+        "evidence": "No available location is mentioned."
       },
       "available_date": {
         "confidence": 0,
-        "evidence": "Not mentioned."
+        "evidence": "No available date is mentioned."
       },
       "questions": {
         "confidence": 1,
-        "evidence": "No open questions asked."
+        "evidence": "No questions are asked by the carrier."
       }
+    },
+    "classified_intent": {
+      "value": "rate_negotiation",
+      "confidence": 1,
+      "evidence": "The carrier is negotiating the rate."
     }
   },
   {
@@ -13025,6 +13291,11 @@
         "confidence": 1,
         "evidence": "No questions asked."
       }
+    },
+    "classified_intent": {
+      "value": "rate_negotiation",
+      "confidence": 1,
+      "evidence": "[A] we really need at least $290 on that run"
     }
   },
   {
@@ -13171,8 +13442,13 @@
       },
       "questions": {
         "confidence": 1,
-        "evidence": "No open questions asked."
+        "evidence": "No questions asked."
       }
+    },
+    "classified_intent": {
+      "value": "rate_negotiation",
+      "confidence": 1,
+      "evidence": "[A] we really need at least three hundred and twenty dollars on that run."
     }
   },
   {
@@ -13299,16 +13575,21 @@
       },
       "available_location": {
         "confidence": 0,
-        "evidence": "No location mentioned."
+        "evidence": "No specific location mentioned."
       },
       "available_date": {
         "confidence": 0,
-        "evidence": "No date mentioned."
+        "evidence": "No specific date mentioned."
       },
       "questions": {
         "confidence": 1,
         "evidence": "No questions asked."
       }
+    },
+    "classified_intent": {
+      "value": "rate_negotiation",
+      "confidence": 1,
+      "evidence": "[A] we really need at least two hundred and ten dollars on that run"
     }
   }
 ]

@@ -1,18 +1,20 @@
 import { generateObject } from "ai";
 import { models } from "@/lib/model";
 import { EXTRACTION_SYSTEM_PROMPT } from "./prompt";
-import type { CallExtraction, CallExtractionScores } from "@/lib/data/types";
+import type { CallExtraction, CallExtractionScores, IntentClassification } from "@/lib/data/types";
 import {
   type ScoredCallExtraction,
   ScoredCallExtractionSchema,
   deriveExtractionWarnings,
   flattenCallExtraction,
+  intentFromExtraction,
   scoresFromExtraction,
 } from "./schemas";
 
 type ExtractResult = {
   data: CallExtraction | null;
   scores: CallExtractionScores | null;
+  intent: IntentClassification | null;
   warnings: string[];
 };
 
@@ -45,12 +47,13 @@ async function generateWithRetry(transcript: string): Promise<ScoredCallExtracti
 export async function extractCall(transcript: string): Promise<ExtractResult> {
   const scored = await generateWithRetry(transcript);
   if (!scored) {
-    return { data: null, scores: null, warnings: ["extraction_failed"] };
+    return { data: null, scores: null, intent: null, warnings: ["extraction_failed"] };
   }
 
   return {
     data: flattenCallExtraction(scored),
     scores: scoresFromExtraction(scored),
+    intent: intentFromExtraction(scored),
     warnings: deriveExtractionWarnings(scored),
   };
 }

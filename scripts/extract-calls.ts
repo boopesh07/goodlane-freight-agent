@@ -16,6 +16,7 @@ type Record = {
   extracted?: unknown;
   extraction_scores?: unknown;
   extraction_warnings?: string[];
+  classified_intent?: unknown;
   [k: string]: unknown;
 };
 
@@ -37,16 +38,17 @@ async function main() {
     if (rec.extracted && !force) continue;
     if (!rec.transcript?.trim()) continue;
     process.stdout.write(`Extracting ${rec.call_id} ... `);
-    const { data, scores, warnings } = await extractCall(rec.transcript);
+    const { data, scores, intent, warnings } = await extractCall(rec.transcript);
     rec.extracted = data;
     rec.extraction_scores = scores;
     rec.extraction_warnings = warnings;
+    rec.classified_intent = intent;
     done++;
     const mcConf = scores?.mc_number.confidence;
     const rateConf = scores?.carrier_rate_usd.confidence;
     console.log(
       data
-        ? `ok (mc=${data.mc_number ?? "-"}@${mcConf?.toFixed(2) ?? "?"}, carrier_rate=${data.carrier_rate_usd ?? "-"}@${rateConf?.toFixed(2) ?? "?"}${warnings.length ? `, warns=${warnings.join("|")}` : ""})`
+        ? `ok (mc=${data.mc_number ?? "-"}@${mcConf?.toFixed(2) ?? "?"}, carrier_rate=${data.carrier_rate_usd ?? "-"}@${rateConf?.toFixed(2) ?? "?"}, intent=${intent?.value ?? "-"}@${intent?.confidence?.toFixed(2) ?? "?"}${warnings.length ? `, warns=${warnings.join("|")}` : ""})`
         : `no data (${warnings.join("|")})`,
     );
     // Persist incrementally so a crash doesn't lose progress.

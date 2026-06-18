@@ -1,5 +1,6 @@
 import { z } from "zod";
-import type { CallExtraction, CallExtractionScores } from "@/lib/data/types";
+import type { CallExtraction, CallExtractionScores, IntentClassification } from "@/lib/data/types";
+import { NORMALIZED_INTENTS } from "@/lib/ingestion/intent";
 
 /** Per-field extraction with model-reported confidence and supporting evidence. */
 type ScoredField<T> = {
@@ -49,6 +50,7 @@ export const ScoredCallExtractionSchema = z.object({
   available_location: scoredField(z.string().nullable()),
   available_date: scoredField(z.string().nullable()),
   questions: scoredField(z.array(z.string())),
+  intent: scoredField(z.enum(NORMALIZED_INTENTS)),
   extraction_flags: z.array(z.enum(EXTRACTION_FLAGS)),
 });
 
@@ -68,6 +70,15 @@ export function flattenCallExtraction(scored: ScoredCallExtraction): CallExtract
     available_location: scored.available_location.value,
     available_date: scored.available_date.value,
     questions: scored.questions.value,
+  };
+}
+
+/** Pull the normalized intent (value + confidence + evidence) out of the extraction. */
+export function intentFromExtraction(scored: ScoredCallExtraction): IntentClassification {
+  return {
+    value: scored.intent.value,
+    confidence: scored.intent.confidence,
+    evidence: scored.intent.evidence,
   };
 }
 

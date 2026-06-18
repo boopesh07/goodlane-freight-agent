@@ -76,6 +76,18 @@ questions
   Open questions the carrier asks the broker (list of strings).
   Empty array if none.
 
+intent
+  The carrier's PRIMARY purpose for the call, as ONE of these exact values:
+  - rate_negotiation — countering/negotiating price, stating a floor, or discussing $/rate
+  - availability_check — offering a truck / stating availability or empty location/date
+  - compliance_check — asking about or discussing insurance, authority, COI, safety rating
+  - load_details — asking about weight, dimensions, pickup/delivery, lane specifics
+  - booking_confirmation — confirming/accepting/booking a load ("we'll take it")
+  - general_inquiry — a general question or follow-up that fits none of the above
+  - voicemail — an unanswered message with no live dialogue
+  Choose the single dominant intent; when a call negotiates rate, prefer
+  rate_negotiation over load_details.
+
 extraction_flags
   Optional flags when the transcript is messy. Include any that apply:
   - "multiple_rates" — many dollar amounts exchanged; rate attribution required care

@@ -24,6 +24,7 @@ function sampleScored(overrides: Partial<ScoredCallExtraction> = {}): ScoredCall
     available_location: field(null),
     available_date: field(null),
     questions: field([]),
+    intent: field("rate_negotiation"),
     extraction_flags: [],
   };
   return { ...base, ...overrides };
