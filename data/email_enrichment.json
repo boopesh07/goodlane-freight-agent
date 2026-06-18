@@ -1,0 +1,1646 @@
+[
+  {
+    "email_id": "CE0001",
+    "intent": "general_inquiry",
+    "confidence": 0.7,
+    "evidence": "What does it pay?"
+  },
+  {
+    "email_id": "CE0002",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "Agreed on $280."
+  },
+  {
+    "email_id": "CE0003",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "Still available on this one?"
+  },
+  {
+    "email_id": "CE0004",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "We're in."
+  },
+  {
+    "email_id": "CE0005",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "\"Available for this.\""
+  },
+  {
+    "email_id": "CE0006",
+    "intent": "rate_negotiation",
+    "confidence": 0.9,
+    "evidence": "$310 won't cover fuel + tolls on this run. Can you do $335?"
+  },
+  {
+    "email_id": "CE0007",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "Works for us. We'll have the driver there at pickup window."
+  },
+  {
+    "email_id": "CE0008",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "Available. Box Truck."
+  },
+  {
+    "email_id": "CE0009",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "We're in."
+  },
+  {
+    "email_id": "CE0010",
+    "intent": "availability_check",
+    "confidence": 0.8,
+    "evidence": "Box Truck available, in area on 2026-05-20."
+  },
+  {
+    "email_id": "CE0011",
+    "intent": "rate_negotiation",
+    "confidence": 0.9,
+    "evidence": "$310 is a bit low for this lane. We'd need at least $345 to make it work."
+  },
+  {
+    "email_id": "CE0012",
+    "intent": "booking_confirmation",
+    "confidence": 1,
+    "evidence": "Works for us."
+  },
+  {
+    "email_id": "CE0013",
+    "intent": "general_inquiry",
+    "confidence": 0.7,
+    "evidence": "What's the all-in?"
+  },
+  {
+    "email_id": "CE0014",
+    "intent": "booking_confirmation",
+    "confidence": 1,
+    "evidence": "Works for us. We'll have the driver there at pickup window."
+  },
+  {
+    "email_id": "CE0015",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "available Box Truck."
+  },
+  {
+    "email_id": "CE0016",
+    "intent": "rate_negotiation",
+    "confidence": 0.9,
+    "evidence": "not at $310. Our floor on this lane is $360."
+  },
+  {
+    "email_id": "CE0017",
+    "intent": "booking_confirmation",
+    "confidence": 1,
+    "evidence": "Works for us. We'll have the driver there at pickup window."
+  },
+  {
+    "email_id": "CE0018",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "available Flatbed."
+  },
+  {
+    "email_id": "CE0019",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "Agreed on $295."
+  },
+  {
+    "email_id": "CE0020",
+    "intent": "rate_negotiation",
+    "confidence": 0.9,
+    "evidence": "is that firm?"
+  },
+  {
+    "email_id": "CE0021",
+    "intent": "rate_negotiation",
+    "confidence": 0.9,
+    "evidence": "We could do $355 – any room on your end?"
+  },
+  {
+    "email_id": "CE0022",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "Works for us. We'll have the driver there at pickup window."
+  },
+  {
+    "email_id": "CE0023",
+    "intent": "general_inquiry",
+    "confidence": 0.8,
+    "evidence": "What's the all-in?"
+  },
+  {
+    "email_id": "CE0024",
+    "intent": "rate_negotiation",
+    "confidence": 0.9,
+    "evidence": "We could do $345 – any room on your end?"
+  },
+  {
+    "email_id": "CE0025",
+    "intent": "booking_confirmation",
+    "confidence": 1,
+    "evidence": "We're in."
+  },
+  {
+    "email_id": "CE0026",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "Sprinter Van available, in area on 2026-05-21."
+  },
+  {
+    "email_id": "CE0027",
+    "intent": "rate_negotiation",
+    "confidence": 0.9,
+    "evidence": "We could do $280 – any room on your end?"
+  },
+  {
+    "email_id": "CE0028",
+    "intent": "booking_confirmation",
+    "confidence": 1,
+    "evidence": "We're in."
+  },
+  {
+    "email_id": "CE0029",
+    "intent": "rate_negotiation",
+    "confidence": 0.9,
+    "evidence": "\"Rate is posted as $240 – is that firm?\""
+  },
+  {
+    "email_id": "CE0030",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "Interested in #29372312."
+  },
+  {
+    "email_id": "CE0031",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "Available. Sprinter Van."
+  },
+  {
+    "email_id": "CE0032",
+    "intent": "rate_negotiation",
+    "confidence": 0.9,
+    "evidence": "We could do $260 – any room on your end?"
+  },
+  {
+    "email_id": "CE0033",
+    "intent": "booking_confirmation",
+    "confidence": 1,
+    "evidence": "Works for us. We'll have the driver there at pickup window."
+  },
+  {
+    "email_id": "CE0034",
+    "intent": "rate_negotiation",
+    "confidence": 0.8,
+    "evidence": "What's the offered rate on load #29372312?"
+  },
+  {
+    "email_id": "CE0035",
+    "intent": "rate_negotiation",
+    "confidence": 0.9,
+    "evidence": "\"We'd need at least $285 to make it work.\""
+  },
+  {
+    "email_id": "CE0036",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "We're in."
+  },
+  {
+    "email_id": "CE0037",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "Interested in #29372312."
+  },
+  {
+    "email_id": "CE0038",
+    "intent": "rate_negotiation",
+    "confidence": 0.9,
+    "evidence": "$240 won't cover fuel + tolls on this run. Can you do $290?"
+  },
+  {
+    "email_id": "CE0039",
+    "intent": "booking_confirmation",
+    "confidence": 1,
+    "evidence": "Works for us. We'll have the driver there at pickup window."
+  },
+  {
+    "email_id": "CE0040",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "Available. Sprinter Van."
+  },
+  {
+    "email_id": "CE0041",
+    "intent": "availability_check",
+    "confidence": 0.8,
+    "evidence": "Sprinter Van available, in area on 2026-05-21."
+  },
+  {
+    "email_id": "CE0042",
+    "intent": "rate_negotiation",
+    "confidence": 0.9,
+    "evidence": "not at $240. Our floor on this lane is $280."
+  },
+  {
+    "email_id": "CE0043",
+    "intent": "booking_confirmation",
+    "confidence": 1,
+    "evidence": "Confirmed."
+  },
+  {
+    "email_id": "CE0044",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "We can cover."
+  },
+  {
+    "email_id": "CE0045",
+    "intent": "general_inquiry",
+    "confidence": 0.7,
+    "evidence": "What's the rate?"
+  },
+  {
+    "email_id": "CE0046",
+    "intent": "load_details",
+    "confidence": 0.8,
+    "evidence": "What's the door #?"
+  },
+  {
+    "email_id": "CE0047",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "We can cover."
+  },
+  {
+    "email_id": "CE0048",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "We're available."
+  },
+  {
+    "email_id": "CE0049",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "Interested in #29372399."
+  },
+  {
+    "email_id": "CE0050",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "available Box Truck."
+  },
+  {
+    "email_id": "CE0051",
+    "intent": "general_inquiry",
+    "confidence": 0.8,
+    "evidence": "Interested in #29372399."
+  },
+  {
+    "email_id": "CE0052",
+    "intent": "load_details",
+    "confidence": 0.9,
+    "evidence": "\"Can you confirm weight?\""
+  },
+  {
+    "email_id": "CE0053",
+    "intent": "load_details",
+    "confidence": 0.8,
+    "evidence": "does delivery require an appointment?"
+  },
+  {
+    "email_id": "CE0054",
+    "intent": "availability_check",
+    "confidence": 0.8,
+    "evidence": "We have availability for Trenton, NJ to Newark, NJ on 2026-05-22."
+  },
+  {
+    "email_id": "CE0055",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "Rate works."
+  },
+  {
+    "email_id": "CE0056",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "Interested in #29372421."
+  },
+  {
+    "email_id": "CE0057",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "Still available on this one?"
+  },
+  {
+    "email_id": "CE0058",
+    "intent": "general_inquiry",
+    "confidence": 0.8,
+    "evidence": "What's the all-in?"
+  },
+  {
+    "email_id": "CE0059",
+    "intent": "general_inquiry",
+    "confidence": 0.7,
+    "evidence": "What does it pay?"
+  },
+  {
+    "email_id": "CE0060",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "Interested in #29372475."
+  },
+  {
+    "email_id": "CE0061",
+    "intent": "load_details",
+    "confidence": 0.9,
+    "evidence": "- Any dock? \n- Is weight confirmed at  lbs?"
+  },
+  {
+    "email_id": "CE0062",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "\"Available for this. When's pickup?\""
+  },
+  {
+    "email_id": "CE0063",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "Interested in #29372475."
+  },
+  {
+    "email_id": "CE0064",
+    "intent": "general_inquiry",
+    "confidence": 0.7,
+    "evidence": "\"What's the rate?\""
+  },
+  {
+    "email_id": "CE0065",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "available Box Truck."
+  },
+  {
+    "email_id": "CE0066",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "Available. Flatbed."
+  },
+  {
+    "email_id": "CE0067",
+    "intent": "rate_negotiation",
+    "confidence": 0.8,
+    "evidence": "What's the offered rate?"
+  },
+  {
+    "email_id": "CE0068",
+    "intent": "general_inquiry",
+    "confidence": 0.7,
+    "evidence": "What does it pay?"
+  },
+  {
+    "email_id": "CE0069",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "We can cover."
+  },
+  {
+    "email_id": "CE0070",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "Still available on this one?"
+  },
+  {
+    "email_id": "CE0071",
+    "intent": "general_inquiry",
+    "confidence": 0.7,
+    "evidence": "What's the all-in?"
+  },
+  {
+    "email_id": "CE0072",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "available Box Truck."
+  },
+  {
+    "email_id": "CE0073",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "\"Available for this. When's pickup?\""
+  },
+  {
+    "email_id": "CE0074",
+    "intent": "load_details",
+    "confidence": 0.9,
+    "evidence": "\"we need to know before dispatch.\""
+  },
+  {
+    "email_id": "CE0075",
+    "intent": "general_inquiry",
+    "confidence": 0.8,
+    "evidence": "What's the all-in?"
+  },
+  {
+    "email_id": "CE0076",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "Agreed on $255."
+  },
+  {
+    "email_id": "CE0077",
+    "intent": "rate_negotiation",
+    "confidence": 0.8,
+    "evidence": "What's the offered rate on load #29000096?"
+  },
+  {
+    "email_id": "CE0078",
+    "intent": "rate_negotiation",
+    "confidence": 0.9,
+    "evidence": "$285 is a bit low for this lane. We'd need at least $320 to make it work."
+  },
+  {
+    "email_id": "CE0079",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "We're in."
+  },
+  {
+    "email_id": "CE0080",
+    "intent": "general_inquiry",
+    "confidence": 0.7,
+    "evidence": "What's the all-in?"
+  },
+  {
+    "email_id": "CE0081",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "available Box Truck."
+  },
+  {
+    "email_id": "CE0082",
+    "intent": "rate_negotiation",
+    "confidence": 0.9,
+    "evidence": "$285 won't cover fuel + tolls on this run. Can you do $310?"
+  },
+  {
+    "email_id": "CE0083",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "Confirmed."
+  },
+  {
+    "email_id": "CE0084",
+    "intent": "availability_check",
+    "confidence": 0.8,
+    "evidence": "\"We're available. Rate?\""
+  },
+  {
+    "email_id": "CE0085",
+    "intent": "rate_negotiation",
+    "confidence": 0.9,
+    "evidence": "That rate doesn't work for us. We could do $340 – any room on your end?"
+  },
+  {
+    "email_id": "CE0086",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "Agreed on $255."
+  },
+  {
+    "email_id": "CE0087",
+    "intent": "general_inquiry",
+    "confidence": 0.7,
+    "evidence": "What's the rate?"
+  },
+  {
+    "email_id": "CE0088",
+    "intent": "booking_confirmation",
+    "confidence": 1,
+    "evidence": "Works for us. We'll have the driver there at pickup window."
+  },
+  {
+    "email_id": "CE0089",
+    "intent": "general_inquiry",
+    "confidence": 0.7,
+    "evidence": "What does it pay?"
+  },
+  {
+    "email_id": "CE0090",
+    "intent": "rate_negotiation",
+    "confidence": 0.9,
+    "evidence": "$285 is a bit low for this lane. We'd need at least $320 to make it work."
+  },
+  {
+    "email_id": "CE0091",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "Confirmed."
+  },
+  {
+    "email_id": "CE0092",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "Still available on this one?"
+  },
+  {
+    "email_id": "CE0093",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "Confirmed."
+  },
+  {
+    "email_id": "CE0094",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "Interested in #29000096."
+  },
+  {
+    "email_id": "CE0095",
+    "intent": "rate_negotiation",
+    "confidence": 0.9,
+    "evidence": "We could do $310 – any room on your end?"
+  },
+  {
+    "email_id": "CE0096",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "Agreed on $250."
+  },
+  {
+    "email_id": "CE0097",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "Still available on this one?"
+  },
+  {
+    "email_id": "CE0098",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "We have a Box Truck available for load #29000138"
+  },
+  {
+    "email_id": "CE0099",
+    "intent": "rate_negotiation",
+    "confidence": 0.9,
+    "evidence": "We could do $890 – any room on your end?"
+  },
+  {
+    "email_id": "CE0100",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "We're in."
+  },
+  {
+    "email_id": "CE0101",
+    "intent": "booking_confirmation",
+    "confidence": 0.8,
+    "evidence": "We can cover this."
+  },
+  {
+    "email_id": "CE0102",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "Interested in #29000138."
+  },
+  {
+    "email_id": "CE0103",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "Agreed on $710."
+  },
+  {
+    "email_id": "CE0104",
+    "intent": "general_inquiry",
+    "confidence": 0.7,
+    "evidence": "What does it pay?"
+  },
+  {
+    "email_id": "CE0105",
+    "intent": "booking_confirmation",
+    "confidence": 1,
+    "evidence": "Works for us."
+  },
+  {
+    "email_id": "CE0106",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "Available. Sprinter Van."
+  },
+  {
+    "email_id": "CE0107",
+    "intent": "rate_negotiation",
+    "confidence": 0.9,
+    "evidence": "That rate doesn't work for us. We could do $860 – any room on your end?"
+  },
+  {
+    "email_id": "CE0108",
+    "intent": "booking_confirmation",
+    "confidence": 1,
+    "evidence": "Confirmed."
+  },
+  {
+    "email_id": "CE0109",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "available Box Truck."
+  },
+  {
+    "email_id": "CE0110",
+    "intent": "rate_negotiation",
+    "confidence": 0.9,
+    "evidence": "We could do $860 – any room on your end?"
+  },
+  {
+    "email_id": "CE0111",
+    "intent": "booking_confirmation",
+    "confidence": 1,
+    "evidence": "Works for us."
+  },
+  {
+    "email_id": "CE0112",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "Still available on this one?"
+  },
+  {
+    "email_id": "CE0113",
+    "intent": "general_inquiry",
+    "confidence": 0.7,
+    "evidence": "What does it pay?"
+  },
+  {
+    "email_id": "CE0114",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "We're in."
+  },
+  {
+    "email_id": "CE0115",
+    "intent": "general_inquiry",
+    "confidence": 0.7,
+    "evidence": "What does it pay?"
+  },
+  {
+    "email_id": "CE0116",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "available Refrigerated."
+  },
+  {
+    "email_id": "CE0117",
+    "intent": "rate_negotiation",
+    "confidence": 0.9,
+    "evidence": "$505 won't cover fuel + tolls on this run. Can you do $610?"
+  },
+  {
+    "email_id": "CE0118",
+    "intent": "booking_confirmation",
+    "confidence": 1,
+    "evidence": "Works for us."
+  },
+  {
+    "email_id": "CE0119",
+    "intent": "general_inquiry",
+    "confidence": 0.7,
+    "evidence": "\"What's the rate?\""
+  },
+  {
+    "email_id": "CE0120",
+    "intent": "general_inquiry",
+    "confidence": 0.7,
+    "evidence": "What's the all-in?"
+  },
+  {
+    "email_id": "CE0121",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "We're available."
+  },
+  {
+    "email_id": "CE0122",
+    "intent": "booking_confirmation",
+    "confidence": 1,
+    "evidence": "Confirmed."
+  },
+  {
+    "email_id": "CE0123",
+    "intent": "load_details",
+    "confidence": 0.8,
+    "evidence": "does delivery require an appointment?"
+  },
+  {
+    "email_id": "CE0124",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "We're available."
+  },
+  {
+    "email_id": "CE0125",
+    "intent": "rate_negotiation",
+    "confidence": 0.9,
+    "evidence": "We could do $735 – any room on your end?"
+  },
+  {
+    "email_id": "CE0126",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "Agreed on $565."
+  },
+  {
+    "email_id": "CE0127",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "We can cover."
+  },
+  {
+    "email_id": "CE0128",
+    "intent": "booking_confirmation",
+    "confidence": 1,
+    "evidence": "Confirmed."
+  },
+  {
+    "email_id": "CE0129",
+    "intent": "general_inquiry",
+    "confidence": 0.7,
+    "evidence": "What's the all-in?"
+  },
+  {
+    "email_id": "CE0130",
+    "intent": "rate_negotiation",
+    "confidence": 0.9,
+    "evidence": "$640 won't cover fuel + tolls on this run. Can you do $750?"
+  },
+  {
+    "email_id": "CE0131",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "We're in."
+  },
+  {
+    "email_id": "CE0132",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "Still available on this one?"
+  },
+  {
+    "email_id": "CE0133",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "available Flatbed."
+  },
+  {
+    "email_id": "CE0134",
+    "intent": "availability_check",
+    "confidence": 0.8,
+    "evidence": "\"We're available. Rate?\""
+  },
+  {
+    "email_id": "CE0135",
+    "intent": "booking_confirmation",
+    "confidence": 1,
+    "evidence": "We're in."
+  },
+  {
+    "email_id": "CE0136",
+    "intent": "general_inquiry",
+    "confidence": 0.7,
+    "evidence": "Rate?"
+  },
+  {
+    "email_id": "CE0137",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "Available. Box Truck."
+  },
+  {
+    "email_id": "CE0138",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "Agreed on $490."
+  },
+  {
+    "email_id": "CE0139",
+    "intent": "general_inquiry",
+    "confidence": 0.8,
+    "evidence": "What's the all-in?"
+  },
+  {
+    "email_id": "CE0140",
+    "intent": "rate_negotiation",
+    "confidence": 0.9,
+    "evidence": "$525 won't cover fuel + tolls on this run. Can you do $610?"
+  },
+  {
+    "email_id": "CE0141",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "Agreed on $475."
+  },
+  {
+    "email_id": "CE0142",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "\"Available for this. When's pickup?\""
+  },
+  {
+    "email_id": "CE0143",
+    "intent": "booking_confirmation",
+    "confidence": 1,
+    "evidence": "Works for us."
+  },
+  {
+    "email_id": "CE0144",
+    "intent": "general_inquiry",
+    "confidence": 0.7,
+    "evidence": "What does it pay?"
+  },
+  {
+    "email_id": "CE0145",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "Agreed on $240."
+  },
+  {
+    "email_id": "CE0146",
+    "intent": "general_inquiry",
+    "confidence": 0.7,
+    "evidence": "What's the rate?"
+  },
+  {
+    "email_id": "CE0147",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "We're in."
+  },
+  {
+    "email_id": "CE0148",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "\"Available for this. When's pickup?\""
+  },
+  {
+    "email_id": "CE0149",
+    "intent": "rate_negotiation",
+    "confidence": 0.9,
+    "evidence": "$250 won't cover fuel + tolls on this run. Can you do $290?"
+  },
+  {
+    "email_id": "CE0150",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "Works for us. We'll have the driver there at pickup window."
+  },
+  {
+    "email_id": "CE0151",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "Still available on this one?"
+  },
+  {
+    "email_id": "CE0152",
+    "intent": "rate_negotiation",
+    "confidence": 0.9,
+    "evidence": "That rate doesn't work for us. We could do $290 – any room on your end?"
+  },
+  {
+    "email_id": "CE0153",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "Agreed on $225."
+  },
+  {
+    "email_id": "CE0154",
+    "intent": "booking_confirmation",
+    "confidence": 0.8,
+    "evidence": "We can cover this."
+  },
+  {
+    "email_id": "CE0155",
+    "intent": "general_inquiry",
+    "confidence": 0.7,
+    "evidence": "What's the all-in?"
+  },
+  {
+    "email_id": "CE0156",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "We can cover."
+  },
+  {
+    "email_id": "CE0157",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "Agreed on $660."
+  },
+  {
+    "email_id": "CE0158",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "available Refrigerated."
+  },
+  {
+    "email_id": "CE0159",
+    "intent": "load_details",
+    "confidence": 0.8,
+    "evidence": "- Any dock? \n- Is weight confirmed at 21977 lbs?"
+  },
+  {
+    "email_id": "CE0160",
+    "intent": "load_details",
+    "confidence": 0.8,
+    "evidence": "does delivery require an appointment?"
+  },
+  {
+    "email_id": "CE0161",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "available Sprinter Van."
+  },
+  {
+    "email_id": "CE0162",
+    "intent": "rate_negotiation",
+    "confidence": 0.9,
+    "evidence": "We could do $865 – any room on your end?"
+  },
+  {
+    "email_id": "CE0163",
+    "intent": "booking_confirmation",
+    "confidence": 1,
+    "evidence": "We're in."
+  },
+  {
+    "email_id": "CE0164",
+    "intent": "general_inquiry",
+    "confidence": 0.8,
+    "evidence": "What's the all-in?"
+  },
+  {
+    "email_id": "CE0165",
+    "intent": "booking_confirmation",
+    "confidence": 1,
+    "evidence": "Works for us."
+  },
+  {
+    "email_id": "CE0166",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "Still available on this one?"
+  },
+  {
+    "email_id": "CE0167",
+    "intent": "availability_check",
+    "confidence": 0.8,
+    "evidence": "Interested in #29000660."
+  },
+  {
+    "email_id": "CE0168",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "Confirmed."
+  },
+  {
+    "email_id": "CE0169",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "We can cover."
+  },
+  {
+    "email_id": "CE0170",
+    "intent": "general_inquiry",
+    "confidence": 0.8,
+    "evidence": "\"That's Box Truck?\""
+  },
+  {
+    "email_id": "CE0171",
+    "intent": "general_inquiry",
+    "confidence": 0.7,
+    "evidence": "What's the all-in?"
+  },
+  {
+    "email_id": "CE0172",
+    "intent": "rate_negotiation",
+    "confidence": 0.9,
+    "evidence": "We could do $735 – any room on your end?"
+  },
+  {
+    "email_id": "CE0173",
+    "intent": "booking_confirmation",
+    "confidence": 1,
+    "evidence": "Confirmed."
+  },
+  {
+    "email_id": "CE0174",
+    "intent": "general_inquiry",
+    "confidence": 0.8,
+    "evidence": "What's the all-in?"
+  },
+  {
+    "email_id": "CE0175",
+    "intent": "general_inquiry",
+    "confidence": 0.7,
+    "evidence": "What's the rate?"
+  },
+  {
+    "email_id": "CE0176",
+    "intent": "rate_negotiation",
+    "confidence": 0.9,
+    "evidence": "$635 won't cover fuel + tolls on this run. Can you do $775?"
+  },
+  {
+    "email_id": "CE0177",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "We're in."
+  },
+  {
+    "email_id": "CE0178",
+    "intent": "availability_check",
+    "confidence": 0.8,
+    "evidence": "\"We're available. Rate?\""
+  },
+  {
+    "email_id": "CE0179",
+    "intent": "booking_confirmation",
+    "confidence": 1,
+    "evidence": "Works for us."
+  },
+  {
+    "email_id": "CE0180",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "Rate works."
+  },
+  {
+    "email_id": "CE0181",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "Sprinter Van available, in area on 2026-04-02."
+  },
+  {
+    "email_id": "CE0182",
+    "intent": "rate_negotiation",
+    "confidence": 0.9,
+    "evidence": "$390 is a bit low for this lane. We'd need at least $425 to make it work."
+  },
+  {
+    "email_id": "CE0183",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "We're in."
+  },
+  {
+    "email_id": "CE0184",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "We can cover."
+  },
+  {
+    "email_id": "CE0185",
+    "intent": "booking_confirmation",
+    "confidence": 1,
+    "evidence": "We're in."
+  },
+  {
+    "email_id": "CE0186",
+    "intent": "general_inquiry",
+    "confidence": 0.7,
+    "evidence": "Rate?"
+  },
+  {
+    "email_id": "CE0187",
+    "intent": "general_inquiry",
+    "confidence": 0.7,
+    "evidence": "What's the all-in?"
+  },
+  {
+    "email_id": "CE0188",
+    "intent": "rate_negotiation",
+    "confidence": 0.9,
+    "evidence": "$390 won't cover fuel + tolls on this run. Can you do $435?"
+  },
+  {
+    "email_id": "CE0189",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "Agreed on $345."
+  },
+  {
+    "email_id": "CE0190",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "Interested in #29000689."
+  },
+  {
+    "email_id": "CE0191",
+    "intent": "rate_negotiation",
+    "confidence": 0.9,
+    "evidence": "\"We'd need at least $470 to make it work.\""
+  },
+  {
+    "email_id": "CE0192",
+    "intent": "booking_confirmation",
+    "confidence": 1,
+    "evidence": "Confirmed."
+  },
+  {
+    "email_id": "CE0193",
+    "intent": "general_inquiry",
+    "confidence": 0.7,
+    "evidence": "\"What's the rate?\""
+  },
+  {
+    "email_id": "CE0194",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "Still available on this one?"
+  },
+  {
+    "email_id": "CE0195",
+    "intent": "rate_negotiation",
+    "confidence": 0.9,
+    "evidence": "$390 won't cover fuel + tolls on this run. Can you do $450?"
+  },
+  {
+    "email_id": "CE0196",
+    "intent": "booking_confirmation",
+    "confidence": 1,
+    "evidence": "Works for us."
+  },
+  {
+    "email_id": "CE0197",
+    "intent": "general_inquiry",
+    "confidence": 0.7,
+    "evidence": "What does it pay?"
+  },
+  {
+    "email_id": "CE0198",
+    "intent": "rate_negotiation",
+    "confidence": 0.9,
+    "evidence": "We could do $425 – any room on your end?"
+  },
+  {
+    "email_id": "CE0199",
+    "intent": "booking_confirmation",
+    "confidence": 1,
+    "evidence": "Confirmed."
+  },
+  {
+    "email_id": "CE0200",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "Rate works."
+  },
+  {
+    "email_id": "CE0201",
+    "intent": "load_details",
+    "confidence": 0.8,
+    "evidence": "does delivery require an appointment?"
+  },
+  {
+    "email_id": "CE0202",
+    "intent": "general_inquiry",
+    "confidence": 0.7,
+    "evidence": "What does it pay?"
+  },
+  {
+    "email_id": "CE0203",
+    "intent": "booking_confirmation",
+    "confidence": 1,
+    "evidence": "Confirmed."
+  },
+  {
+    "email_id": "CE0204",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "We can cover."
+  },
+  {
+    "email_id": "CE0205",
+    "intent": "rate_negotiation",
+    "confidence": 0.9,
+    "evidence": "$455 won't cover fuel + tolls on this run. Can you do $525?"
+  },
+  {
+    "email_id": "CE0206",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "We're in."
+  },
+  {
+    "email_id": "CE0207",
+    "intent": "general_inquiry",
+    "confidence": 0.7,
+    "evidence": "What does it pay?"
+  },
+  {
+    "email_id": "CE0208",
+    "intent": "rate_negotiation",
+    "confidence": 0.9,
+    "evidence": "We could do $510 – any room on your end?"
+  },
+  {
+    "email_id": "CE0209",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "Agreed on $425."
+  },
+  {
+    "email_id": "CE0210",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "Interested in #29000791."
+  },
+  {
+    "email_id": "CE0211",
+    "intent": "rate_negotiation",
+    "confidence": 0.9,
+    "evidence": "Our floor on this lane is $545."
+  },
+  {
+    "email_id": "CE0212",
+    "intent": "booking_confirmation",
+    "confidence": 1,
+    "evidence": "Works for us."
+  },
+  {
+    "email_id": "CE0213",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "Box Truck available – Dover to Cherry Hill"
+  },
+  {
+    "email_id": "CE0214",
+    "intent": "availability_check",
+    "confidence": 0.8,
+    "evidence": "Interested in #29000791."
+  },
+  {
+    "email_id": "CE0215",
+    "intent": "rate_negotiation",
+    "confidence": 0.8,
+    "evidence": "Rate is posted as $455 – is that firm?"
+  },
+  {
+    "email_id": "CE0216",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "We can cover."
+  },
+  {
+    "email_id": "CE0217",
+    "intent": "rate_negotiation",
+    "confidence": 0.9,
+    "evidence": "We could do $540 – any room on your end?"
+  },
+  {
+    "email_id": "CE0218",
+    "intent": "booking_confirmation",
+    "confidence": 1,
+    "evidence": "Confirmed."
+  },
+  {
+    "email_id": "CE0219",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "Rate works."
+  },
+  {
+    "email_id": "CE0220",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "\"Available for this. When's pickup?\""
+  },
+  {
+    "email_id": "CE0221",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "Available. Box Truck."
+  },
+  {
+    "email_id": "CE0222",
+    "intent": "booking_confirmation",
+    "confidence": 1,
+    "evidence": "Confirmed."
+  },
+  {
+    "email_id": "CE0223",
+    "intent": "general_inquiry",
+    "confidence": 0.7,
+    "evidence": "What's the rate?"
+  },
+  {
+    "email_id": "CE0224",
+    "intent": "rate_negotiation",
+    "confidence": 0.9,
+    "evidence": "$405 is a bit low for this lane. We'd need at least $465 to make it work."
+  },
+  {
+    "email_id": "CE0225",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "We're in."
+  },
+  {
+    "email_id": "CE0226",
+    "intent": "general_inquiry",
+    "confidence": 0.7,
+    "evidence": "What's the rate?"
+  },
+  {
+    "email_id": "CE0227",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "We're in."
+  },
+  {
+    "email_id": "CE0228",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "Still available on this one?"
+  },
+  {
+    "email_id": "CE0229",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "Agreed on $375."
+  },
+  {
+    "email_id": "CE0230",
+    "intent": "general_inquiry",
+    "confidence": 0.8,
+    "evidence": "What's the all-in?"
+  },
+  {
+    "email_id": "CE0231",
+    "intent": "rate_negotiation",
+    "confidence": 0.9,
+    "evidence": "not at $405. Our floor on this lane is $445."
+  },
+  {
+    "email_id": "CE0232",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "Agreed on $385."
+  },
+  {
+    "email_id": "CE0233",
+    "intent": "availability_check",
+    "confidence": 0.8,
+    "evidence": "We're available. Rate?"
+  },
+  {
+    "email_id": "CE0234",
+    "intent": "rate_negotiation",
+    "confidence": 0.9,
+    "evidence": "We could do $470 – any room on your end?"
+  },
+  {
+    "email_id": "CE0235",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "Confirmed."
+  },
+  {
+    "email_id": "CE0236",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "We can cover."
+  },
+  {
+    "email_id": "CE0237",
+    "intent": "booking_confirmation",
+    "confidence": 1,
+    "evidence": "Confirmed."
+  },
+  {
+    "email_id": "CE0238",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "available Box Truck."
+  },
+  {
+    "email_id": "CE0239",
+    "intent": "booking_confirmation",
+    "confidence": 1,
+    "evidence": "Works for us. We'll have the driver there at pickup window."
+  },
+  {
+    "email_id": "CE0240",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "We can cover."
+  },
+  {
+    "email_id": "CE0241",
+    "intent": "rate_negotiation",
+    "confidence": 0.9,
+    "evidence": "$560 is a bit low for this lane. We'd need at least $625 to make it work."
+  },
+  {
+    "email_id": "CE0242",
+    "intent": "booking_confirmation",
+    "confidence": 1,
+    "evidence": "Works for us. We'll have the driver there at pickup window."
+  },
+  {
+    "email_id": "CE0243",
+    "intent": "general_inquiry",
+    "confidence": 0.7,
+    "evidence": "What does it pay?"
+  },
+  {
+    "email_id": "CE0244",
+    "intent": "general_inquiry",
+    "confidence": 0.7,
+    "evidence": "Rate?"
+  },
+  {
+    "email_id": "CE0245",
+    "intent": "booking_confirmation",
+    "confidence": 1,
+    "evidence": "We're in."
+  },
+  {
+    "email_id": "CE0246",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "Available. Sprinter Van."
+  },
+  {
+    "email_id": "CE0247",
+    "intent": "rate_negotiation",
+    "confidence": 0.9,
+    "evidence": "We could do $650 – any room on your end?"
+  },
+  {
+    "email_id": "CE0248",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "Agreed on $505."
+  },
+  {
+    "email_id": "CE0249",
+    "intent": "rate_negotiation",
+    "confidence": 0.8,
+    "evidence": "What's the offered rate on load #29000948?"
+  },
+  {
+    "email_id": "CE0250",
+    "intent": "rate_negotiation",
+    "confidence": 0.9,
+    "evidence": "$560 won't cover fuel + tolls on this run. Can you do $675?"
+  },
+  {
+    "email_id": "CE0251",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "We're in."
+  },
+  {
+    "email_id": "CE0252",
+    "intent": "general_inquiry",
+    "confidence": 0.7,
+    "evidence": "What does it pay?"
+  },
+  {
+    "email_id": "CE0253",
+    "intent": "general_inquiry",
+    "confidence": 0.7,
+    "evidence": "What's the all-in?"
+  },
+  {
+    "email_id": "CE0254",
+    "intent": "rate_negotiation",
+    "confidence": 0.9,
+    "evidence": "\"Rate is posted as $540 – is that firm?\""
+  },
+  {
+    "email_id": "CE0255",
+    "intent": "general_inquiry",
+    "confidence": 0.7,
+    "evidence": "What's the all-in?"
+  },
+  {
+    "email_id": "CE0256",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "available Flatbed."
+  },
+  {
+    "email_id": "CE0257",
+    "intent": "rate_negotiation",
+    "confidence": 0.9,
+    "evidence": "$190 is a bit low for this lane. We'd need at least $230 to make it work."
+  },
+  {
+    "email_id": "CE0258",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "Agreed on $175."
+  },
+  {
+    "email_id": "CE0259",
+    "intent": "general_inquiry",
+    "confidence": 0.7,
+    "evidence": "What's the all-in?"
+  },
+  {
+    "email_id": "CE0260",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "Agreed on $175."
+  },
+  {
+    "email_id": "CE0261",
+    "intent": "general_inquiry",
+    "confidence": 0.7,
+    "evidence": "Interested in #29001091."
+  },
+  {
+    "email_id": "CE0262",
+    "intent": "booking_confirmation",
+    "confidence": 1,
+    "evidence": "Works for us."
+  },
+  {
+    "email_id": "CE0263",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "Interested in #29001091."
+  },
+  {
+    "email_id": "CE0264",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "Available. Flatbed."
+  },
+  {
+    "email_id": "CE0265",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "\"Available for this.\""
+  },
+  {
+    "email_id": "CE0266",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "Agreed on $180."
+  },
+  {
+    "email_id": "CE0267",
+    "intent": "availability_check",
+    "confidence": 0.9,
+    "evidence": "\"Available for this. When's pickup?\""
+  },
+  {
+    "email_id": "CE0268",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "Agreed on $180."
+  },
+  {
+    "email_id": "CE0269",
+    "intent": "load_details",
+    "confidence": 0.9,
+    "evidence": "- Any dock? \n- Is weight confirmed at  lbs?"
+  },
+  {
+    "email_id": "CE0270",
+    "intent": "general_inquiry",
+    "confidence": 0.7,
+    "evidence": "What's the rate?"
+  },
+  {
+    "email_id": "CE0271",
+    "intent": "rate_negotiation",
+    "confidence": 0.9,
+    "evidence": "\"We'd need at least $220 to make it work.\""
+  },
+  {
+    "email_id": "CE0272",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "Agreed on $180."
+  },
+  {
+    "email_id": "CE0273",
+    "intent": "general_inquiry",
+    "confidence": 0.7,
+    "evidence": "What's the all-in?"
+  },
+  {
+    "email_id": "CE0274",
+    "intent": "booking_confirmation",
+    "confidence": 0.9,
+    "evidence": "Agreed on $175."
+  }
+]

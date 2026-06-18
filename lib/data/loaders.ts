@@ -1,11 +1,13 @@
 import fs from "node:fs";
 import { parse } from "csv-parse/sync";
-import { paths } from "./paths";
+import { EMAIL_ENRICHMENT_PATH, paths } from "./paths";
 import type {
   CallTranscript,
   CarrierEmail,
   CarrierProfile,
+  IntentClassification,
   Load,
+  NormalizedIntent,
   RateHistoryRow,
 } from "./types";
 
@@ -34,8 +36,40 @@ export function loadCarrierProfiles(): CarrierProfile[] {
   return readJson<CarrierProfile[]>(paths.carrierProfiles);
 }
 
+type EmailEnrichmentRow = {
+  email_id: string;
+  intent: NormalizedIntent;
+  confidence: number;
+  evidence: string;
+};
+
+/**
+ * Load the optional, generated email intent enrichment. Tolerates a missing or
+ * malformed file (returns an empty map) so the app runs without it — intent then
+ * falls back to the legacy label / keyword classifier.
+ */
+function loadEmailEnrichment(): Map<string, IntentClassification> {
+  const map = new Map<string, IntentClassification>();
+  if (!fs.existsSync(EMAIL_ENRICHMENT_PATH)) return map;
+  try {
+    const rows = readJson<EmailEnrichmentRow[]>(EMAIL_ENRICHMENT_PATH);
+    for (const r of rows) {
+      map.set(r.email_id, { value: r.intent, confidence: r.confidence, evidence: r.evidence });
+    }
+  } catch {
+    // Malformed enrichment must never break intake — ignore and fall back.
+  }
+  return map;
+}
+
 export function loadCarrierEmails(): CarrierEmail[] {
-  return readJson<CarrierEmail[]>(paths.carrierEmails);
+  const emails = readJson<CarrierEmail[]>(paths.carrierEmails);
+  const enrichment = loadEmailEnrichment();
+  if (enrichment.size === 0) return emails;
+  return emails.map((e) => {
+    const classified = enrichment.get(e.email_id);
+    return classified ? { ...e, classified_intent: classified } : e;
+  });
 }
 
 export function loadLoads(): Load[] {
